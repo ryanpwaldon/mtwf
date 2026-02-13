@@ -4,6 +4,7 @@ import type * as React from "react";
 import { Avatar as AvatarPrimitive } from "radix-ui";
 
 import { cn } from "@acme/ui";
+
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 function Avatar({
