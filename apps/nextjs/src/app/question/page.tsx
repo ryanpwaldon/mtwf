@@ -1,9 +1,9 @@
 import { getPersonaByValue, PERSONA_OPTIONS } from "@acme/convex";
 import { RadioGroup } from "@acme/ui/radio-group";
-import { QuestionStatusTrack } from "@acme/ui/question-status-track";
 
 import { Choice } from "~/components/choice";
 import { PersonaAvatarGroup } from "~/components/persona-avatar-group";
+import { QuestionStatusTrack } from "~/components/question-status-track";
 import { TimeRemainingBar } from "~/components/time-remaining-bar";
 
 export default function QuestionPage() {
