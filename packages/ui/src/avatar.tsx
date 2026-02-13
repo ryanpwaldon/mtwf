@@ -4,15 +4,18 @@ import type * as React from "react";
 import { Avatar as AvatarPrimitive } from "radix-ui";
 
 import { cn } from "@acme/ui";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 function Avatar({
   className,
   size = "default",
+  tooltip,
   ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Root> & {
   size?: "default" | "sm" | "lg";
+  tooltip?: React.ReactNode;
 }) {
-  return (
+  const avatar = (
     <AvatarPrimitive.Root
       data-slot="avatar"
       data-size={size}
@@ -22,6 +25,15 @@ function Avatar({
       )}
       {...props}
     />
+  );
+
+  if (!tooltip) return avatar;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{avatar}</TooltipTrigger>
+      <TooltipContent>{tooltip}</TooltipContent>
+    </Tooltip>
   );
 }
 

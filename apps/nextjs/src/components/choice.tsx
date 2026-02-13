@@ -84,7 +84,7 @@ export function Choice({
             <AvatarGroup>
               {visibleVoters.map((persona) => {
                 return (
-                  <Avatar size="sm" key={persona.value}>
+                  <Avatar size="sm" key={persona.value} tooltip={persona.label}>
                     <AvatarFallback className={cn(persona.color)} />
                   </Avatar>
                 );
