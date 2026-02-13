@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import { cn } from "@acme/ui";
 import { ThemeProvider, ThemeToggle } from "@acme/ui/theme";
@@ -7,7 +7,7 @@ import { Toaster } from "@acme/ui/toast";
 
 import "~/app/styles.css";
 
-import { ConvexClientProvider } from "~/components/convex-provider";
+import { ConvexProvider } from "~/components/convex-provider";
 
 export const metadata: Metadata = {
   title: "triviaboxd",
@@ -21,13 +21,9 @@ export const viewport: Viewport = {
   ],
 };
 
-const geistSans = Geist({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-sans",
 });
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -36,11 +32,10 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body
         className={cn(
           "bg-background text-foreground min-h-screen font-sans antialiased",
-          geistSans.variable,
-          geistMono.variable,
+          inter.variable,
         )}
       >
-        <ConvexClientProvider>
+        <ConvexProvider>
           <ThemeProvider>
             {props.children}
             <div className="absolute right-4 bottom-4">
@@ -48,7 +43,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             </div>
             <Toaster />
           </ThemeProvider>
-        </ConvexClientProvider>
+        </ConvexProvider>
       </body>
     </html>
   );
