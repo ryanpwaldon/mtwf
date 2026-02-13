@@ -8,17 +8,19 @@
  * @module
  */
 
-import type * as fields_identity from "../fields/identity.js";
-import type * as migrations from "../migrations.js";
-
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
 
+import type * as fields_identity from "../fields/identity.js";
+import type * as fields_theme from "../fields/quiz-theme.js";
+import type * as migrations from "../migrations.js";
+
 declare const fullApi: ApiFromModules<{
   "fields/identity": typeof fields_identity;
+  "fields/theme": typeof fields_theme;
   migrations: typeof migrations;
 }>;
 

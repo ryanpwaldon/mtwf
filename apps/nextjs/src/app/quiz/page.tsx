@@ -12,6 +12,10 @@ export default function QuizPage() {
       <main className="p-4 pt-16">
         <h1 className="text-4xl font-extrabold tracking-tight">Quiz setup</h1>
         <div className="mt-16 flex flex-col gap-4">
+          <h2 className="text-xl font-bold">Invite friends</h2>
+          <div className="bg-muted grid w-full border p-4" />
+        </div>
+        <div className="mt-16 flex flex-col gap-4">
           <h2 className="text-xl font-bold">Select an identity</h2>
           <div className="bg-muted grid w-full grid-cols-[repeat(auto-fill,minmax(2rem,1fr))] gap-4 border p-4">
             {IDENTITY_OPTIONS.map((identity) => (
@@ -45,7 +49,7 @@ export default function QuizPage() {
           </div>
         </div>
         <div className="mt-16 flex flex-col gap-4">
-          <h2 className="text-xl font-bold">Select a style</h2>
+          <h2 className="text-xl font-bold">Select a theme</h2>
           <div className="bg-muted grid w-full grid-cols-[repeat(auto-fill,minmax(4.5rem,1fr))] gap-4 border p-4">
             <div className="bg-background aspect-4/3 border" />
             <div className="bg-background aspect-4/3 border" />
@@ -64,6 +68,31 @@ export default function QuizPage() {
             <div className="bg-background aspect-4/3 border" />
             <div className="bg-background aspect-4/3 border" />
             <div className="bg-background aspect-4/3 border" />
+          </div>
+        </div>
+        <div className="mt-16 flex flex-col gap-4">
+          <h2 className="text-xl font-bold">Quiz summary</h2>
+          <div className="divide-y">
+            <div className="flex w-full items-center justify-between py-1">
+              <span>Identity</span>
+              <span>Red</span>
+            </div>
+            <div className="flex w-full items-center justify-between py-1">
+              <span>Players</span>
+              <span>10</span>
+            </div>
+            <div className="flex w-full items-center justify-between py-1">
+              <span>Movie</span>
+              <span>The Dark Knight</span>
+            </div>
+            <div className="flex w-full items-center justify-between py-1">
+              <span>Theme</span>
+              <span>General Knowledge</span>
+            </div>
+            <div className="flex w-full items-center justify-between py-1">
+              <span>Tone</span>
+              <span>Standard</span>
+            </div>
           </div>
         </div>
         <div className="mt-16 flex gap-4">
