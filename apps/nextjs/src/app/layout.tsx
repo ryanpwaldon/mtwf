@@ -33,7 +33,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "text-foreground bg-white font-sans antialiased",
+          "text-foreground bg-muted font-sans antialiased",
           inter.variable,
         )}
       >
