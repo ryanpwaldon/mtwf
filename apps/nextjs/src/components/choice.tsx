@@ -1,4 +1,4 @@
-import { IDENTITY_OPTIONS } from "@acme/convex";
+import { PERSONA_OPTIONS } from "@acme/convex";
 import { cn } from "@acme/ui";
 import {
   Avatar,
@@ -74,13 +74,13 @@ export function Choice({
           />
           <AvatarGroup>
             <Avatar size="sm">
-              <AvatarFallback className={cn(IDENTITY_OPTIONS[0].color)} />
+              <AvatarFallback className={cn(PERSONA_OPTIONS[0].color)} />
             </Avatar>
             <Avatar size="sm">
-              <AvatarFallback className={cn(IDENTITY_OPTIONS[2].color)} />
+              <AvatarFallback className={cn(PERSONA_OPTIONS[2].color)} />
             </Avatar>
             <Avatar size="sm">
-              <AvatarFallback className={cn(IDENTITY_OPTIONS[4].color)} />
+              <AvatarFallback className={cn(PERSONA_OPTIONS[4].color)} />
             </Avatar>
             <AvatarGroupCount>+3</AvatarGroupCount>
           </AvatarGroup>

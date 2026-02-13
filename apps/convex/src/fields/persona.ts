@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 
-export const IDENTITY_OPTIONS = [
+export const PERSONA_OPTIONS = [
   {
     value: "red",
     label: "Red",
@@ -88,9 +88,9 @@ export const IDENTITY_OPTIONS = [
   },
 ] as const;
 
-export type Identity = (typeof IDENTITY_OPTIONS)[number]["value"];
+export type Persona = (typeof PERSONA_OPTIONS)[number]["value"];
 
-export const identityValidator = v.union(
+export const personaValidator = v.union(
   v.literal("red"),
   v.literal("orange"),
   v.literal("amber"),

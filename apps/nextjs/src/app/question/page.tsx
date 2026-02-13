@@ -1,4 +1,4 @@
-import { IDENTITY_OPTIONS } from "@acme/convex";
+import { PERSONA_OPTIONS } from "@acme/convex";
 import { RadioGroup } from "@acme/ui/radio-group";
 import { Stepper } from "@acme/ui/stepper";
 
@@ -50,10 +50,10 @@ export default function QuestionPage() {
           </h1>
           <div className="mt-8 flex w-full items-center justify-center">
             <div className="flex items-center -space-x-2">
-              {IDENTITY_OPTIONS.slice(0, 5).map((identity) => (
+              {PERSONA_OPTIONS.slice(0, 5).map((persona) => (
                 <div
-                  key={identity.value}
-                  className={`size-8 rounded-full ${identity.color}`}
+                  key={persona.value}
+                  className={`size-8 rounded-full ${persona.color}`}
                 />
               ))}
             </div>

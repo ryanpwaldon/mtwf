@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { IDENTITY_OPTIONS } from "@acme/convex";
+import { PERSONA_OPTIONS } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 
 import { Header } from "~/components/header";
@@ -17,12 +17,12 @@ export default function QuizPage() {
             <div className="bg-muted grid w-full border p-4" />
           </div>
           <div className="mt-16 flex flex-col gap-4">
-            <h2 className="text-xl font-bold">Select an identity</h2>
+            <h2 className="text-xl font-bold">Select a persona</h2>
             <div className="bg-muted grid w-full grid-cols-[repeat(auto-fill,minmax(2rem,1fr))] gap-4 border p-4">
-              {IDENTITY_OPTIONS.map((identity) => (
+              {PERSONA_OPTIONS.map((persona) => (
                 <div
-                  key={identity.value}
-                  className={`aspect-square rounded-full ${identity.color}`}
+                  key={persona.value}
+                  className={`aspect-square rounded-full ${persona.color}`}
                 />
               ))}
             </div>
@@ -75,7 +75,7 @@ export default function QuizPage() {
             <h2 className="text-xl font-bold">Quiz summary</h2>
             <div className="divide-y">
               <div className="flex w-full items-center justify-between py-1">
-                <span>Identity</span>
+                <span>Persona</span>
                 <span>Red</span>
               </div>
               <div className="flex w-full items-center justify-between py-1">

@@ -14,12 +14,12 @@ import type {
   FunctionReference,
 } from "convex/server";
 
-import type * as fields_identity from "../fields/identity.js";
+import type * as fields_persona from "../fields/persona.js";
 import type * as fields_theme from "../fields/quiz-theme.js";
 import type * as migrations from "../migrations.js";
 
 declare const fullApi: ApiFromModules<{
-  "fields/identity": typeof fields_identity;
+  "fields/persona": typeof fields_persona;
   "fields/theme": typeof fields_theme;
   migrations: typeof migrations;
 }>;
