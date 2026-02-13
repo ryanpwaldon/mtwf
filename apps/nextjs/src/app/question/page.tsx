@@ -1,6 +1,6 @@
 import { getPersonaByValue, PERSONA_OPTIONS } from "@acme/convex";
 import { RadioGroup } from "@acme/ui/radio-group";
-import { Stepper } from "@acme/ui/stepper";
+import { QuestionStatusTrack } from "@acme/ui/question-status-track";
 
 import { Choice } from "~/components/choice";
 import { PersonaAvatarGroup } from "~/components/persona-avatar-group";
@@ -18,7 +18,7 @@ export default function QuestionPage() {
               </span>
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <Stepper
+              <QuestionStatusTrack
                 className="w-full"
                 steps={[
                   "correct",
