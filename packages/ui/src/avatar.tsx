@@ -31,7 +31,7 @@ function Avatar({
   if (!tooltip) return avatar;
 
   return (
-    <Tooltip>
+    <Tooltip disableHoverableContent>
       <TooltipTrigger asChild>{avatar}</TooltipTrigger>
       <TooltipContent>{tooltip}</TooltipContent>
     </Tooltip>
