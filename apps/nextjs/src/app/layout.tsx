@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
 import { cn } from "@acme/ui";
-import { ThemeProvider, ThemeToggle } from "@acme/ui/theme";
+import { ThemeProvider } from "@acme/ui/theme";
 import { Toaster } from "@acme/ui/toast";
 
 import "~/app/styles.css";
@@ -31,15 +31,14 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "bg-background text-foreground min-h-screen font-sans antialiased",
+          "bg-background text-foreground font-sans antialiased",
           inter.variable,
         )}
       >
         <ConvexProvider>
           <ThemeProvider>
-            {props.children}
-            <div className="absolute right-4 bottom-4">
-              <ThemeToggle />
+            <div className="mx-auto flex min-h-screen max-w-xl flex-col p-4">
+              <div className="flex-1 bg-gray-100">{props.children}</div>
             </div>
             <Toaster />
           </ThemeProvider>
