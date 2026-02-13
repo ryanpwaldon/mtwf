@@ -7,6 +7,7 @@ import {
   FieldTitle,
 } from "@acme/ui/field";
 import { RadioGroup, RadioGroupItem } from "@acme/ui/radio-group";
+import { Stepper } from "@acme/ui/stepper";
 
 export default function QuestionPage() {
   return (
@@ -19,7 +20,22 @@ export default function QuestionPage() {
                 Q1/10
               </span>
             </div>
-            <div className="flex w-full items-center">
+            <div className="flex w-full flex-col items-center justify-center gap-2">
+              <Stepper
+                className="w-full"
+                steps={[
+                  "correct",
+                  "incorrect",
+                  "incomplete",
+                  "incomplete",
+                  "incomplete",
+                  "incomplete",
+                  "incomplete",
+                  "incomplete",
+                  "incomplete",
+                  "incomplete",
+                ]}
+              />
               <div className="bg-muted h-2 w-full rounded-full">
                 <div className="bg-primary h-full w-2/3 rounded-full" />
               </div>

@@ -12,7 +12,8 @@
     "./separator": "./src/separator.tsx",
     "./theme": "./src/theme.tsx",
     "./toast": "./src/toast.tsx",
-    "./radio-group": "./src/radio-group.tsx"
+    "./radio-group": "./src/radio-group.tsx",
+    "./stepper": "./src/stepper.tsx"
   },
   "license": "MIT",
   "scripts": {
