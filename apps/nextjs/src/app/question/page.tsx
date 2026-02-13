@@ -3,6 +3,7 @@ import { RadioGroup } from "@acme/ui/radio-group";
 import { Stepper } from "@acme/ui/stepper";
 
 import { Choice } from "~/components/choice";
+import { PersonaAvatarGroup } from "~/components/persona-avatar-group";
 
 export default function QuestionPage() {
   return (
@@ -49,14 +50,11 @@ export default function QuestionPage() {
             Quentin Tarantino?
           </h1>
           <div className="mt-8 flex w-full items-center justify-center">
-            <div className="flex items-center -space-x-2">
-              {PERSONA_OPTIONS.slice(0, 5).map((persona) => (
-                <div
-                  key={persona.value}
-                  className={`size-8 rounded-full ${persona.color}`}
-                />
-              ))}
-            </div>
+            <PersonaAvatarGroup
+              personas={PERSONA_OPTIONS.slice(0, 5)}
+              avatarSize="lg"
+              maxVisiblePersonas={5}
+            />
           </div>
           <div className="mt-8">
             <RadioGroup>

@@ -1,12 +1,6 @@
 import type { Persona } from "@acme/convex";
 import { cn } from "@acme/ui";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarGroupCount,
-} from "@acme/ui/avatar";
-import {
   Field,
   FieldContent,
   FieldDescription,
@@ -14,6 +8,7 @@ import {
   FieldTitle,
 } from "@acme/ui/field";
 import { RadioGroupItem } from "@acme/ui/radio-group";
+import { PersonaAvatarGroup } from "./persona-avatar-group";
 
 export function Choice({
   id,
@@ -34,12 +29,6 @@ export function Choice({
   description: string;
   disabled: boolean;
 }) {
-  const visibleVoters = showResults ? voters.slice(0, 3) : [];
-  const remainingVoterCount = Math.max(
-    0,
-    (showResults ? voters.length : 0) - visibleVoters.length,
-  );
-
   return (
     <FieldLabel
       htmlFor={id}
@@ -81,18 +70,11 @@ export function Choice({
             )}
           />
           {showResults ? (
-            <AvatarGroup>
-              {visibleVoters.map((persona) => {
-                return (
-                  <Avatar size="sm" key={persona.value} tooltip={persona.label}>
-                    <AvatarFallback className={cn(persona.color)} />
-                  </Avatar>
-                );
-              })}
-              {remainingVoterCount > 0 ? (
-                <AvatarGroupCount>+{remainingVoterCount}</AvatarGroupCount>
-              ) : null}
-            </AvatarGroup>
+            <PersonaAvatarGroup
+              personas={voters}
+              avatarSize="sm"
+              maxVisiblePersonas={3}
+            />
           ) : null}
         </div>
       </Field>
