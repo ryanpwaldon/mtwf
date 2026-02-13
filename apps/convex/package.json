@@ -1,0 +1,33 @@
+{
+  "name": "@acme/convex",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+    "scripts": {
+    "deploy": "pnpm convex deploy",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "convex dev",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@convex-dev/migrations": "^0.3.1",
+    "convex": "catalog:",
+    "convex-helpers": "^0.1.111",
+    "zod": "catalog:"
+  },
+  "prettier": "@acme/prettier-config"
+}
