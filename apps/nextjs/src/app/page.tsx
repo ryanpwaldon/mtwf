@@ -8,7 +8,7 @@ export default function HomePage() {
   return (
     <div>
       <Header />
-      <main className="px-4 pt-16">
+      <main className="p-4 pt-16">
         <h1 className="text-5xl font-extrabold tracking-tight">
           Movie
           <br />
