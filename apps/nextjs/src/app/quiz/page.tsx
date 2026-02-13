@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { IDENTITY_OPTIONS } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 
 import { Header } from "~/components/header";
@@ -13,23 +14,12 @@ export default function QuizPage() {
         <div className="mt-16 flex flex-col gap-4">
           <h2 className="text-xl font-bold">Select an identity</h2>
           <div className="bg-muted grid w-full grid-cols-[repeat(auto-fill,minmax(2rem,1fr))] gap-4 border p-4">
-            <div className="aspect-square rounded-full bg-red-500" />
-            <div className="aspect-square rounded-full bg-orange-500" />
-            <div className="aspect-square rounded-full bg-amber-500" />
-            <div className="aspect-square rounded-full bg-yellow-500" />
-            <div className="aspect-square rounded-full bg-lime-500" />
-            <div className="aspect-square rounded-full bg-green-500" />
-            <div className="aspect-square rounded-full bg-emerald-500" />
-            <div className="aspect-square rounded-full bg-teal-500" />
-            <div className="aspect-square rounded-full bg-cyan-500" />
-            <div className="aspect-square rounded-full bg-sky-500" />
-            <div className="aspect-square rounded-full bg-blue-500" />
-            <div className="aspect-square rounded-full bg-indigo-500" />
-            <div className="aspect-square rounded-full bg-violet-500" />
-            <div className="aspect-square rounded-full bg-purple-500" />
-            <div className="aspect-square rounded-full bg-fuchsia-500" />
-            <div className="aspect-square rounded-full bg-pink-500" />
-            <div className="aspect-square rounded-full bg-rose-500" />
+            {IDENTITY_OPTIONS.map((identity) => (
+              <div
+                key={identity.value}
+                className={`aspect-square rounded-full ${identity.color}`}
+              />
+            ))}
           </div>
         </div>
         <div className="mt-16 flex flex-col gap-4">

@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as fields_identity from "../fields/identity.js";
 import type * as migrations from "../migrations.js";
 
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  "fields/identity": typeof fields_identity;
   migrations: typeof migrations;
 }>;
 

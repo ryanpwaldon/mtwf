@@ -3,6 +3,7 @@
 @import "@acme/tailwind-config/theme";
 
 @source "../../../../packages/ui/src/*.{ts,tsx}";
+@source "../../../../apps/convex/src/**/*.ts";
 
 @custom-variant dark (&:where(.dark, .dark *));
 @custom-variant light (&:where(.light, .light *));
