@@ -1,4 +1,12 @@
 import { IDENTITY_OPTIONS } from "@acme/convex";
+import { cn } from "@acme/ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@acme/ui/avatar";
 import {
   Field,
   FieldContent,
@@ -65,13 +73,34 @@ export default function QuestionPage() {
           </div>
           <div className="mt-8">
             <RadioGroup>
-              <FieldLabel htmlFor="choice-a">
-                <Field orientation="horizontal">
+              <FieldLabel htmlFor="choice-a" className="relative">
+                <div className="bg-correct/30 absolute left-0 h-full w-3/5" />
+                <Field orientation="horizontal" className="relative">
                   <FieldContent>
                     <FieldTitle>A</FieldTitle>
                     <FieldDescription>The 1980 Honda Civic</FieldDescription>
                   </FieldContent>
-                  <RadioGroupItem value="a" id="choice-a" />
+                  <div className="flex h-full flex-col items-end justify-between">
+                    <RadioGroupItem value="a" id="choice-a" />
+                    <AvatarGroup>
+                      <Avatar size="sm">
+                        <AvatarFallback
+                          className={cn(IDENTITY_OPTIONS[0].color)}
+                        />
+                      </Avatar>
+                      <Avatar size="sm">
+                        <AvatarFallback
+                          className={cn(IDENTITY_OPTIONS[2].color)}
+                        />
+                      </Avatar>
+                      <Avatar size="sm">
+                        <AvatarFallback
+                          className={cn(IDENTITY_OPTIONS[4].color)}
+                        />
+                      </Avatar>
+                      <AvatarGroupCount>+3</AvatarGroupCount>
+                    </AvatarGroup>
+                  </div>
                 </Field>
               </FieldLabel>
               <FieldLabel htmlFor="choice-b">
