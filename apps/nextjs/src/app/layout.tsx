@@ -10,8 +10,8 @@ import "~/app/styles.css";
 import { ConvexProvider } from "~/components/convex-provider";
 
 export const metadata: Metadata = {
-  title: "triviaboxd",
-  description: "triviaboxd",
+  title: "Movie Trivia with Friends",
+  description: "Test your movie knowledge with friends online.",
 };
 
 export const viewport: Viewport = {
