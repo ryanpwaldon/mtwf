@@ -67,7 +67,8 @@ export default function QuestionPage() {
                 description="The 1980 Honda Civic"
                 showResults={true}
                 isCorrectAnswer={true}
-                selectionPercent={30}
+                votePercent={30}
+                voters={["lime", "amber", "blue", "pink"]}
               />
               <Choice
                 disabled={false}
@@ -76,7 +77,8 @@ export default function QuestionPage() {
                 description="The 1964 Chevy Malibu"
                 showResults={true}
                 isCorrectAnswer={false}
-                selectionPercent={30}
+                votePercent={30}
+                voters={["orange", "teal"]}
               />
               <Choice
                 disabled={false}
@@ -85,7 +87,8 @@ export default function QuestionPage() {
                 description="The 1974 Chevy Nova"
                 showResults={true}
                 isCorrectAnswer={false}
-                selectionPercent={30}
+                votePercent={30}
+                voters={["rose", "violet", "green", "sky", "cyan"]}
               />
               <Choice
                 disabled={false}
@@ -94,7 +97,8 @@ export default function QuestionPage() {
                 description="Both A and B"
                 showResults={true}
                 isCorrectAnswer={false}
-                selectionPercent={30}
+                votePercent={30}
+                voters={[]}
               />
             </RadioGroup>
           </div>

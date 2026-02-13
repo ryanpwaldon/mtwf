@@ -1,3 +1,4 @@
+import type { Persona } from "@acme/convex";
 import { PERSONA_OPTIONS } from "@acme/convex";
 import { cn } from "@acme/ui";
 import {
@@ -18,20 +19,28 @@ import { RadioGroupItem } from "@acme/ui/radio-group";
 export function Choice({
   id,
   value,
-  showResults = false,
+  showResults,
   isCorrectAnswer,
-  selectionPercent,
+  votePercent,
+  voters,
   description,
   disabled,
 }: {
   id: string;
   value: string;
-  showResults?: boolean;
-  isCorrectAnswer?: boolean;
-  selectionPercent?: number;
+  showResults: boolean;
+  isCorrectAnswer: boolean;
+  votePercent: number;
+  voters: Persona[];
   description: string;
   disabled: boolean;
 }) {
+  const visibleVoters = showResults ? voters.slice(0, 3) : [];
+  const remainingVoterCount = Math.max(
+    0,
+    (showResults ? voters.length : 0) - visibleVoters.length,
+  );
+
   return (
     <FieldLabel
       htmlFor={id}
@@ -43,14 +52,14 @@ export function Choice({
         "data-[show-results=true]:data-[correct-answer=false]:has-data-[state=checked]:border-incorrect data-[show-results=true]:data-[correct-answer=false]:has-data-[state=checked]:bg-incorrect/5",
       )}
     >
-      {showResults && selectionPercent != null ? (
+      {showResults && votePercent != null ? (
         <div
           className={cn(
             "bg-primary/10 absolute left-0 h-full",
             "group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:bg-correct/30",
             "group-data-[show-results=true]/choice:group-has-data-[state=checked]/choice:group-data-[correct-answer=false]/choice:bg-incorrect/30",
           )}
-          style={{ width: `${selectionPercent}%` }}
+          style={{ width: `${votePercent}%` }}
         />
       ) : null}
       <Field orientation="horizontal" className="relative">
@@ -72,18 +81,26 @@ export function Choice({
               "group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:text-incorrect group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:border-incorrect group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:[&_svg]:fill-incorrect",
             )}
           />
-          <AvatarGroup>
-            <Avatar size="sm">
-              <AvatarFallback className={cn(PERSONA_OPTIONS[0].color)} />
-            </Avatar>
-            <Avatar size="sm">
-              <AvatarFallback className={cn(PERSONA_OPTIONS[2].color)} />
-            </Avatar>
-            <Avatar size="sm">
-              <AvatarFallback className={cn(PERSONA_OPTIONS[4].color)} />
-            </Avatar>
-            <AvatarGroupCount>+3</AvatarGroupCount>
-          </AvatarGroup>
+          {showResults ? (
+            <AvatarGroup>
+              {visibleVoters.map((persona, index) => {
+                const personaOption = PERSONA_OPTIONS.find(
+                  (option) => option.value === persona,
+                );
+
+                return (
+                  <Avatar size="sm" key={`${persona}-${index}`}>
+                    <AvatarFallback
+                      className={cn(personaOption?.color ?? "bg-muted")}
+                    />
+                  </Avatar>
+                );
+              })}
+              {remainingVoterCount > 0 ? (
+                <AvatarGroupCount>+{remainingVoterCount}</AvatarGroupCount>
+              ) : null}
+            </AvatarGroup>
+          ) : null}
         </div>
       </Field>
     </FieldLabel>
