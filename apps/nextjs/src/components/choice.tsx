@@ -82,12 +82,10 @@ export function Choice({
           />
           {showResults ? (
             <AvatarGroup>
-              {visibleVoters.map((persona, index) => {
+              {visibleVoters.map((persona) => {
                 return (
-                  <Avatar size="sm" key={`${persona.value}-${index}`}>
-                    <AvatarFallback
-                      className={cn(persona.color)}
-                    />
+                  <Avatar size="sm" key={persona.value}>
+                    <AvatarFallback className={cn(persona.color)} />
                   </Avatar>
                 );
               })}
