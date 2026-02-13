@@ -14,8 +14,8 @@ export default function QuizPage() {
           <Button size="lg" variant="default" asChild>
             <Link href="/quiz">Start quiz</Link>
           </Button>
-          <Button size="lg" variant="outline">
-            Return home
+          <Button size="lg" variant="secondary" asChild>
+            <Link href="/">Return home</Link>
           </Button>
         </div>
       </main>

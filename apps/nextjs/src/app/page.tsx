@@ -26,8 +26,8 @@ export default function HomePage() {
           <Button size="lg" variant="default" asChild>
             <Link href="/quiz">Create a quiz</Link>
           </Button>
-          <Button size="lg" variant="outline">
-            Join a quiz
+          <Button size="lg" variant="secondary" asChild>
+            <Link href="/join">Join a quiz</Link>
           </Button>
         </div>
       </main>
