@@ -61,6 +61,7 @@ export default function QuestionPage() {
           <div className="mt-8">
             <RadioGroup>
               <Choice
+                disabled={false}
                 id="choice-a"
                 value="A"
                 description="The 1980 Honda Civic"
@@ -69,6 +70,7 @@ export default function QuestionPage() {
                 selectionPercent={30}
               />
               <Choice
+                disabled={false}
                 id="choice-b"
                 value="B"
                 description="The 1964 Chevy Malibu"
@@ -77,6 +79,7 @@ export default function QuestionPage() {
                 selectionPercent={30}
               />
               <Choice
+                disabled={false}
                 id="choice-c"
                 value="C"
                 description="The 1974 Chevy Nova"
@@ -85,6 +88,7 @@ export default function QuestionPage() {
                 selectionPercent={30}
               />
               <Choice
+                disabled={false}
                 id="choice-d"
                 value="D"
                 description="Both A and B"

@@ -22,6 +22,7 @@ export function Choice({
   isCorrectAnswer,
   selectionPercent,
   description,
+  disabled,
 }: {
   id: string;
   value: string;
@@ -29,6 +30,7 @@ export function Choice({
   isCorrectAnswer?: boolean;
   selectionPercent?: number;
   description: string;
+  disabled: boolean;
 }) {
   return (
     <FieldLabel
@@ -44,7 +46,7 @@ export function Choice({
       {showResults && selectionPercent != null ? (
         <div
           className={cn(
-            "absolute left-0 h-full bg-primary/10",
+            "bg-primary/10 absolute left-0 h-full",
             "group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:bg-correct/30",
             "group-data-[show-results=true]/choice:group-has-data-[state=checked]/choice:group-data-[correct-answer=false]/choice:bg-incorrect/30",
           )}
@@ -62,8 +64,9 @@ export function Choice({
         </FieldContent>
         <div className="flex h-full flex-col items-end justify-between">
           <RadioGroupItem
-            value={value}
             id={id}
+            value={value}
+            disabled={disabled}
             className={cn(
               "group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:text-correct group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:border-correct [&_svg]:group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:fill-correct",
               "group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:text-incorrect group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:border-incorrect group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:[&_svg]:fill-incorrect",
