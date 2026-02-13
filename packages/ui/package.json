@@ -14,7 +14,8 @@
     "./toast": "./src/toast.tsx",
     "./radio-group": "./src/radio-group.tsx",
     "./stepper": "./src/stepper.tsx",
-    "./avatar": "./src/avatar.tsx"
+    "./avatar": "./src/avatar.tsx",
+    "./tooltip": "./src/tooltip.tsx"
   },
   "license": "MIT",
   "scripts": {

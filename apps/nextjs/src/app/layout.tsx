@@ -7,6 +7,8 @@ import { Toaster } from "@acme/ui/toast";
 
 import "~/app/styles.css";
 
+import { TooltipProvider } from "@acme/ui/tooltip";
+
 import { ConvexProvider } from "~/components/convex-provider";
 
 export const metadata: Metadata = {
@@ -36,10 +38,12 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         )}
       >
         <ConvexProvider>
-          <ThemeProvider>
-            {props.children}
-            <Toaster />
-          </ThemeProvider>
+          <TooltipProvider>
+            <ThemeProvider>
+              {props.children}
+              <Toaster />
+            </ThemeProvider>
+          </TooltipProvider>
         </ConvexProvider>
       </body>
     </html>
