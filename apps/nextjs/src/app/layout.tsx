@@ -7,6 +7,8 @@ import { Toaster } from "@acme/ui/toast";
 
 import "~/app/styles.css";
 
+import { ConvexClientProvider } from "~/components/convex-provider";
+
 export const metadata: Metadata = {
   title: "triviaboxd",
   description: "triviaboxd",
@@ -38,13 +40,15 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           geistMono.variable,
         )}
       >
-        <ThemeProvider>
-          {props.children}
-          <div className="absolute right-4 bottom-4">
-            <ThemeToggle />
-          </div>
-          <Toaster />
-        </ThemeProvider>
+        <ConvexClientProvider>
+          <ThemeProvider>
+            {props.children}
+            <div className="absolute right-4 bottom-4">
+              <ThemeToggle />
+            </div>
+            <Toaster />
+          </ThemeProvider>
+        </ConvexClientProvider>
       </body>
     </html>
   );
