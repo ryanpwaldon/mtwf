@@ -37,9 +37,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       >
         <ConvexProvider>
           <ThemeProvider>
-            <div className="mx-auto flex min-h-screen max-w-xl flex-col p-4">
-              <div className="bg-background flex-1">{props.children}</div>
-            </div>
+            {props.children}
             <Toaster />
           </ThemeProvider>
         </ConvexProvider>
