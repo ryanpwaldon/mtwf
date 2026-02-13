@@ -11,7 +11,8 @@
     "./label": "./src/label.tsx",
     "./separator": "./src/separator.tsx",
     "./theme": "./src/theme.tsx",
-    "./toast": "./src/toast.tsx"
+    "./toast": "./src/toast.tsx",
+    "./radio-group": "./src/radio-group.tsx"
   },
   "license": "MIT",
   "scripts": {

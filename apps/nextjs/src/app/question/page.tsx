@@ -1,4 +1,12 @@
 import { IDENTITY_OPTIONS } from "@acme/convex";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+  FieldTitle,
+} from "@acme/ui/field";
+import { RadioGroup, RadioGroupItem } from "@acme/ui/radio-group";
 
 export default function QuestionPage() {
   return (
@@ -38,6 +46,46 @@ export default function QuestionPage() {
                 />
               ))}
             </div>
+          </div>
+          <div className="mt-8">
+            <RadioGroup>
+              <FieldLabel htmlFor="choice-a">
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldTitle>A</FieldTitle>
+                    <FieldDescription>The 1980 Honda Civic</FieldDescription>
+                  </FieldContent>
+                  <RadioGroupItem value="a" id="choice-a" />
+                </Field>
+              </FieldLabel>
+              <FieldLabel htmlFor="choice-b">
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldTitle>B</FieldTitle>
+                    <FieldDescription>The 1964 Chevy Malibu</FieldDescription>
+                  </FieldContent>
+                  <RadioGroupItem value="b" id="choice-b" />
+                </Field>
+              </FieldLabel>
+              <FieldLabel htmlFor="choice-c">
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldTitle>C</FieldTitle>
+                    <FieldDescription>The 1974 Chevy Nova</FieldDescription>
+                  </FieldContent>
+                  <RadioGroupItem value="c" id="choice-c" />
+                </Field>
+              </FieldLabel>
+              <FieldLabel htmlFor="choice-d">
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldTitle>D</FieldTitle>
+                    <FieldDescription>Both A and B</FieldDescription>
+                  </FieldContent>
+                  <RadioGroupItem value="d" id="choice-d" />
+                </Field>
+              </FieldLabel>
+            </RadioGroup>
           </div>
         </main>
       </div>
