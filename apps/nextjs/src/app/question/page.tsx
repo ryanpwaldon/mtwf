@@ -4,6 +4,7 @@ import { Stepper } from "@acme/ui/stepper";
 
 import { Choice } from "~/components/choice";
 import { PersonaAvatarGroup } from "~/components/persona-avatar-group";
+import { TimeRemainingBar } from "~/components/time-remaining-bar";
 
 export default function QuestionPage() {
   return (
@@ -32,9 +33,7 @@ export default function QuestionPage() {
                   "incomplete",
                 ]}
               />
-              <div className="bg-muted h-2 w-full rounded-full">
-                <div className="bg-primary h-full w-2/3 rounded-full" />
-              </div>
+              <TimeRemainingBar value={2 / 3} />
             </div>
             <div className="w-20 text-right">
               <span className="text-muted-foreground font-mono text-sm font-medium">
