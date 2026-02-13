@@ -83,7 +83,10 @@ export default function QuestionPage() {
                 showResults={true}
                 isCorrectAnswer={false}
                 votePercent={30}
-                voters={[getPersonaByValue("orange"), getPersonaByValue("teal")]}
+                voters={[
+                  getPersonaByValue("orange"),
+                  getPersonaByValue("teal"),
+                ]}
               />
               <Choice
                 disabled={false}
