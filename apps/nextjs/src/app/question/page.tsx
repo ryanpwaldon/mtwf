@@ -15,17 +15,17 @@ export default function QuestionPage() {
         <div>
           <header className="flex p-4">
             <div className="w-20">
-              <span className="text-muted-foreground font-mono text-sm font-bold">
+              <span className="text-muted-foreground font-mono text-sm font-medium">
                 Q1/10
               </span>
             </div>
             <div className="flex w-full items-center">
               <div className="bg-muted h-2 w-full rounded-full">
-                <div className="bg-primary h-full w-2/3 rounded-full"></div>
+                <div className="bg-primary h-full w-2/3 rounded-full" />
               </div>
             </div>
             <div className="w-20 text-right">
-              <span className="text-muted-foreground font-mono text-sm font-bold">
+              <span className="text-muted-foreground font-mono text-sm font-medium">
                 60s
               </span>
             </div>
