@@ -7,7 +7,9 @@ export default function QuestionPage() {
         <div>
           <header className="flex p-4">
             <div className="w-20">
-              <span className="font-mono text-sm font-bold">Q1/10</span>
+              <span className="text-muted-foreground font-mono text-sm font-bold">
+                Q1/10
+              </span>
             </div>
             <div className="flex w-full items-center">
               <div className="bg-muted h-2 w-full rounded-full">
@@ -15,7 +17,9 @@ export default function QuestionPage() {
               </div>
             </div>
             <div className="w-20 text-right">
-              <span className="font-mono text-sm font-bold">60s</span>
+              <span className="text-muted-foreground font-mono text-sm font-bold">
+                60s
+              </span>
             </div>
           </header>
           <div className="mx-4 border-b" />
