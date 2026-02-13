@@ -1,21 +1,8 @@
 import { IDENTITY_OPTIONS } from "@acme/convex";
-import { cn } from "@acme/ui";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarGroupCount,
-  AvatarImage,
-} from "@acme/ui/avatar";
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldLabel,
-  FieldTitle,
-} from "@acme/ui/field";
-import { RadioGroup, RadioGroupItem } from "@acme/ui/radio-group";
+import { RadioGroup } from "@acme/ui/radio-group";
 import { Stepper } from "@acme/ui/stepper";
+
+import { Choice } from "~/components/choice";
 
 export default function QuestionPage() {
   return (
@@ -73,63 +60,38 @@ export default function QuestionPage() {
           </div>
           <div className="mt-8">
             <RadioGroup>
-              <FieldLabel htmlFor="choice-a" className="relative">
-                <div className="bg-correct/30 absolute left-0 h-full w-3/5" />
-                <Field orientation="horizontal" className="relative">
-                  <FieldContent>
-                    <FieldTitle>A</FieldTitle>
-                    <FieldDescription>The 1980 Honda Civic</FieldDescription>
-                  </FieldContent>
-                  <div className="flex h-full flex-col items-end justify-between">
-                    <RadioGroupItem value="a" id="choice-a" />
-                    <AvatarGroup>
-                      <Avatar size="sm">
-                        <AvatarFallback
-                          className={cn(IDENTITY_OPTIONS[0].color)}
-                        />
-                      </Avatar>
-                      <Avatar size="sm">
-                        <AvatarFallback
-                          className={cn(IDENTITY_OPTIONS[2].color)}
-                        />
-                      </Avatar>
-                      <Avatar size="sm">
-                        <AvatarFallback
-                          className={cn(IDENTITY_OPTIONS[4].color)}
-                        />
-                      </Avatar>
-                      <AvatarGroupCount>+3</AvatarGroupCount>
-                    </AvatarGroup>
-                  </div>
-                </Field>
-              </FieldLabel>
-              <FieldLabel htmlFor="choice-b">
-                <Field orientation="horizontal">
-                  <FieldContent>
-                    <FieldTitle>B</FieldTitle>
-                    <FieldDescription>The 1964 Chevy Malibu</FieldDescription>
-                  </FieldContent>
-                  <RadioGroupItem value="b" id="choice-b" />
-                </Field>
-              </FieldLabel>
-              <FieldLabel htmlFor="choice-c">
-                <Field orientation="horizontal">
-                  <FieldContent>
-                    <FieldTitle>C</FieldTitle>
-                    <FieldDescription>The 1974 Chevy Nova</FieldDescription>
-                  </FieldContent>
-                  <RadioGroupItem value="c" id="choice-c" />
-                </Field>
-              </FieldLabel>
-              <FieldLabel htmlFor="choice-d">
-                <Field orientation="horizontal">
-                  <FieldContent>
-                    <FieldTitle>D</FieldTitle>
-                    <FieldDescription>Both A and B</FieldDescription>
-                  </FieldContent>
-                  <RadioGroupItem value="d" id="choice-d" />
-                </Field>
-              </FieldLabel>
+              <Choice
+                id="choice-a"
+                value="A"
+                description="The 1980 Honda Civic"
+                showResults={true}
+                isCorrectAnswer={true}
+                selectionPercent={30}
+              />
+              <Choice
+                id="choice-b"
+                value="B"
+                description="The 1964 Chevy Malibu"
+                showResults={true}
+                isCorrectAnswer={false}
+                selectionPercent={30}
+              />
+              <Choice
+                id="choice-c"
+                value="C"
+                description="The 1974 Chevy Nova"
+                showResults={true}
+                isCorrectAnswer={false}
+                selectionPercent={30}
+              />
+              <Choice
+                id="choice-d"
+                value="D"
+                description="Both A and B"
+                showResults={true}
+                isCorrectAnswer={false}
+                selectionPercent={30}
+              />
             </RadioGroup>
           </div>
         </main>
