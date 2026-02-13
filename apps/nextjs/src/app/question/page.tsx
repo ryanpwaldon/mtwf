@@ -1,4 +1,4 @@
-import { PERSONA_OPTIONS } from "@acme/convex";
+import { getPersonaByValue, PERSONA_OPTIONS } from "@acme/convex";
 import { RadioGroup } from "@acme/ui/radio-group";
 import { Stepper } from "@acme/ui/stepper";
 
@@ -68,7 +68,12 @@ export default function QuestionPage() {
                 showResults={true}
                 isCorrectAnswer={true}
                 votePercent={30}
-                voters={["lime", "amber", "blue", "pink"]}
+                voters={[
+                  getPersonaByValue("lime"),
+                  getPersonaByValue("amber"),
+                  getPersonaByValue("blue"),
+                  getPersonaByValue("pink"),
+                ]}
               />
               <Choice
                 disabled={false}
@@ -78,7 +83,7 @@ export default function QuestionPage() {
                 showResults={true}
                 isCorrectAnswer={false}
                 votePercent={30}
-                voters={["orange", "teal"]}
+                voters={[getPersonaByValue("orange"), getPersonaByValue("teal")]}
               />
               <Choice
                 disabled={false}
@@ -88,7 +93,13 @@ export default function QuestionPage() {
                 showResults={true}
                 isCorrectAnswer={false}
                 votePercent={30}
-                voters={["rose", "violet", "green", "sky", "cyan"]}
+                voters={[
+                  getPersonaByValue("rose"),
+                  getPersonaByValue("violet"),
+                  getPersonaByValue("green"),
+                  getPersonaByValue("sky"),
+                  getPersonaByValue("cyan"),
+                ]}
               />
               <Choice
                 disabled={false}

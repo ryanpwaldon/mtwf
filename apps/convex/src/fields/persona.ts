@@ -88,7 +88,17 @@ export const PERSONA_OPTIONS = [
   },
 ] as const;
 
-export type Persona = (typeof PERSONA_OPTIONS)[number]["value"];
+export type Persona = (typeof PERSONA_OPTIONS)[number];
+export type PersonaValue = Persona["value"];
+export type PersonaOption = Persona;
+
+export const PERSONA_BY_VALUE = Object.fromEntries(
+  PERSONA_OPTIONS.map((persona) => [persona.value, persona]),
+) as Record<PersonaValue, Persona>;
+
+export function getPersonaByValue(value: PersonaValue): Persona {
+  return PERSONA_BY_VALUE[value];
+}
 
 export const personaValidator = v.union(
   v.literal("red"),

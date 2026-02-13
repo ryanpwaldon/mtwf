@@ -1,5 +1,4 @@
 import type { Persona } from "@acme/convex";
-import { PERSONA_OPTIONS } from "@acme/convex";
 import { cn } from "@acme/ui";
 import {
   Avatar,
@@ -52,7 +51,7 @@ export function Choice({
         "data-[show-results=true]:data-[correct-answer=false]:has-data-[state=checked]:border-incorrect data-[show-results=true]:data-[correct-answer=false]:has-data-[state=checked]:bg-incorrect/5",
       )}
     >
-      {showResults && votePercent != null ? (
+      {showResults ? (
         <div
           className={cn(
             "bg-primary/10 absolute left-0 h-full",
@@ -84,14 +83,10 @@ export function Choice({
           {showResults ? (
             <AvatarGroup>
               {visibleVoters.map((persona, index) => {
-                const personaOption = PERSONA_OPTIONS.find(
-                  (option) => option.value === persona,
-                );
-
                 return (
-                  <Avatar size="sm" key={`${persona}-${index}`}>
+                  <Avatar size="sm" key={`${persona.value}-${index}`}>
                     <AvatarFallback
-                      className={cn(personaOption?.color ?? "bg-muted")}
+                      className={cn(persona.color)}
                     />
                   </Avatar>
                 );
