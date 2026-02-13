@@ -31,14 +31,14 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "bg-background text-foreground font-sans antialiased",
+          "text-foreground bg-white font-sans antialiased",
           inter.variable,
         )}
       >
         <ConvexProvider>
           <ThemeProvider>
             <div className="mx-auto flex min-h-screen max-w-xl flex-col p-4">
-              <div className="flex-1 bg-gray-100">{props.children}</div>
+              <div className="bg-background flex-1">{props.children}</div>
             </div>
             <Toaster />
           </ThemeProvider>
