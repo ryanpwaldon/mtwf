@@ -44,7 +44,7 @@ export default function QuestionPage() {
           <div className="mx-4 border-b" />
         </div>
         <main className="p-4 pt-16">
-          <h1 className="text-center text-4xl font-extrabold tracking-tight">
+          <h1 className="text-center text-2xl font-extrabold tracking-tight">
             In Pulp Fiction (1998) which car in the film was actually owned by
             Quentin Tarantino?
           </h1>
