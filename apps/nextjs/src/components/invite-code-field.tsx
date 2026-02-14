@@ -40,7 +40,7 @@ export function InviteCodeField({ code }: { code: string }) {
       <div
         role="textbox"
         aria-label="Game code"
-        className="dark:bg-input/30 border-input bg-background flex h-12 w-full cursor-default items-center justify-center rounded-md border px-3 text-xl select-text"
+        className="dark:bg-input/30 border-input bg-background flex h-12 w-full cursor-default items-center justify-center rounded-md border px-3 font-mono text-xl select-text"
       >
         {code}
       </div>
