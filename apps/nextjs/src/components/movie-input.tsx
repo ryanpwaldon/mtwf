@@ -31,11 +31,11 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
         <Button
           variant="outline"
           onClick={() => setOpen(true)}
-          className="h-auto w-full cursor-pointer justify-start gap-0 p-0 whitespace-normal transition-colors!"
+          className="h-22 w-full cursor-pointer justify-start gap-0 overflow-hidden p-0 whitespace-normal transition-colors!"
         >
           <div
             aria-hidden
-            className={`aspect-2/3 h-22 shrink-0 rounded-sm ${movie.posterClassName}`}
+            className={`aspect-2/3 h-full shrink-0 rounded-sm ${movie.posterClassName}`}
           />
           <div className="min-w-0 px-3">
             <div className="truncate text-left font-medium">{movie.title}</div>
