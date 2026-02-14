@@ -40,7 +40,7 @@ export function InviteCodeField({ code }: { code: string }) {
       <div
         role="textbox"
         aria-label="Game code"
-        className="dark:bg-input/30 border-input bg-background flex h-12 w-full cursor-default items-center justify-center rounded-md border px-3 font-mono text-xl select-text"
+        className="border-input flex h-12 w-full cursor-default items-center justify-center rounded-md border bg-transparent px-3 font-mono text-xl select-text"
       >
         {code}
       </div>
@@ -56,7 +56,7 @@ export function InviteCodeField({ code }: { code: string }) {
           <Button
             type="button"
             size="icon"
-            variant="outline"
+            variant="default"
             aria-label="Copy invite code"
             className="size-12"
             onClick={handleCopy}
