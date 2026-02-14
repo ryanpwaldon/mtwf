@@ -39,7 +39,7 @@ export default function QuizPage() {
                 <CardTitle>Avatar</CardTitle>
                 <CardDescription>Select your color</CardDescription>
               </CardHeader>
-              <CardContent className="flex justify-center">
+              <CardContent className="flex h-full items-center justify-center">
                 <Avatar size="lg" tooltip={limePersona.label}>
                   <AvatarFallback className={limePersona.color} />
                   <AvatarBadge>
