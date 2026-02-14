@@ -10,12 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@acme/ui/card";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@acme/ui/input-otp";
 
 import { Header } from "~/components/header";
+import { InviteCodeField } from "~/components/invite-code-field";
 
 export default function QuizPage() {
   const limePersona = getPersonaByValue("lime");
+  const inviteCode = "LIME12";
 
   return (
     <div className="mx-auto flex min-h-screen max-w-xl flex-col p-4">
@@ -29,16 +30,7 @@ export default function QuizPage() {
                 <CardDescription>Share the game code</CardDescription>
               </CardHeader>
               <CardContent className="flex justify-center">
-                <InputOTP maxLength={6} readOnly value="LIME12">
-                  <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:bg-background *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
+                <InviteCodeField code={inviteCode} />
               </CardContent>
             </Card>
             <Card className="md:col-span-1">
