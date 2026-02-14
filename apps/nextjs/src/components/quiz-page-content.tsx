@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
+
+import type { QuizMovie } from "@acme/convex";
 
 import { Avatar, AvatarBadge, AvatarFallback } from "@acme/ui/avatar";
 import { Button } from "@acme/ui/button";
@@ -16,7 +18,7 @@ import {
 
 import { Header } from "~/components/header";
 import { InviteCodeField } from "~/components/invite-code-field";
-import { MovieItem } from "./movie-item";
+import { MovieInput } from "./movie-input";
 
 interface QuizPageContentProps {
   inviteCode: string;
@@ -28,6 +30,7 @@ interface QuizPageContentProps {
 
 export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
   const contentAreaRef = useRef<HTMLDivElement>(null);
+  const [movie, setMovie] = useState<QuizMovie | null>(null);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-xl flex-col sm:p-4">
@@ -68,11 +71,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
               <CardDescription>Pick the movie for this round</CardDescription>
             </CardHeader>
             <CardContent className="flex h-full items-center">
-              <MovieItem
-                title="The Neon Heist"
-                description="A hacker crew races a countdown in a city of lights."
-                posterClassName="bg-linear-to-br from-fuchsia-500 to-indigo-500"
-              />
+              <MovieInput value={movie} onChange={setMovie} />
             </CardContent>
           </Card>
           <Card className="mt-4">
