@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CopyIcon } from "lucide-react";
+import { Clipboard } from "lucide-react";
 
 import { Button } from "@acme/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
@@ -61,7 +61,7 @@ export function InviteCodeField({ code }: { code: string }) {
             className="size-12"
             onClick={handleCopy}
           >
-            <CopyIcon />
+            <Clipboard className="size-5" />
           </Button>
         </TooltipTrigger>
         <TooltipContent side="top" sideOffset={8}>
