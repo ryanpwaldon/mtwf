@@ -5,6 +5,7 @@ import { Film } from "lucide-react";
 
 import type { QuizMovie } from "@acme/convex";
 import { getQuizMovieByValue, QUIZ_MOVIE_OPTIONS } from "@acme/convex";
+import { Button } from "@acme/ui/button";
 import {
   Command,
   CommandDialog,
@@ -27,10 +28,10 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
   return (
     <>
       {movie ? (
-        <button
-          type="button"
+        <Button
+          variant="outline"
           onClick={() => setOpen(true)}
-          className="bg-background dark:bg-input/30 flex w-full cursor-pointer items-center border transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
+          className="h-auto w-full cursor-pointer justify-start gap-0 p-0 whitespace-normal transition-colors!"
         >
           <div
             aria-hidden
@@ -38,20 +39,20 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
           />
           <div className="min-w-0 px-3">
             <div className="truncate text-left font-medium">{movie.title}</div>
-            <p className="text-muted-foreground line-clamp-2 text-left text-sm">
+            <p className="text-muted-foreground line-clamp-2 text-left text-sm font-normal">
               {movie.description}
             </p>
           </div>
-        </button>
+        </Button>
       ) : (
-        <button
-          type="button"
+        <Button
+          variant="outline"
           onClick={() => setOpen(true)}
-          className="border-input bg-background dark:bg-input/30 text-muted-foreground flex h-22 w-full cursor-pointer items-center justify-center gap-2 border border-dashed transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
+          className="text-muted-foreground h-22 w-full cursor-pointer border-dashed"
         >
           <Film className="size-5" />
           <span className="text-sm font-medium">Select movie</span>
-        </button>
+        </Button>
       )}
 
       <CommandDialog
