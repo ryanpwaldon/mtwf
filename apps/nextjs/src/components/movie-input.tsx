@@ -111,7 +111,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
                 </Button>
               </div>
             </div>
-            <CommandList className="h-0! max-h-none! min-h-0! flex-1 px-4 pb-4">
+            <CommandList className="h-0! max-h-none! min-h-0! flex-1 px-4 pb-12">
               <CommandEmpty>No movies found.</CommandEmpty>
               <CommandGroup className="px-0 py-4">
                 {QUIZ_MOVIE_OPTIONS.map((option) => (
