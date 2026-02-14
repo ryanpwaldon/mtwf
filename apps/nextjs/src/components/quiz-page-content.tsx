@@ -18,6 +18,7 @@ import {
 import { Header } from "~/components/header";
 import { InviteCodeField } from "~/components/invite-code-field";
 import { MovieSearchPicker } from "~/components/movie-search-picker";
+import { MovieItem } from "./movie-item";
 
 interface QuizPageContentProps {
   inviteCode: string;
@@ -71,8 +72,12 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
                 <MovieSearchPicker portalContainerRef={contentAreaRef} />
               </CardAction>
             </CardHeader>
-            <CardContent className="flex h-full items-center justify-center">
-              {/* Will fill later... */}
+            <CardContent className="flex h-full items-center">
+              <MovieItem
+                title="The Neon Heist"
+                description="A hacker crew races a countdown in a city of lights."
+                posterClassName="bg-linear-to-br from-fuchsia-500 to-indigo-500"
+              />
             </CardContent>
           </Card>
         </main>

@@ -14,7 +14,9 @@ import {
   CommandList,
 } from "@acme/ui/command";
 
-interface Movie {
+import { MovieItem } from "~/components/movie-item";
+
+export interface Movie {
   id: string;
   title: string;
   description: string;
@@ -146,7 +148,7 @@ export function MovieSearchPicker({
                 shouldFilter={false}
                 className="w-full flex-1 gap-4 bg-transparent p-0!"
               >
-                <div className="relative **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-12! **:data-[slot=input-group]:bg-background!">
+                <div className="**:data-[slot=input-group]:bg-background! relative **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-12!">
                   <CommandInput
                     autoFocus
                     value={query}
@@ -183,20 +185,13 @@ export function MovieSearchPicker({
                             setSelectedMovie(movie);
                             handleClose();
                           }}
-                          className="items-start gap-3 p-3"
+                          className="p-3"
                         >
-                          <div
-                            aria-hidden
-                            className={`h-18 w-12 shrink-0 rounded-sm ${movie.posterClassName}`}
+                          <MovieItem
+                            title={movie.title}
+                            description={movie.description}
+                            posterClassName={movie.posterClassName}
                           />
-                          <div className="min-w-0">
-                            <div className="truncate font-medium">
-                              {movie.title}
-                            </div>
-                            <p className="text-muted-foreground line-clamp-2 text-sm">
-                              {movie.description}
-                            </p>
-                          </div>
                         </CommandItem>
                       ))}
                     </>
