@@ -1,7 +1,7 @@
 "use client";
 
 import type { RefObject } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
 import { createPortal } from "react-dom";
 
@@ -69,10 +69,30 @@ export function MovieSearchPicker({
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(
     null,
   );
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setPortalContainer(portalContainerRef.current);
   }, [portalContainerRef]);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    setQuery("");
+    triggerRef.current?.focus();
+  }, []);
+  // Close on Escape key
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        handleClose();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open, handleClose]);
+
   useEffect(() => {
     if (!open) {
       return;
@@ -108,6 +128,7 @@ export function MovieSearchPicker({
   return (
     <>
       <Button
+        ref={triggerRef}
         type="button"
         size="icon"
         variant="outline"
@@ -121,25 +142,29 @@ export function MovieSearchPicker({
       {open && portalContainer
         ? createPortal(
             <div className="bg-background absolute inset-0 z-50 flex flex-col p-4">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-semibold">Search movies</h2>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Close movie search"
-                  onClick={() => setOpen(false)}
-                >
-                  <X className="size-5" />
-                </Button>
-              </div>
-
-              <Command shouldFilter={false} className="border bg-transparent">
-                <CommandInput
-                  value={query}
-                  onValueChange={setQuery}
-                  placeholder="Search by title or description..."
-                />
+              <Command
+                shouldFilter={false}
+                className="w-full flex-1 gap-4 bg-transparent p-0!"
+              >
+                <div className="relative **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-12! **:data-[slot=input-group]:bg-background!">
+                  <CommandInput
+                    autoFocus
+                    value={query}
+                    onValueChange={setQuery}
+                    placeholder="Search by title or description..."
+                    className="h-full pr-12"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Close movie search"
+                    className="absolute top-0 right-0 size-12"
+                    onClick={handleClose}
+                  >
+                    <X className="size-5" />
+                  </Button>
+                </div>
                 <CommandList className="max-h-none flex-1">
                   {isLoading ? (
                     <div className="text-muted-foreground p-4 text-sm">
@@ -156,7 +181,7 @@ export function MovieSearchPicker({
                           value={`${movie.title} ${movie.description}`}
                           onSelect={() => {
                             setSelectedMovie(movie);
-                            setOpen(false);
+                            handleClose();
                           }}
                           className="items-start gap-3 p-3"
                         >
