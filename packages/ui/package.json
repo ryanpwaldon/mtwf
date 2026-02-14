@@ -15,7 +15,8 @@
     "./radio-group": "./src/radio-group.tsx",
     "./avatar": "./src/avatar.tsx",
     "./tooltip": "./src/tooltip.tsx",
-    "./table": "./src/table.tsx"
+    "./table": "./src/table.tsx",
+    "./card": "./src/card.tsx"
   },
   "license": "MIT",
   "scripts": {
