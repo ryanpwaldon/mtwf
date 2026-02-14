@@ -8,7 +8,6 @@ import { Avatar, AvatarBadge, AvatarFallback } from "@acme/ui/avatar";
 import { Button } from "@acme/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -17,7 +16,6 @@ import {
 
 import { Header } from "~/components/header";
 import { InviteCodeField } from "~/components/invite-code-field";
-import { MovieSearchPicker } from "~/components/movie-search-picker";
 import { MovieItem } from "./movie-item";
 
 interface QuizPageContentProps {
@@ -32,7 +30,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
   const contentAreaRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-xl flex-col p-4">
+    <div className="mx-auto flex min-h-screen max-w-xl flex-col sm:p-4">
       <div
         ref={contentAreaRef}
         className="bg-background relative flex flex-1 flex-col"
@@ -67,10 +65,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
           <Card className="mt-4">
             <CardHeader className="border-b">
               <CardTitle>Movie</CardTitle>
-              <CardDescription>Select a movie to be quizzed on</CardDescription>
-              <CardAction>
-                <MovieSearchPicker portalContainerRef={contentAreaRef} />
-              </CardAction>
+              <CardDescription>Pick the movie for this round</CardDescription>
             </CardHeader>
             <CardContent className="flex h-full items-center">
               <MovieItem
