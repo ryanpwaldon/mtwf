@@ -13,8 +13,8 @@
   "iconLibrary": "lucide",
   "rtl": false,
   "aliases": {
-    "ui": "src/",
-    "components": "src/",
+    "ui": "src",
+    "components": "src",
     "utils": "@acme/ui"
   },
   "menuColor": "default",

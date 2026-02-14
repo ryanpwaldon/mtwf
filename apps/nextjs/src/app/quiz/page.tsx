@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@acme/ui/card";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@acme/ui/input-otp";
 
 import { Header } from "~/components/header";
 
@@ -28,9 +29,16 @@ export default function QuizPage() {
                 <CardDescription>Share the game code</CardDescription>
               </CardHeader>
               <CardContent className="flex justify-center">
-                <Avatar size="lg" tooltip={limePersona.label}>
-                  <AvatarFallback className={limePersona.color} />
-                </Avatar>
+                <InputOTP maxLength={6} readOnly value="LIME12">
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
               </CardContent>
             </Card>
             <Card className="w-full">
