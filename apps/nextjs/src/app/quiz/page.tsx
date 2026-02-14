@@ -10,7 +10,6 @@ export default function QuizPage() {
       <div className="bg-background flex-1">
         <Header />
         <main className="p-4">
-          <div className="h-[1000px] w-full bg-red-600"></div>
           <div className="mt-16 flex gap-4">
             <Button size="lg" variant="default" asChild>
               <Link href="/question">Start</Link>
