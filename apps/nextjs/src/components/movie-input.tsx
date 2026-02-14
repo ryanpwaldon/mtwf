@@ -69,7 +69,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
         className="bg-muted inset-0 h-full max-h-none w-full max-w-full! translate-0 rounded-none p-0 ring-0 sm:p-0"
       >
         <DialogTitle className="sr-only">Select a movie</DialogTitle>
-        <div className="mx-auto flex h-full w-full max-w-xl flex-col sm:p-4">
+        <div className="mx-auto flex h-full min-h-0 w-full max-w-xl flex-col sm:p-4">
           <Command className="bg-background! rounded-none! p-0!">
             <div className="border-input flex h-16 items-center border-b">
               <div className="flex-1 **:data-[slot=command-input]:h-full! **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-16! **:data-[slot=input-group]:rounded-none! **:data-[slot=input-group]:rounded-r-none! **:data-[slot=input-group]:border-0! **:data-[slot=input-group]:bg-transparent! **:data-[slot=input-group-addon]:**:size-5! **:data-[slot=input-group-addon]:h-full! **:data-[slot=input-group-addon]:pl-6!">
@@ -92,7 +92,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
                 </Button>
               </div>
             </div>
-            <CommandList className="max-h-none! flex-1 px-4 pb-4">
+            <CommandList className="h-0! max-h-none! min-h-0! flex-1 px-4 pb-4">
               <CommandEmpty>No movies found.</CommandEmpty>
               <CommandGroup className="px-0 py-4">
                 {QUIZ_MOVIE_OPTIONS.map((option) => (
