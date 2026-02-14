@@ -77,7 +77,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
           <div className="mx-auto flex h-full max-w-xl flex-col sm:p-4">
             <Command className="bg-background! rounded-none! p-0!">
               <div className="border-input flex items-center border-b">
-                <div className="flex-1 **:data-[slot=command-input]:h-full! **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-12! **:data-[slot=input-group]:rounded-none! **:data-[slot=input-group]:rounded-r-none! **:data-[slot=input-group]:border-0! **:data-[slot=input-group]:bg-transparent! **:data-[slot=input-group-addon]:h-full! **:data-[slot=input-group-addon]:pl-4!">
+                <div className="flex-1 **:data-[slot=command-input]:h-full! **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-12! **:data-[slot=input-group]:rounded-none! **:data-[slot=input-group]:rounded-r-none! **:data-[slot=input-group]:border-0! **:data-[slot=input-group]:bg-transparent! **:data-[slot=input-group-addon]:h-full! **:data-[slot=input-group-addon]:pl-6!">
                   <CommandInput autoFocus placeholder="Search movies..." />
                 </div>
                 <Button
