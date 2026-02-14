@@ -67,7 +67,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
           <Card className="mt-4">
             <CardHeader className="border-b">
               <CardTitle>Movie</CardTitle>
-              <CardDescription>The movie to quiz on</CardDescription>
+              <CardDescription>Select a movie to be quizzed on</CardDescription>
               <CardAction>
                 <MovieSearchPicker portalContainerRef={contentAreaRef} />
               </CardAction>
@@ -79,6 +79,13 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
                 posterClassName="bg-linear-to-br from-fuchsia-500 to-indigo-500"
               />
             </CardContent>
+          </Card>
+          <Card className="mt-4">
+            <CardHeader className="border-b">
+              <CardTitle>Theme</CardTitle>
+              <CardDescription>This will shape the questions</CardDescription>
+            </CardHeader>
+            <CardContent className="flex h-full items-center"></CardContent>
           </Card>
         </main>
         <div className="bg-background/95 sticky bottom-0 mt-4 flex gap-4 border-t p-4 backdrop-blur">
