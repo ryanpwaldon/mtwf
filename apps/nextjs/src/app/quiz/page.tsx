@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Pencil } from "lucide-react";
+import { Pencil, Search } from "lucide-react";
 
 import { getPersonaByValue } from "@acme/convex";
 import { Avatar, AvatarBadge, AvatarFallback } from "@acme/ui/avatar";
 import { Button } from "@acme/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -53,14 +54,20 @@ export default function QuizPage() {
             <CardHeader className="border-b">
               <CardTitle>Movie</CardTitle>
               <CardDescription>The movie to quiz on</CardDescription>
+              <CardAction>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="outline"
+                  aria-label="Search movies"
+                  className="size-12"
+                >
+                  <Search className="size-5" />
+                </Button>
+              </CardAction>
             </CardHeader>
             <CardContent className="flex h-full items-center justify-center">
-              <Avatar size="lg" tooltip={limePersona.label}>
-                <AvatarFallback className={limePersona.color} />
-                <AvatarBadge>
-                  <Pencil />
-                </AvatarBadge>
-              </Avatar>
+              {/* Will fill later... */}
             </CardContent>
           </Card>
         </main>
