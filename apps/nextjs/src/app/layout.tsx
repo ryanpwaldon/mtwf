@@ -10,6 +10,7 @@ import "~/app/styles.css";
 import { TooltipProvider } from "@acme/ui/tooltip";
 
 import { ConvexProvider } from "~/components/convex-provider";
+import { UncaughtErrorToastListener } from "~/components/uncaught-error-toast-listener";
 
 export const metadata: Metadata = {
   title: "Movie Trivia with Friends",
@@ -40,6 +41,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <ConvexProvider>
           <TooltipProvider>
             <ThemeProvider>
+              <UncaughtErrorToastListener />
               {props.children}
               <Toaster />
             </ThemeProvider>
