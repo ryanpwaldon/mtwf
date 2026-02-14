@@ -98,10 +98,7 @@ export default function QuizPage() {
           </div>
           <div className="mt-16 flex gap-4">
             <Button size="lg" variant="default" asChild>
-              <Link href="/question">Start quiz</Link>
-            </Button>
-            <Button size="lg" variant="secondary" asChild>
-              <Link href="/">Return home</Link>
+              <Link href="/question">Start</Link>
             </Button>
           </div>
         </main>
