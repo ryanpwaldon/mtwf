@@ -64,9 +64,7 @@ export function InviteCodeField({ code }: { code: string }) {
             <Clipboard className="size-5" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="top" sideOffset={8}>
-          Copied!
-        </TooltipContent>
+        <TooltipContent side="top">Copied!</TooltipContent>
       </Tooltip>
     </div>
   );
