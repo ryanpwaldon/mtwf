@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { Pencil } from "lucide-react";
 
 import { getPersonaByValue } from "@acme/convex";
-import { Avatar, AvatarFallback } from "@acme/ui/avatar";
+import { Avatar, AvatarBadge, AvatarFallback } from "@acme/ui/avatar";
 import { Button } from "@acme/ui/button";
 import {
   Card,
@@ -41,6 +42,9 @@ export default function QuizPage() {
               <CardContent className="flex justify-center">
                 <Avatar size="lg" tooltip={limePersona.label}>
                   <AvatarFallback className={limePersona.color} />
+                  <AvatarBadge>
+                    <Pencil />
+                  </AvatarBadge>
                 </Avatar>
               </CardContent>
             </Card>
