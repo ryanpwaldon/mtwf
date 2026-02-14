@@ -22,15 +22,15 @@ export default function QuizPage() {
       <div className="bg-background flex flex-1 flex-col">
         <Header />
         <main className="flex-1 p-4">
-          <div className="flex gap-4">
-            <Card className="w-full">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <Card className="w-full md:col-span-2">
               <CardHeader className="border-b">
                 <CardTitle>Invite friends</CardTitle>
                 <CardDescription>Share the game code</CardDescription>
               </CardHeader>
               <CardContent className="flex justify-center">
                 <InputOTP maxLength={6} readOnly value="LIME12">
-                  <InputOTPGroup>
+                  <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:bg-background *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
                     <InputOTPSlot index={2} />
@@ -41,7 +41,7 @@ export default function QuizPage() {
                 </InputOTP>
               </CardContent>
             </Card>
-            <Card className="w-full">
+            <Card className="md:col-span-1">
               <CardHeader className="border-b">
                 <CardTitle>Avatar</CardTitle>
                 <CardDescription>Select your color</CardDescription>
