@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Pencil } from "lucide-react";
 
 import type { QuizMovie } from "@acme/convex";
-
 import { Avatar, AvatarBadge, AvatarFallback } from "@acme/ui/avatar";
 import { Button } from "@acme/ui/button";
 import {
@@ -19,6 +18,7 @@ import {
 import { Header } from "~/components/header";
 import { InviteCodeField } from "~/components/invite-code-field";
 import { MovieInput } from "./movie-input";
+import { PageShell } from "./page-shell";
 
 interface QuizPageContentProps {
   inviteCode: string;
@@ -29,15 +29,10 @@ interface QuizPageContentProps {
 }
 
 export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
-  const contentAreaRef = useRef<HTMLDivElement>(null);
   const [movie, setMovie] = useState<QuizMovie | null>(null);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-xl flex-col sm:p-4">
-      <div
-        ref={contentAreaRef}
-        className="bg-background relative flex flex-1 flex-col"
-      >
+    <PageShell>
         <Header />
         <main className="flex-1 gap-4 p-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -87,7 +82,6 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
             <Link href="/question">Start</Link>
           </Button>
         </div>
-      </div>
-    </div>
+    </PageShell>
   );
 }
