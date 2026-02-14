@@ -23,8 +23,8 @@ export default function QuizPage() {
       <div className="bg-background flex flex-1 flex-col">
         <Header />
         <main className="flex-1 p-4">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <Card className="w-full md:col-span-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <Card className="w-full sm:col-span-2">
               <CardHeader className="border-b">
                 <CardTitle>Invite friends</CardTitle>
                 <CardDescription>Share the game code</CardDescription>
@@ -33,7 +33,7 @@ export default function QuizPage() {
                 <InviteCodeField code={inviteCode} />
               </CardContent>
             </Card>
-            <Card className="md:col-span-1">
+            <Card className="sm:col-span-1">
               <CardHeader className="border-b">
                 <CardTitle>Avatar</CardTitle>
                 <CardDescription>Select your color</CardDescription>
