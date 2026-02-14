@@ -7,7 +7,7 @@ interface QuestionStatusTrackProps extends React.ComponentProps<"div"> {
 }
 
 const stepStyles: Record<QuestionStatus, string> = {
-  incomplete: "bg-muted",
+  incomplete: "bg-primary/10",
   correct: "bg-correct",
   incorrect: "bg-incorrect",
   skipped: "bg-muted",
@@ -28,7 +28,10 @@ export function QuestionStatusTrack({
         <div
           key={index}
           data-status={status}
-          className={cn("flex-1 rounded-full transition-colors", stepStyles[status])}
+          className={cn(
+            "flex-1 rounded-full transition-colors",
+            stepStyles[status],
+          )}
         />
       ))}
     </div>
