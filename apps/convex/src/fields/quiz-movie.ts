@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 
-export const QUIZ_SUBJECT_OPTIONS = [
+export const QUIZ_MOVIE_OPTIONS = [
   {
     id: "1",
     title: "The Dark Knight",
@@ -52,7 +52,8 @@ export const QUIZ_SUBJECT_OPTIONS = [
   {
     id: "9",
     title: "Parasite",
-    description: "A poor family infiltrates a wealthy household with consequences.",
+    description:
+      "A poor family infiltrates a wealthy household with consequences.",
     posterClassName: "bg-linear-to-br from-lime-500 to-zinc-800",
   },
   {
@@ -69,19 +70,19 @@ export const QUIZ_SUBJECT_OPTIONS = [
   },
 ] as const;
 
-export type QuizSubjectOption = (typeof QUIZ_SUBJECT_OPTIONS)[number];
-export type QuizSubject = QuizSubjectOption["id"];
+export type QuizMovieOption = (typeof QUIZ_MOVIE_OPTIONS)[number];
+export type QuizMovie = QuizMovieOption["id"];
 
-export const QUIZ_SUBJECT_BY_VALUE = Object.fromEntries(
-  QUIZ_SUBJECT_OPTIONS.map((subject) => [subject.id, subject]),
-) as Record<QuizSubject, QuizSubjectOption>;
+export const QUIZ_MOVIE_BY_VALUE = Object.fromEntries(
+  QUIZ_MOVIE_OPTIONS.map((movie) => [movie.id, movie]),
+) as Record<QuizMovie, QuizMovieOption>;
 
-export function isQuizSubject(value: string): value is QuizSubject {
-  return value in QUIZ_SUBJECT_BY_VALUE;
+export function isQuizMovie(value: string): value is QuizMovie {
+  return value in QUIZ_MOVIE_BY_VALUE;
 }
 
-export function getQuizSubjectByValue(value: QuizSubject): QuizSubjectOption {
-  return QUIZ_SUBJECT_BY_VALUE[value];
+export function getQuizMovieByValue(value: QuizMovie): QuizMovieOption {
+  return QUIZ_MOVIE_BY_VALUE[value];
 }
 
-export const subjectValidator = v.string();
+export const movieValidator = v.string();
