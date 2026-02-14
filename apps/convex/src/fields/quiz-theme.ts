@@ -19,7 +19,8 @@ export const QUIZ_THEME_OPTIONS = [
   {
     value: "behind-scenes",
     label: "Behind Scenes",
-    description: "Production trivia, filming locations, and director decisions.",
+    description:
+      "Production trivia, filming locations, and director decisions.",
   },
   {
     value: "iconic-lines",
@@ -58,6 +59,19 @@ export const QUIZ_THEME_OPTIONS = [
   },
 ] as const;
 
-export type QuizTheme = (typeof QUIZ_THEME_OPTIONS)[number]["value"];
+export type QuizThemeOption = (typeof QUIZ_THEME_OPTIONS)[number];
+export type QuizTheme = QuizThemeOption["value"];
+
+export const QUIZ_THEME_BY_VALUE = Object.fromEntries(
+  QUIZ_THEME_OPTIONS.map((theme) => [theme.value, theme]),
+) as Record<QuizTheme, QuizThemeOption>;
+
+export function isQuizTheme(value: string): value is QuizTheme {
+  return value in QUIZ_THEME_BY_VALUE;
+}
+
+export function getQuizThemeByValue(value: QuizTheme): QuizThemeOption {
+  return QUIZ_THEME_BY_VALUE[value];
+}
 
 export const themeValidator = v.string();
