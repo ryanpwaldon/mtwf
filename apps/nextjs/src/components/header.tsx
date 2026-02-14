@@ -7,7 +7,7 @@ import { Logo } from "./logo";
 export function Header() {
   return (
     <div>
-      <header className="flex items-center justify-between border-b p-4">
+      <header className="flex h-16 items-center justify-between border-b px-4">
         <Link href="/">
           <Logo />
         </Link>
