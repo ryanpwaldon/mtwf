@@ -124,7 +124,7 @@ export function MovieSearchPicker({
 
   const triggerLabel = useMemo(() => {
     if (selectedMovie) return `Selected movie: ${selectedMovie.title}`;
-    return "Search movies";
+    return "Search movies by title";
   }, [selectedMovie]);
 
   return (
@@ -153,7 +153,7 @@ export function MovieSearchPicker({
                     autoFocus
                     value={query}
                     onValueChange={setQuery}
-                    placeholder="Search by title or description..."
+                    placeholder="Search movies by title..."
                     className="h-full pr-12"
                   />
                   <Button
