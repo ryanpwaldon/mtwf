@@ -71,30 +71,33 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
         <DialogTitle className="sr-only">Select a movie</DialogTitle>
         <div className="mx-auto flex h-full w-full max-w-xl flex-col sm:p-4">
           <Command className="bg-background! rounded-none! p-0!">
-            <div className="border-input flex items-center border-b">
-              <div className="flex-1 **:data-[slot=command-input]:h-full! **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-12! **:data-[slot=input-group]:rounded-none! **:data-[slot=input-group]:rounded-r-none! **:data-[slot=input-group]:border-0! **:data-[slot=input-group]:bg-transparent! **:data-[slot=input-group-addon]:h-full! **:data-[slot=input-group-addon]:pl-6!">
+            <div className="border-input flex h-16 items-center border-b">
+              <div className="flex-1 **:data-[slot=command-input]:h-full! **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-16! **:data-[slot=input-group]:rounded-none! **:data-[slot=input-group]:rounded-r-none! **:data-[slot=input-group]:border-0! **:data-[slot=input-group]:bg-transparent! **:data-[slot=input-group-addon]:**:size-5! **:data-[slot=input-group-addon]:h-full! **:data-[slot=input-group-addon]:pl-6!">
                 <CommandInput
                   autoFocus
                   placeholder="Search movies..."
-                  className="text-base sm:text-sm"
+                  className="text-base"
                 />
               </div>
-              <Button
-                type="button"
-                size="icon"
-                variant="ghost"
-                aria-label="Close"
-                className="size-12 shrink-0"
-                onClick={() => setOpen(false)}
-              >
-                <X className="size-5" />
-              </Button>
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center">
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="ghost"
+                  aria-label="Close"
+                  className="size-8"
+                  onClick={() => setOpen(false)}
+                >
+                  <X className="size-5" />
+                </Button>
+              </div>
             </div>
             <CommandList className="max-h-none! flex-1 px-4 pb-4">
               <CommandEmpty>No movies found.</CommandEmpty>
               <CommandGroup className="px-0 py-4">
                 {QUIZ_MOVIE_OPTIONS.map((option) => (
                   <CommandItem
+                    className="p-3"
                     key={option.id}
                     value={option.title}
                     data-checked={value === option.id}
