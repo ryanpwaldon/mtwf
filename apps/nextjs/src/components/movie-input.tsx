@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Film, X } from "lucide-react";
 
 import type { QuizMovie } from "@acme/convex";
@@ -29,6 +29,24 @@ interface MovieInputProps {
 export function MovieInput({ value, onChange }: MovieInputProps) {
   const [open, setOpen] = useState(false);
   const movie = value ? getQuizMovieByValue(value) : null;
+  const dialogContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+
+    const update = () => {
+      dialogContentRef.current?.style.setProperty(
+        "--visual-viewport-height",
+        `${viewport.height}px`,
+      );
+    };
+
+    update();
+    viewport.addEventListener("resize", update);
+    return () => viewport.removeEventListener("resize", update);
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -65,8 +83,9 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
       )}
 
       <DialogContent
+        ref={dialogContentRef}
         showCloseButton={false}
-        className="bg-muted inset-0 h-full max-h-none w-full max-w-full! translate-0 rounded-none p-0 ring-0 sm:p-0"
+        className="bg-muted inset-0 h-(--visual-viewport-height,100dvh) max-h-none w-full max-w-full! translate-0 rounded-none p-0 ring-0 sm:p-0"
       >
         <DialogTitle className="sr-only">Select a movie</DialogTitle>
         <div className="mx-auto flex h-full min-h-0 w-full max-w-xl min-w-0 flex-col sm:p-4">
