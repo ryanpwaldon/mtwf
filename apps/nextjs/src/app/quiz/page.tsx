@@ -23,7 +23,7 @@ export default function QuizPage() {
     <div className="mx-auto flex min-h-screen max-w-xl flex-col p-4">
       <div className="bg-background flex flex-1 flex-col">
         <Header />
-        <main className="flex-1 p-4">
+        <main className="flex-1 gap-4 p-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <Card className="w-full sm:col-span-2">
               <CardHeader className="border-b">
@@ -49,6 +49,20 @@ export default function QuizPage() {
               </CardContent>
             </Card>
           </div>
+          <Card className="mt-4">
+            <CardHeader className="border-b">
+              <CardTitle>Movie</CardTitle>
+              <CardDescription>The movie to quiz on</CardDescription>
+            </CardHeader>
+            <CardContent className="flex h-full items-center justify-center">
+              <Avatar size="lg" tooltip={limePersona.label}>
+                <AvatarFallback className={limePersona.color} />
+                <AvatarBadge>
+                  <Pencil />
+                </AvatarBadge>
+              </Avatar>
+            </CardContent>
+          </Card>
         </main>
         <div className="bg-background/95 sticky bottom-0 mt-4 flex gap-4 border-t p-4 backdrop-blur">
           <Button size="lg" variant="default" asChild>
