@@ -10,11 +10,11 @@ import { TimeRemainingBar } from "~/components/time-remaining-bar";
 export default function QuestionPage() {
   return (
     <PageShell>
-      <header className="flex p-4">
-        <div className="w-20">
-          <span className="text-muted-foreground font-mono text-sm font-medium">
-            Q1/10
-          </span>
+      <header className="flex h-16 items-center justify-between border-b">
+        <div className="flex h-full w-20 items-center justify-center">
+          <div className="bg-primary/10 text-muted-foreground flex size-7 items-center justify-center rounded-full text-center text-sm font-medium">
+            Q1
+          </div>
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <QuestionStatusTrack
@@ -34,24 +34,25 @@ export default function QuestionPage() {
           />
           <TimeRemainingBar value={2 / 3} />
         </div>
-        <div className="w-20 text-right">
-          <span className="text-muted-foreground font-mono text-sm font-medium">
-            60s
-          </span>
+        <div className="flex h-full w-20 items-center justify-center">
+          <div className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-full text-center text-sm font-medium">
+            60
+          </div>
         </div>
       </header>
-      <div className="mx-4 border-b" />
-
-      <main className="p-4 pt-16">
-        <h1 className="text-center text-2xl font-extrabold tracking-tight">
+      <main className="px-4">
+        <h2 className="text-muted-foreground mt-8 text-center text-base font-medium">
+          Question 1 of 10
+        </h2>
+        <h1 className="mt-4 text-center text-2xl font-extrabold tracking-tight">
           In Pulp Fiction (1998) which car in the film was actually owned by
           Quentin Tarantino?
         </h1>
-        <div className="mt-8 flex w-full items-center justify-center">
+        <div className="mt-6 flex w-full items-center justify-center">
           <PersonaAvatarGroup
-            personas={PERSONA_OPTIONS.slice(0, 5)}
-            avatarSize="lg"
+            avatarSize="default"
             maxVisiblePersonas={5}
+            personas={PERSONA_OPTIONS.slice(0, 5)}
           />
         </div>
         <div className="mt-8">
