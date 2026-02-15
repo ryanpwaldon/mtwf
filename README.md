@@ -1,4 +1,4 @@
-# triviaboxd
+# Movie Trivia with Friends (MTWF)
 
 A monorepo using Turborepo with pnpm workspaces.
 
