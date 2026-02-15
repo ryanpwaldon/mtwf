@@ -4,9 +4,10 @@ import type { FunctionReturnType } from "convex/server";
 import { useEffect, useRef, useState } from "react";
 
 import { useDebouncedValue } from "~/hooks/use-debounced-value";
-import Image from "next/image";
 import { useAction } from "convex/react";
 import { Film } from "lucide-react";
+
+import { ImageWithFallback } from "~/components/image-with-fallback";
 
 import { api } from "@acme/convex";
 import { Button } from "@acme/ui/button";
@@ -87,13 +88,13 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
             variant="outline"
             className="h-22 w-full cursor-pointer justify-start gap-0 overflow-hidden p-0 whitespace-normal transition-colors!"
           >
-            <div className="relative aspect-2/3 h-full shrink-0">
-              <Image
-                fill
-                alt={`${value.title} poster`}
-                src={`https://image.tmdb.org/t/p/w92${value.poster_path}`}
-              />
-            </div>
+            <ImageWithFallback
+              fill
+              alt={`${value.title} poster`}
+              src={`https://image.tmdb.org/t/p/w92${value.poster_path}`}
+              icon={<Film className="size-1/3 text-muted-foreground" />}
+              containerClassName="aspect-2/3 h-full shrink-0"
+            />
             <div className="min-w-0 px-3">
               <div className="truncate text-left font-medium">
                 {value.title}
@@ -141,13 +142,13 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
                       setOpen(false);
                     }}
                   >
-                    <div className="relative aspect-2/3 h-18 shrink-0">
-                      <Image
-                        fill
-                        alt={`${movie.title} poster`}
-                        src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
-                      />
-                    </div>
+                    <ImageWithFallback
+                      fill
+                      alt={`${movie.title} poster`}
+                      src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
+                      icon={<Film className="size-1/3 text-muted-foreground" />}
+                      containerClassName="aspect-2/3 h-18 shrink-0"
+                    />
                     <div className="min-w-0">
                       <div className="truncate text-sm font-medium">
                         {movie.title}
