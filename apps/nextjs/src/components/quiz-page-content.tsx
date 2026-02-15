@@ -4,7 +4,7 @@ import type { FunctionReturnType } from "convex/server";
 import { useState } from "react";
 import Link from "next/link";
 
-import type { api, PersonaValue } from "@acme/convex";
+import type { api, PersonaValue, QuizTheme } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import {
   Card,
@@ -19,6 +19,7 @@ import { InviteCodeField } from "~/components/invite-code-field";
 import { AvatarInput } from "./avatar-input";
 import { MovieInput } from "./movie-input";
 import { PageShell } from "./page-shell";
+import { ThemeInput } from "./theme-input";
 
 interface QuizPageContentProps {
   inviteCode: string;
@@ -29,13 +30,12 @@ interface QuizPageContentProps {
   };
 }
 
+type Movie = FunctionReturnType<typeof api.movies.popular>[number];
+
 export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
-  const [avatar, setAvatar] = useState<PersonaValue>(
-    persona.value as PersonaValue,
-  );
-  const [movie, setMovie] = useState<
-    FunctionReturnType<typeof api.movies.popular>[number] | null
-  >(null);
+  const [avatar, setAvatar] = useState<PersonaValue>(persona.value as PersonaValue); // prettier-ignore
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [theme, setTheme] = useState<QuizTheme | null>(null);
 
   return (
     <PageShell>
@@ -81,7 +81,9 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
             <CardTitle>Theme</CardTitle>
             <CardDescription>Make it interesting!</CardDescription>
           </CardHeader>
-          <CardContent className="flex h-full items-center"></CardContent>
+          <CardContent className="flex h-full items-center">
+            <ThemeInput value={theme} onChange={setTheme} />
+          </CardContent>
         </Card>
       </main>
       <div className="bg-background/95 sticky bottom-0 mt-4 flex justify-end gap-4 border-t p-4 backdrop-blur">
