@@ -48,9 +48,10 @@ Shared configs for ESLint, Prettier, Tailwind, and TypeScript extended by all pa
 
 ## Key Patterns
 
-### Adding UI Components
+### UI Components
 
-Run `pnpm ui-add` to add shadcn/ui components to `packages/ui/src/`
+- Prefer shadcn components first to keep semantics, accessibility, and interaction patterns consistent across the app; ensure you're using the right shadcn component (not just "a" component that looks similar), and only implement custom UI from scratch when shadcn doesn't cover the use case or we intentionally need different behavior.
+- Run `pnpm ui-add` to add shadcn/ui components to `packages/ui/src/`
 
 ## Convex
 
