@@ -19,6 +19,7 @@
     "./card": "./src/card.tsx",
     "./input-otp": "./src/input-otp.tsx",
     "./command": "./src/command.tsx",
+    "./command-picker": "./src/command-picker.tsx",
     "./dialog": "./src/dialog.tsx",
     "./input-group": "./src/input-group.tsx",
     "./textarea": "./src/textarea.tsx"
