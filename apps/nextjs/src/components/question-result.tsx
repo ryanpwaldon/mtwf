@@ -76,7 +76,7 @@ export function QuestionResult({
               />
               <span
                 className={cn(
-                  "relative",
+                  "text-muted-foreground relative",
                   isCorrect && "text-correct-foreground",
                   isUserWrongPick && "text-incorrect-foreground",
                 )}
