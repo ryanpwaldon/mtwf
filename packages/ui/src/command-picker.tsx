@@ -92,7 +92,7 @@ function CommandPickerInput({
             size="icon"
             variant="ghost"
             aria-label="Close"
-            className="size-8"
+            className="size-12"
           >
             <X className="size-5" />
           </Button>
