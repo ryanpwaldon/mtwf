@@ -90,7 +90,10 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
       </main>
       <div className="bg-background/95 sticky bottom-0 mt-4 flex items-center justify-between gap-4 border-t p-4 backdrop-blur">
         <div className="flex flex-col items-start gap-2">
-          <p className="font-medium">Players</p>
+          <div>
+            <p className="font-medium">Players</p>
+            <Badge>5</Badge>
+          </div>
           <PersonaAvatarGroup personas={PERSONA_OPTIONS.slice(0, 5)} />
         </div>
         <Button size="xl" variant="default" asChild>

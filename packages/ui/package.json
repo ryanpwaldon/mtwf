@@ -22,7 +22,8 @@
     "./command-picker": "./src/command-picker.tsx",
     "./dialog": "./src/dialog.tsx",
     "./input-group": "./src/input-group.tsx",
-    "./textarea": "./src/textarea.tsx"
+    "./textarea": "./src/textarea.tsx",
+    "./badge": "./src/badge.tsx"
   },
   "license": "MIT",
   "scripts": {
