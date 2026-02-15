@@ -1,9 +1,10 @@
 "use client";
 
+import type { FunctionReturnType } from "convex/server";
 import { useState } from "react";
 import Link from "next/link";
 
-import type { PersonaValue, QuizMovie } from "@acme/convex";
+import type { api, PersonaValue } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import {
   Card,
@@ -32,7 +33,9 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
   const [avatar, setAvatar] = useState<PersonaValue>(
     persona.value as PersonaValue,
   );
-  const [movie, setMovie] = useState<QuizMovie | null>(null);
+  const [movie, setMovie] = useState<
+    FunctionReturnType<typeof api.movies.popular>[number] | null
+  >(null);
 
   return (
     <PageShell>
