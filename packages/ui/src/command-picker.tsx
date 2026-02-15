@@ -125,7 +125,7 @@ function CommandPickerItem({
   className,
   ...props
 }: React.ComponentProps<typeof CommandItem>) {
-  return <CommandItem className={cn("p-3", className)} {...props} />;
+  return <CommandItem className={cn("gap-3 p-3", className)} {...props} />;
 }
 
 const CommandPickerEmpty = CommandEmpty;

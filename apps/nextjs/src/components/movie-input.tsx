@@ -85,13 +85,13 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
             variant="outline"
             className="h-22 w-full cursor-pointer justify-start gap-0 overflow-hidden p-0 whitespace-normal transition-colors!"
           >
-            <Image
-              src={`https://image.tmdb.org/t/p/w92${value.poster_path}`}
-              alt=""
-              width={59}
-              height={88}
-              className="aspect-2/3 h-full shrink-0 rounded-sm object-cover"
-            />
+            <div className="relative aspect-2/3 h-full shrink-0">
+              <Image
+                fill
+                alt={`${value.title} poster`}
+                src={`https://image.tmdb.org/t/p/w92${value.poster_path}`}
+              />
+            </div>
             <div className="min-w-0 px-3">
               <div className="truncate text-left font-medium">
                 {value.title}
@@ -139,18 +139,18 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
                       setOpen(false);
                     }}
                   >
-                    <Image
-                      src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
-                      alt=""
-                      width={32}
-                      height={48}
-                      className="aspect-2/3 h-12 shrink-0 rounded-sm object-cover"
-                    />
+                    <div className="relative aspect-2/3 h-18 shrink-0">
+                      <Image
+                        fill
+                        alt={`${movie.title} poster`}
+                        src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
+                      />
+                    </div>
                     <div className="min-w-0">
                       <div className="truncate text-sm font-medium">
                         {movie.title}
                       </div>
-                      <p className="text-muted-foreground truncate text-xs">
+                      <p className="text-muted-foreground line-clamp-2 text-xs">
                         {movie.overview}
                       </p>
                     </div>
