@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import type { api, PersonaValue, QuizTheme } from "@acme/convex";
 import { PERSONA_OPTIONS } from "@acme/convex";
+import { Badge } from "@acme/ui/badge";
 import { Button } from "@acme/ui/button";
 import {
   Card,
@@ -90,7 +91,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
       </main>
       <div className="bg-background/95 sticky bottom-0 mt-4 flex items-center justify-between gap-4 border-t p-4 backdrop-blur">
         <div className="flex flex-col items-start gap-2">
-          <div>
+          <div className="flex items-center gap-2">
             <p className="font-medium">Players</p>
             <Badge>5</Badge>
           </div>
