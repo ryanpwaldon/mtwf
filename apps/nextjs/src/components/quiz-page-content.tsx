@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import type { api, PersonaValue, QuizTheme } from "@acme/convex";
+import { PERSONA_OPTIONS } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import {
   Card,
@@ -19,6 +20,7 @@ import { InviteCodeField } from "~/components/invite-code-field";
 import { AvatarInput } from "./avatar-input";
 import { MovieInput } from "./movie-input";
 import { PageShell } from "./page-shell";
+import { PersonaAvatarGroup } from "./persona-avatar-group";
 import { ThemeInput } from "./theme-input";
 
 interface QuizPageContentProps {
@@ -86,7 +88,11 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
           </CardContent>
         </Card>
       </main>
-      <div className="bg-background/95 sticky bottom-0 mt-4 flex justify-end gap-4 border-t p-4 backdrop-blur">
+      <div className="bg-background/95 sticky bottom-0 mt-4 flex items-center justify-between gap-4 border-t p-4 backdrop-blur">
+        <div className="flex flex-col items-start gap-2">
+          <p className="font-medium">Players</p>
+          <PersonaAvatarGroup personas={PERSONA_OPTIONS.slice(0, 5)} />
+        </div>
         <Button size="xl" variant="default" asChild>
           <Link href="/question">Start</Link>
         </Button>
