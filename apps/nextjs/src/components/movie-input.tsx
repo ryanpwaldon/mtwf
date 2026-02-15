@@ -2,6 +2,8 @@
 
 import type { FunctionReturnType } from "convex/server";
 import { useEffect, useRef, useState } from "react";
+
+import { useDebouncedValue } from "~/hooks/use-debounced-value";
 import Image from "next/image";
 import { useAction } from "convex/react";
 import { Film } from "lucide-react";
@@ -32,8 +34,8 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
   const [search, setSearch] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
   const popularCacheRef = useRef<Movie[]>([]);
+  const debouncedSearch = useDebouncedValue(search, 300);
 
   const fetchPopular = useAction(api.movies.popular);
   const searchMovies = useAction(api.movies.search);
@@ -59,30 +61,23 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
     setMovies(popularCacheRef.current);
   }, [open]);
 
-  // Debounced search.
+  // Search when debounced value changes.
   useEffect(() => {
     if (!open) return;
-    if (!search) {
+    if (!debouncedSearch) {
       setMovies(popularCacheRef.current);
       return;
     }
 
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      setLoading(true);
-      void searchMovies({ title: search })
-        .then((results) => {
-          setMovies(results);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }, 300);
-
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
-  }, [search, open, searchMovies]);
+    setLoading(true);
+    void searchMovies({ title: debouncedSearch })
+      .then((results) => {
+        setMovies(results);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [debouncedSearch, open, searchMovies]);
 
   return (
     <CommandPicker open={open} onOpenChange={setOpen}>
