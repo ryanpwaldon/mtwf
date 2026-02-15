@@ -1,7 +1,8 @@
 "use node";
 
-import { action } from "./_generated/server.js";
 import { v } from "convex/values";
+
+import { action } from "./_generated/server.js";
 
 const mockMovies = [
   {
@@ -54,10 +55,18 @@ const movieValidator = v.object({
   release_date: v.string(),
 });
 
+export const popular = action({
+  args: {},
+  returns: v.array(movieValidator),
+  handler: () => {
+    return mockMovies;
+  },
+});
+
 export const search = action({
   args: { title: v.string() },
   returns: v.array(movieValidator),
-  handler: async (_ctx, args) => {
+  handler: (_ctx, args) => {
     const query = args.title.toLowerCase();
     return mockMovies.filter((movie) =>
       movie.title.toLowerCase().includes(query),
