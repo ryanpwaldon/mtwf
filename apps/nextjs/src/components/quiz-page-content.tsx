@@ -72,7 +72,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
         <Card className="mt-4">
           <CardHeader className="border-b">
             <CardTitle>Theme</CardTitle>
-            <CardDescription>This will shape the questions</CardDescription>
+            <CardDescription>Make it interesting!</CardDescription>
           </CardHeader>
           <CardContent className="flex h-full items-center"></CardContent>
         </Card>
