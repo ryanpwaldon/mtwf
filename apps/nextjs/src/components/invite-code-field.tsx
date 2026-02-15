@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Clipboard } from "lucide-react";
+import { Check, Clipboard } from "lucide-react";
 
 import { Button } from "@acme/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@acme/ui/tooltip";
@@ -31,7 +31,7 @@ export function InviteCodeField({ code }: { code: string }) {
         setCopiedOpen(false);
       }, 1200);
     } catch {
-      // no-op: clipboard may be unavailable in some contexts
+      // No-op: clipboard may be unavailable in some contexts.
     }
   };
 
@@ -61,7 +61,11 @@ export function InviteCodeField({ code }: { code: string }) {
             className="size-12"
             onClick={handleCopy}
           >
-            <Clipboard className="size-5" />
+            {copiedOpen ? (
+              <Check className="size-5" />
+            ) : (
+              <Clipboard className="size-5" />
+            )}
           </Button>
         </TooltipTrigger>
         <TooltipContent side="top">Copied!</TooltipContent>
