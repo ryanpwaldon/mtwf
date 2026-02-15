@@ -5,8 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useAction } from "convex/react";
 import { Film } from "lucide-react";
 
-import type { api } from "@acme/convex";
-import { api as convexApi } from "@acme/convex";
+import { api } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import {
   CommandPicker,
@@ -34,8 +33,8 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
   const [loading, setLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
 
-  const fetchPopular = useAction(convexApi.movies.popular);
-  const searchMovies = useAction(convexApi.movies.search);
+  const fetchPopular = useAction(api.movies.popular);
+  const searchMovies = useAction(api.movies.search);
 
   const loadPopular = useCallback(async () => {
     setLoading(true);
