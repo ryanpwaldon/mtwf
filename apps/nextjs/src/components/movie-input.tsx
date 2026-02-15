@@ -1,7 +1,7 @@
 "use client";
 
 import type { FunctionReturnType } from "convex/server";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useAction } from "convex/react";
 import { Film } from "lucide-react";
@@ -33,30 +33,37 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const popularCacheRef = useRef<Movie[]>([]);
 
   const fetchPopular = useAction(api.movies.popular);
   const searchMovies = useAction(api.movies.search);
 
-  const loadPopular = useCallback(async () => {
-    setLoading(true);
-    try {
-      const results = await fetchPopular();
-      setMovies(results);
-    } finally {
-      setLoading(false);
-    }
+  // Fetch popular movies once on mount.
+  useEffect(() => {
+    void (async () => {
+      setLoading(true);
+      try {
+        const results = await fetchPopular();
+        popularCacheRef.current = results;
+        setMovies(results);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, [fetchPopular]);
 
+  // Reset search and restore popular movies when dialog opens.
   useEffect(() => {
     if (!open) return;
-    void loadPopular();
     setSearch("");
-  }, [open, loadPopular]);
+    setMovies(popularCacheRef.current);
+  }, [open]);
 
+  // Debounced search.
   useEffect(() => {
     if (!open) return;
     if (!search) {
-      void loadPopular();
+      setMovies(popularCacheRef.current);
       return;
     }
 
@@ -75,7 +82,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [search, open, loadPopular, searchMovies]);
+  }, [search, open, searchMovies]);
 
   return (
     <CommandPicker open={open} onOpenChange={setOpen}>
