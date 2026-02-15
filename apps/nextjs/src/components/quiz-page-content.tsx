@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Pencil } from "lucide-react";
 
-import type { QuizMovie } from "@acme/convex";
-import { Avatar, AvatarBadge, AvatarFallback } from "@acme/ui/avatar";
+import type { PersonaValue, QuizMovie } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import {
   Card,
@@ -17,18 +15,23 @@ import {
 
 import { Header } from "~/components/header";
 import { InviteCodeField } from "~/components/invite-code-field";
+import { AvatarInput } from "./avatar-input";
 import { MovieInput } from "./movie-input";
 import { PageShell } from "./page-shell";
 
 interface QuizPageContentProps {
   inviteCode: string;
   persona: {
+    value: string;
     color: string;
     label: string;
   };
 }
 
 export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
+  const [avatar, setAvatar] = useState<PersonaValue>(
+    persona.value as PersonaValue,
+  );
   const [movie, setMovie] = useState<QuizMovie | null>(null);
 
   return (
@@ -57,12 +60,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
               <CardDescription>Select your color</CardDescription>
             </CardHeader>
             <CardContent className="flex h-full items-center justify-center">
-              <Avatar size="lg" tooltip={persona.label}>
-                <AvatarFallback className={persona.color} />
-                <AvatarBadge>
-                  <Pencil />
-                </AvatarBadge>
-              </Avatar>
+              <AvatarInput value={avatar} onChange={setAvatar} />
             </CardContent>
           </Card>
         </div>
