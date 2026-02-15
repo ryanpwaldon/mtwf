@@ -129,9 +129,9 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
   --correct: var(--color-lime-500);
-  --correct-foreground: var(--color-lime-900);
+  --correct-foreground: var(--color-lime-300);
   --incorrect: var(--color-red-500);
-  --incorrect-foreground: var(--color-red-900);
+  --incorrect-foreground: var(--color-red-300);
 }
 
 @layer base {
