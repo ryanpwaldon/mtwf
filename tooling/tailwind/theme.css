@@ -46,6 +46,12 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
+  /* Custom */
+
+  --breakpoint-xs: 30rem; /* 480px, below sm (640px) */
+  --breakpoint-2xs: 23.4375rem; /* 375px */
+  --breakpoint-3xs: 20rem; /* 320px */
+
   --font-sans: var(--font-sans);
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
