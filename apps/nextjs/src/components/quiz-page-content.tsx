@@ -87,7 +87,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
         </Card>
       </main>
       <div className="bg-background/95 sticky bottom-0 mt-4 flex justify-end gap-4 border-t p-4 backdrop-blur">
-        <Button size="lg" variant="default" asChild>
+        <Button size="xl" variant="default" asChild>
           <Link href="/question">Start</Link>
         </Button>
       </div>
