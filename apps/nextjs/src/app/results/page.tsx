@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import type { Persona } from "@acme/convex";
 import { PERSONA_OPTIONS } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import { Card, CardContent } from "@acme/ui/card";
