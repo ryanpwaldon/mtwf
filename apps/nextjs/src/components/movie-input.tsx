@@ -2,6 +2,7 @@
 
 import type { FunctionReturnType } from "convex/server";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { useAction } from "convex/react";
 import { Film } from "lucide-react";
 
@@ -60,14 +61,15 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
     }
 
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(async () => {
+    debounceRef.current = setTimeout(() => {
       setLoading(true);
-      try {
-        const results = await searchMovies({ title: search });
-        setMovies(results);
-      } finally {
-        setLoading(false);
-      }
+      void searchMovies({ title: search })
+        .then((results) => {
+          setMovies(results);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }, 300);
 
     return () => {
@@ -83,9 +85,11 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
             variant="outline"
             className="h-22 w-full cursor-pointer justify-start gap-0 overflow-hidden p-0 whitespace-normal transition-colors!"
           >
-            <img
+            <Image
               src={`https://image.tmdb.org/t/p/w92${value.poster_path}`}
               alt=""
+              width={59}
+              height={88}
               className="aspect-2/3 h-full shrink-0 rounded-sm object-cover"
             />
             <div className="min-w-0 px-3">
@@ -135,9 +139,11 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
                       setOpen(false);
                     }}
                   >
-                    <img
+                    <Image
                       src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
                       alt=""
+                      width={32}
+                      height={48}
                       className="aspect-2/3 h-12 shrink-0 rounded-sm object-cover"
                     />
                     <div className="min-w-0">
