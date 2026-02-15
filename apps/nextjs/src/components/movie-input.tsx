@@ -36,7 +36,8 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const popularCacheRef = useRef<Movie[]>([]);
-  const debouncedSearch = useDebouncedValue(search, 300);
+  const [debouncedSearch, setDebouncedSearch] = useDebouncedValue(search, 300);
+  const generationRef = useRef(0);
 
   const fetchPopular = useAction(api.movies.popular);
   const searchMovies = useAction(api.movies.search);
@@ -59,8 +60,10 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
   useEffect(() => {
     if (!open) return;
     setSearch("");
+    setDebouncedSearch("");
+    generationRef.current++;
     setMovies(popularCacheRef.current);
-  }, [open]);
+  }, [open, setDebouncedSearch]);
 
   // Search when debounced value changes.
   useEffect(() => {
@@ -70,12 +73,15 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
       return;
     }
 
+    const generation = generationRef.current;
     setLoading(true);
     void searchMovies({ title: debouncedSearch })
       .then((results) => {
+        if (generationRef.current !== generation) return;
         setMovies(results);
       })
       .finally(() => {
+        if (generationRef.current !== generation) return;
         setLoading(false);
       });
   }, [debouncedSearch, open, searchMovies]);
