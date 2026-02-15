@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - Never add Claude attribution or co-authored-by mentions in git commits or code comments
 - All git commit messages and comments should be lowercase, unless uppercase is necessary to reference something by its actual name (e.g. package names like Next.js, filenames like README.md)
+- Code comments must always start with a capital letter and end with a full stop. This applies to all comments, including short one-line comments.
 
 ## Build & Development Commands
 
