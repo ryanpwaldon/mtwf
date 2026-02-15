@@ -40,14 +40,14 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
   return (
     <PageShell>
       <Header />
-      <main className="flex-1 gap-4 p-4">
-        <div>
+      <main className="flex-1 px-4">
+        <div className="mt-8">
           <h1 className="text-2xl font-extrabold tracking-tight">Quiz lobby</h1>
           <p className="text-muted-foreground">
             Configure your quiz, and invite your friends!
           </p>
         </div>
-        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
           <Card className="w-full sm:col-span-2">
             <CardHeader className="border-b">
               <CardTitle>Invite friends</CardTitle>

@@ -58,7 +58,7 @@ const mockLeaderboardData: LeaderboardEntry[] = [
 ];
 
 export function Leaderboard({ className }: { className?: string }) {
-  const minimumRows = 10;
+  const minimumRows = 8;
   const emptyRowCount = Math.max(0, minimumRows - mockLeaderboardData.length);
 
   return (
@@ -69,7 +69,7 @@ export function Leaderboard({ className }: { className?: string }) {
           <TableHead className="text-right">Correct</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody className="[&_tr:last-child]:border-b">
+      <TableBody>
         {mockLeaderboardData.map((entry) => (
           <TableRow key={entry.id}>
             <TableCell>
