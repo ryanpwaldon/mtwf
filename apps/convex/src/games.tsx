@@ -1,10 +1,27 @@
+import type { GenericDatabaseReader } from "convex/server";
 import { SessionIdArg } from "convex-helpers/server/sessions";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 
+import type { DataModel, Id } from "./_generated/dataModel";
 import { mutation } from "./_generated/server";
 import { CHARACTER_OPTIONS } from "./fields/character";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
+
+async function getPlayerOrThrow(
+  ctx: { db: GenericDatabaseReader<DataModel> },
+  gameId: Id<"games">,
+  sessionId: string,
+) {
+  const player = await ctx.db
+    .query("players")
+    .withIndex("by_gameId_and_sessionId", (q) =>
+      q.eq("gameId", gameId).eq("sessionId", sessionId),
+    )
+    .unique();
+  if (!player) throw new ConvexError("not a participant");
+  return player;
+}
 
 const CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const CODE_LENGTH = 6;
@@ -62,27 +79,35 @@ export const create = mutation({
 
 export const updateQuizMovieTitle = mutation({
   args: {
+    ...SessionIdArg,
     gameId: v.id("games"),
     quizMovieTitle: v.string(),
   },
   returns: v.null(),
   handler: async (ctx, args) => {
+    await getPlayerOrThrow(ctx, args.gameId, args.sessionId);
     await ctx.db.patch(args.gameId, { quizMovieTitle: args.quizMovieTitle });
   },
 });
 
 export const updateQuizTone = mutation({
-  args: { gameId: v.id("games"), quizTone: quizToneValidator },
+  args: { ...SessionIdArg, gameId: v.id("games"), quizTone: quizToneValidator },
   returns: v.null(),
   handler: async (ctx, args) => {
+    await getPlayerOrThrow(ctx, args.gameId, args.sessionId);
     await ctx.db.patch(args.gameId, { quizTone: args.quizTone });
   },
 });
 
 export const updateQuizTheme = mutation({
-  args: { gameId: v.id("games"), quizTheme: quizThemeValidator },
+  args: {
+    ...SessionIdArg,
+    gameId: v.id("games"),
+    quizTheme: quizThemeValidator,
+  },
   returns: v.null(),
   handler: async (ctx, args) => {
+    await getPlayerOrThrow(ctx, args.gameId, args.sessionId);
     await ctx.db.patch(args.gameId, { quizTheme: args.quizTheme });
   },
 });
