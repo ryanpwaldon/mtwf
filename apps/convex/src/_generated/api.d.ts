@@ -9,6 +9,7 @@
  */
 
 import type * as fields_character from "../fields/character.js";
+import type * as fields_movie from "../fields/movie.js";
 import type * as fields_quizTheme from "../fields/quizTheme.js";
 import type * as fields_quizTone from "../fields/quizTone.js";
 import type * as games from "../games.js";
@@ -24,6 +25,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   "fields/character": typeof fields_character;
+  "fields/movie": typeof fields_movie;
   "fields/quizTheme": typeof fields_quizTheme;
   "fields/quizTone": typeof fields_quizTone;
   games: typeof games;
