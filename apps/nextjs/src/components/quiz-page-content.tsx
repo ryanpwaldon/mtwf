@@ -35,7 +35,10 @@ interface QuizPageContentProps {
 
 type Movie = FunctionReturnType<typeof api.movies.popular>[number];
 
-export function QuizPageContent({ inviteCode, character }: QuizPageContentProps) {
+export function QuizPageContent({
+  inviteCode,
+  character,
+}: QuizPageContentProps) {
   const [avatar, setAvatar] = useState<CharacterValue>(character.value as CharacterValue); // prettier-ignore
   const [movie, setMovie] = useState<Movie | null>(null);
   const [theme, setTheme] = useState<QuizTheme | null>(null);
@@ -93,12 +96,12 @@ export function QuizPageContent({ inviteCode, character }: QuizPageContentProps)
         <div className="flex flex-col items-start gap-2">
           <div className="flex items-center gap-2">
             <p className="font-medium">Players</p>
-            <Badge>5</Badge>
+            <Badge>4/5 ready</Badge>
           </div>
           <PlayerGroup characters={CHARACTER_OPTIONS.slice(0, 5)} />
         </div>
         <Button size="xl" variant="default" asChild>
-          <Link href="/question">Start</Link>
+          <Link href="/question">Ready up!</Link>
         </Button>
       </div>
     </PageShell>
