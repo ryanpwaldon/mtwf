@@ -1,6 +1,10 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+import { personaValidator } from "./fields/persona";
+import { quizThemeValidator } from "./fields/quizTheme";
+import { quizToneValidator } from "./fields/quizTone";
+
 const schema = defineSchema({
   games: defineTable({
     code: v.string(),
@@ -11,10 +15,12 @@ const schema = defineSchema({
       v.literal("finished"),
     ),
     currentQuestionIndex: v.number(),
-    roundEndsAt: v.optional(v.number()),
-    topic: v.string(),
+    quizMovieTitle: v.string(),
+    quizTone: quizToneValidator,
+    quizTheme: quizThemeValidator,
     questionCount: v.number(),
     timeLimitSeconds: v.number(),
+    roundEndsAt: v.optional(v.number()),
   })
     .index("by_code", ["code"])
     .index("by_status", ["status"]),
@@ -22,7 +28,7 @@ const schema = defineSchema({
   players: defineTable({
     gameId: v.id("games"),
     sessionId: v.string(),
-    name: v.string(),
+    persona: personaValidator,
     isReady: v.boolean(),
   })
     .index("by_gameId", ["gameId"])

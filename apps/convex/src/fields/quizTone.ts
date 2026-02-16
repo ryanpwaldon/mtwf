@@ -14,7 +14,8 @@ export const QUIZ_TONE_OPTIONS = [
   {
     value: "dramatic",
     label: "Dramatic",
-    description: "Over-the-top narrator energy, every question is life or death.",
+    description:
+      "Over-the-top narrator energy, every question is life or death.",
   },
   {
     value: "roast",
@@ -40,4 +41,4 @@ export const QUIZ_TONE_OPTIONS = [
 
 export type QuizTone = (typeof QUIZ_TONE_OPTIONS)[number]["value"];
 
-export const toneValidator = v.string();
+export const quizToneValidator = v.string();

@@ -85,4 +85,4 @@ export function getQuizThemeByValue(value: QuizTheme): QuizThemeOption {
   return QUIZ_THEME_BY_VALUE[value];
 }
 
-export const themeValidator = v.string();
+export const quizThemeValidator = v.string();
