@@ -5,33 +5,27 @@ import { useQuery } from "convex/react";
 
 import { api } from "@acme/convex";
 
+import { FullScreenError } from "~/components/full-screen-error";
+import { FullScreenLoader } from "~/components/full-screen-loader";
 import { GameGenerating } from "~/components/game-generating";
 import { GameLobby } from "~/components/game-lobby";
 import { GameQuestion } from "~/components/game-question";
 import { GameResults } from "~/components/game-results";
-import { PageShell } from "~/components/page-shell";
 
 export default function GamePage() {
   const { code } = useParams<{ code: string }>();
   const game = useQuery(api.games.getByCode, { code });
 
   if (game === undefined) {
-    return (
-      <PageShell>
-        <div className="flex flex-1 items-center justify-center">
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </PageShell>
-    );
+    return <FullScreenLoader />;
   }
 
   if (game === null) {
     return (
-      <PageShell>
-        <div className="flex flex-1 items-center justify-center">
-          <p className="text-muted-foreground">Game not found.</p>
-        </div>
-      </PageShell>
+      <FullScreenError
+        title="Game not found."
+        description="The game you are looking for does not exist."
+      />
     );
   }
 
