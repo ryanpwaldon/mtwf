@@ -36,11 +36,11 @@ export default function GamePage() {
   }
 
   return (
-    <PageShell>
+    <>
       {game.status === "lobby" && <GameLobby game={game} />}
       {game.status === "generating" && <GameGenerating game={game} />}
       {game.status === "active" && <GameQuestion game={game} />}
       {game.status === "finished" && <GameResults game={game} />}
-    </PageShell>
+    </>
   );
 }

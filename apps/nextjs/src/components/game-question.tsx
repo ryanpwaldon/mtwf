@@ -1,13 +1,14 @@
 import type { FunctionReturnType } from "convex/server";
 
 import type { api } from "@acme/convex";
-import { getCharacterByValue, CHARACTER_OPTIONS } from "@acme/convex";
+import { CHARACTER_OPTIONS, getCharacterByValue } from "@acme/convex";
 import { RadioGroup } from "@acme/ui/radio-group";
 
 import { Choice } from "~/components/choice";
 import { PlayerGroup } from "~/components/player-group";
 import { QuestionStatusTrack } from "~/components/question-status-track";
 import { TimeRemainingBar } from "~/components/time-remaining-bar";
+import { PageShell } from "./page-shell";
 
 type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
 
@@ -17,7 +18,7 @@ interface GameQuestionProps {
 
 export function GameQuestion({ game: _game }: GameQuestionProps) {
   return (
-    <>
+    <PageShell>
       <header className="flex h-16 items-center justify-between border-b">
         <div className="flex h-full w-20 items-center justify-center">
           <div className="bg-primary/10 text-muted-foreground flex size-7 items-center justify-center rounded-full text-center text-sm font-medium">
@@ -88,7 +89,10 @@ export function GameQuestion({ game: _game }: GameQuestionProps) {
               showResults={true}
               isCorrectAnswer={false}
               votePercent={30}
-              voters={[getCharacterByValue("orange"), getCharacterByValue("teal")]}
+              voters={[
+                getCharacterByValue("orange"),
+                getCharacterByValue("teal"),
+              ]}
             />
             <Choice
               disabled={false}
@@ -119,6 +123,6 @@ export function GameQuestion({ game: _game }: GameQuestionProps) {
           </RadioGroup>
         </div>
       </main>
-    </>
+    </PageShell>
   );
 }

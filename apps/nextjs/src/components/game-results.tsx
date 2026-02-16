@@ -9,6 +9,7 @@ import { Card, CardContent } from "@acme/ui/card";
 import { Header } from "~/components/header";
 import { Leaderboard } from "~/components/leaderboard";
 import { QuestionResult } from "~/components/question-result";
+import { PageShell } from "./page-shell";
 
 type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
 
@@ -18,7 +19,7 @@ interface GameResultsProps {
 
 export function GameResults({ game: _game }: GameResultsProps) {
   return (
-    <>
+    <PageShell>
       <Header />
       <main className="flex-1 px-4">
         <div className="mt-8">
@@ -63,6 +64,6 @@ export function GameResults({ game: _game }: GameResultsProps) {
           <Link href="/">Play again</Link>
         </Button>
       </div>
-    </>
+    </PageShell>
   );
 }

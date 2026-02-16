@@ -19,6 +19,7 @@ import { Header } from "~/components/header";
 import { InviteCodeField } from "~/components/invite-code-field";
 import { AvatarInput } from "./avatar-input";
 import { MovieInput } from "./movie-input";
+import { PageShell } from "./page-shell";
 import { PlayerGroup } from "./player-group";
 import { ThemeInput } from "./theme-input";
 
@@ -35,7 +36,7 @@ export function GameLobby({ game }: GameLobbyProps) {
   const [theme, setTheme] = useState<QuizTheme | null>(null);
 
   return (
-    <>
+    <PageShell>
       <Header />
       <main className="flex-1 px-4">
         <div className="mt-8">
@@ -95,6 +96,6 @@ export function GameLobby({ game }: GameLobbyProps) {
           Ready up!
         </Button>
       </div>
-    </>
+    </PageShell>
   );
 }
