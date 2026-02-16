@@ -47,7 +47,7 @@ export const getByCode = query({
         v.literal("active"),
         v.literal("finished"),
       ),
-      quizMovieId: v.nullable(v.string()),
+      quizMovieId: v.nullable(v.number()),
       quizTone: quizToneValidator,
       quizTheme: quizThemeValidator,
       questionCount: v.number(),
@@ -112,7 +112,7 @@ export const updateQuizMovieId = mutation({
   args: {
     ...SessionIdArg,
     gameId: v.id("games"),
-    quizMovieId: v.string(),
+    quizMovieId: v.number(),
   },
   returns: v.null(),
   handler: async (ctx, args) => {
