@@ -16,6 +16,7 @@ import type * as games from "../games.js";
 import type * as migrations from "../migrations.js";
 import type * as movies from "../movies.js";
 import type * as players from "../players.js";
+import type * as quizmaster from "../quizmaster.js";
 
 import type {
   ApiFromModules,
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   migrations: typeof migrations;
   movies: typeof movies;
   players: typeof players;
+  quizmaster: typeof quizmaster;
 }>;
 
 /**

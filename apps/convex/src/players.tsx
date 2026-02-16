@@ -1,6 +1,7 @@
 import { SessionIdArg } from "convex-helpers/server/sessions";
 import { ConvexError, v } from "convex/values";
 
+import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { CHARACTER_OPTIONS, characterValidator } from "./fields/character";
 
@@ -88,6 +89,30 @@ export const setReady = mutation({
       .unique();
     if (!player) throw new ConvexError("Player not found.");
     await ctx.db.patch(player._id, { isReady: args.isReady });
+
+    // Check if all players are now ready to start the game.
+    // Guard against concurrent readying — if two players ready up at the same
+    // time, both mutations will read status as "lobby", but only the first to
+    // commit will schedule generation. The second will see "generating" here.
+    if (args.isReady) {
+      const game = await ctx.db.get(args.gameId);
+      if (!game) throw new ConvexError("Game not found.");
+      if (game.status !== "lobby") return;
+
+      const players = await ctx.db
+        .query("players")
+        .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
+        .collect();
+      const allReady = players.every((p) => p._id === player._id ? true : p.isReady);
+      if (!allReady) return;
+
+      if (!game.quizMovie) throw new ConvexError("No movie selected.");
+
+      await ctx.db.patch(args.gameId, { status: "generating" });
+      await ctx.scheduler.runAfter(0, internal.quizmaster.generate, {
+        gameId: args.gameId,
+      });
+    }
   },
 });
 
