@@ -19,6 +19,7 @@
     "@t3-oss/env-nextjs": "^0.13.10",
     "@tanstack/react-form": "catalog:",
     "convex": "catalog:",
+    "convex-helpers": "^0.1.111",
     "lucide-react": "^0.563.0",
     "next": "^16.0.9",
     "react": "catalog:react19",

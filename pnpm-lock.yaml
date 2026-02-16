@@ -137,6 +137,9 @@ importers:
       convex:
         specifier: 'catalog:'
         version: 1.31.7(react@19.1.4)
+      convex-helpers:
+        specifier: ^0.1.111
+        version: 0.1.111(convex@1.31.7(react@19.1.4))(hono@4.11.9)(react@19.1.4)(typescript@5.9.3)(zod@4.1.12)
       lucide-react:
         specifier: ^0.563.0
         version: 0.563.0(react@19.1.4)
