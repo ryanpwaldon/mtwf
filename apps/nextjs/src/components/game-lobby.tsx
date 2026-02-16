@@ -2,7 +2,6 @@
 
 import type { FunctionReturnType } from "convex/server";
 import { useState } from "react";
-import Link from "next/link";
 
 import type { api, CharacterValue, QuizTheme } from "@acme/convex";
 import { CHARACTER_OPTIONS } from "@acme/convex";
@@ -20,31 +19,23 @@ import { Header } from "~/components/header";
 import { InviteCodeField } from "~/components/invite-code-field";
 import { AvatarInput } from "./avatar-input";
 import { MovieInput } from "./movie-input";
-import { PageShell } from "./page-shell";
 import { PlayerGroup } from "./player-group";
 import { ThemeInput } from "./theme-input";
 
-interface QuizPageContentProps {
-  inviteCode: string;
-  character: {
-    value: string;
-    color: string;
-    label: string;
-  };
-}
-
+type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
 type Movie = FunctionReturnType<typeof api.movies.popular>[number];
 
-export function QuizPageContent({
-  inviteCode,
-  character,
-}: QuizPageContentProps) {
-  const [avatar, setAvatar] = useState<CharacterValue>(character.value as CharacterValue); // prettier-ignore
+interface GameLobbyProps {
+  game: Game;
+}
+
+export function GameLobby({ game }: GameLobbyProps) {
+  const [avatar, setAvatar] = useState<CharacterValue>("lime");
   const [movie, setMovie] = useState<Movie | null>(null);
   const [theme, setTheme] = useState<QuizTheme | null>(null);
 
   return (
-    <PageShell>
+    <>
       <Header />
       <main className="flex-1 px-4">
         <div className="mt-8">
@@ -60,7 +51,7 @@ export function QuizPageContent({
               <CardDescription>Share the game code</CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center">
-              <InviteCodeField code={inviteCode} />
+              <InviteCodeField code={game.code} />
             </CardContent>
           </Card>
           <Card className="sm:col-span-1">
@@ -100,10 +91,10 @@ export function QuizPageContent({
           </div>
           <PlayerGroup characters={CHARACTER_OPTIONS.slice(0, 5)} />
         </div>
-        <Button size="xl" variant="default" asChild>
-          <Link href="/question">Ready up!</Link>
+        <Button size="xl" variant="default">
+          Ready up!
         </Button>
       </div>
-    </PageShell>
+    </>
   );
 }

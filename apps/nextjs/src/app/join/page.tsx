@@ -1,3 +1,10 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSessionMutation } from "convex-helpers/react/sessions";
+
+import { api } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import { Card, CardContent } from "@acme/ui/card";
 import { Input } from "@acme/ui/input";
@@ -6,6 +13,22 @@ import { Header } from "~/components/header";
 import { PageShell } from "~/components/page-shell";
 
 export default function JoinPage() {
+  const router = useRouter();
+  const [code, setCode] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const joinGame = useSessionMutation(api.players.join);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    try {
+      await joinGame({ code });
+      router.push(`/game/${code}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to join game.");
+    }
+  }
+
   return (
     <PageShell>
       <Header />
@@ -20,16 +43,27 @@ export default function JoinPage() {
         </div>
         <Card className="mt-6 w-full">
           <CardContent className="flex justify-center">
-            <div className="flex w-full items-center gap-2">
-              <Input
-                aria-label="Game code"
-                placeholder="Enter game code"
-                className="h-12 bg-white font-mono text-base! uppercase placeholder:normal-case"
-              />
-              <Button size="xl" type="submit">
-                Join
-              </Button>
-            </div>
+            <form
+              onSubmit={handleSubmit}
+              className="flex w-full flex-col gap-2"
+            >
+              <div className="flex w-full items-center gap-2">
+                <Input
+                  aria-label="Game code"
+                  placeholder="Enter game code"
+                  className="h-12 bg-white font-mono text-base! uppercase placeholder:normal-case"
+                  value={code}
+                  onChange={(e) => {
+                    setCode(e.target.value);
+                    setError(null);
+                  }}
+                />
+                <Button size="xl" type="submit">
+                  Join
+                </Button>
+              </div>
+              {error && <p className="text-destructive text-sm">{error}</p>}
+            </form>
           </CardContent>
         </Card>
       </main>

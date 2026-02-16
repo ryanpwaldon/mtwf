@@ -1,17 +1,24 @@
+import type { FunctionReturnType } from "convex/server";
 import Link from "next/link";
 
+import type { api } from "@acme/convex";
 import { CHARACTER_OPTIONS } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import { Card, CardContent } from "@acme/ui/card";
 
 import { Header } from "~/components/header";
 import { Leaderboard } from "~/components/leaderboard";
-import { PageShell } from "~/components/page-shell";
 import { QuestionResult } from "~/components/question-result";
 
-export default function ResultsPage() {
+type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
+
+interface GameResultsProps {
+  game: Game;
+}
+
+export function GameResults({ game: _game }: GameResultsProps) {
   return (
-    <PageShell>
+    <>
       <Header />
       <main className="flex-1 px-4">
         <div className="mt-8">
@@ -53,9 +60,9 @@ export default function ResultsPage() {
       </main>
       <div className="bg-background/95 sticky bottom-0 mt-4 flex justify-end gap-4 border-t p-4 backdrop-blur">
         <Button size="xl" variant="default" asChild>
-          <Link href="/quiz">Play again</Link>
+          <Link href="/">Play again</Link>
         </Button>
       </div>
-    </PageShell>
+    </>
   );
 }

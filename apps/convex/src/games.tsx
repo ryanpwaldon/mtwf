@@ -3,7 +3,7 @@ import { SessionIdArg } from "convex-helpers/server/sessions";
 import { ConvexError, v } from "convex/values";
 
 import type { DataModel, Id } from "./_generated/dataModel";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { CHARACTER_OPTIONS } from "./fields/character";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
@@ -33,6 +33,37 @@ function generateGameCode(): string {
   }
   return code;
 }
+
+export const getByCode = query({
+  args: { code: v.string() },
+  returns: v.union(
+    v.object({
+      _id: v.id("games"),
+      _creationTime: v.number(),
+      code: v.string(),
+      status: v.union(
+        v.literal("lobby"),
+        v.literal("generating"),
+        v.literal("active"),
+        v.literal("finished"),
+      ),
+      quizMovieTitle: v.nullable(v.string()),
+      quizTone: quizToneValidator,
+      quizTheme: quizThemeValidator,
+      questionCount: v.number(),
+      timeLimitSeconds: v.number(),
+      currentQuestionIndex: v.number(),
+      roundEndsAt: v.optional(v.number()),
+    }),
+    v.null(),
+  ),
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("games")
+      .withIndex("by_code", (q) => q.eq("code", args.code.toUpperCase()))
+      .unique();
+  },
+});
 
 export const create = mutation({
   args: { ...SessionIdArg },

@@ -6,20 +6,23 @@ import { CHARACTER_OPTIONS } from "./fields/character";
 
 export const join = mutation({
   args: {
-    gameId: v.id("games"),
+    code: v.string(),
     ...SessionIdArg,
   },
   returns: v.null(),
   handler: async (ctx, args) => {
-    const game = await ctx.db.get(args.gameId);
-    if (!game) throw new ConvexError("game not found");
-    if (game.status !== "lobby") throw new ConvexError("game is not in lobby");
+    const game = await ctx.db
+      .query("games")
+      .withIndex("by_code", (q) => q.eq("code", args.code.toUpperCase()))
+      .unique();
+    if (!game) throw new ConvexError("Game not found.");
+    if (game.status !== "lobby") throw new ConvexError("Game is not in lobby.");
 
     // Check if the player has already joined the game.
     const existing = await ctx.db
       .query("players")
       .withIndex("by_gameId_and_sessionId", (q) =>
-        q.eq("gameId", args.gameId).eq("sessionId", args.sessionId),
+        q.eq("gameId", game._id).eq("sessionId", args.sessionId),
       )
       .unique();
     if (existing) throw new ConvexError("already joined");
@@ -27,7 +30,7 @@ export const join = mutation({
     // Check if the game is full.
     const players = await ctx.db
       .query("players")
-      .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
+      .withIndex("by_gameId", (q) => q.eq("gameId", game._id))
       .collect();
     const takenCharacters = new Set(players.map((p) => p.character));
     const available = CHARACTER_OPTIONS.filter((c) => !takenCharacters.has(c.value)); // prettier-ignore
@@ -38,7 +41,7 @@ export const join = mutation({
     if (!character) throw new ConvexError("Failed to generate a random character."); // prettier-ignore
 
     await ctx.db.insert("players", {
-      gameId: args.gameId,
+      gameId: game._id,
       sessionId: args.sessionId,
       character: character.value,
       isReady: false,

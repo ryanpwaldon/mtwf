@@ -1,15 +1,23 @@
+import type { FunctionReturnType } from "convex/server";
+
+import type { api } from "@acme/convex";
 import { getCharacterByValue, CHARACTER_OPTIONS } from "@acme/convex";
 import { RadioGroup } from "@acme/ui/radio-group";
 
 import { Choice } from "~/components/choice";
-import { PageShell } from "~/components/page-shell";
 import { PlayerGroup } from "~/components/player-group";
 import { QuestionStatusTrack } from "~/components/question-status-track";
 import { TimeRemainingBar } from "~/components/time-remaining-bar";
 
-export default function QuestionPage() {
+type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
+
+interface GameQuestionProps {
+  game: Game;
+}
+
+export function GameQuestion({ game: _game }: GameQuestionProps) {
   return (
-    <PageShell>
+    <>
       <header className="flex h-16 items-center justify-between border-b">
         <div className="flex h-full w-20 items-center justify-center">
           <div className="bg-primary/10 text-muted-foreground flex size-7 items-center justify-center rounded-full text-center text-sm font-medium">
@@ -111,6 +119,6 @@ export default function QuestionPage() {
           </RadioGroup>
         </div>
       </main>
-    </PageShell>
+    </>
   );
 }
