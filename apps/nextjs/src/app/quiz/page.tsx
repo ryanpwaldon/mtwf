@@ -1,9 +1,9 @@
-import { getPersonaByValue } from "@acme/convex";
+import { getCharacterByValue } from "@acme/convex";
 
 import { QuizPageContent } from "~/components/quiz-page-content";
 
 export default function QuizPage() {
-  const limePersona = getPersonaByValue("lime");
+  const limeCharacter = getCharacterByValue("lime");
   const inviteCode = "LIME12";
-  return <QuizPageContent inviteCode={inviteCode} persona={limePersona} />;
+  return <QuizPageContent inviteCode={inviteCode} character={limeCharacter} />;
 }

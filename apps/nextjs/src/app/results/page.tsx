@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { PERSONA_OPTIONS } from "@acme/convex";
+import { CHARACTER_OPTIONS } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import { Card, CardContent } from "@acme/ui/card";
 
@@ -36,16 +36,16 @@ export default function ResultsPage() {
             "Both A and B",
           ]}
           voters={[
-            { persona: PERSONA_OPTIONS[0], choiceIndex: 1 },
-            { persona: PERSONA_OPTIONS[1], choiceIndex: 1 },
-            { persona: PERSONA_OPTIONS[2], choiceIndex: 1 },
-            { persona: PERSONA_OPTIONS[3], choiceIndex: 1 },
-            { persona: PERSONA_OPTIONS[4], choiceIndex: 0 },
-            { persona: PERSONA_OPTIONS[5], choiceIndex: 0 },
-            { persona: PERSONA_OPTIONS[6], choiceIndex: 2 },
-            { persona: PERSONA_OPTIONS[7], choiceIndex: 2 },
-            { persona: PERSONA_OPTIONS[8], choiceIndex: 3 },
-            { persona: PERSONA_OPTIONS[9], choiceIndex: 3 },
+            { character: CHARACTER_OPTIONS[0], choiceIndex: 1 },
+            { character: CHARACTER_OPTIONS[1], choiceIndex: 1 },
+            { character: CHARACTER_OPTIONS[2], choiceIndex: 1 },
+            { character: CHARACTER_OPTIONS[3], choiceIndex: 1 },
+            { character: CHARACTER_OPTIONS[4], choiceIndex: 0 },
+            { character: CHARACTER_OPTIONS[5], choiceIndex: 0 },
+            { character: CHARACTER_OPTIONS[6], choiceIndex: 2 },
+            { character: CHARACTER_OPTIONS[7], choiceIndex: 2 },
+            { character: CHARACTER_OPTIONS[8], choiceIndex: 3 },
+            { character: CHARACTER_OPTIONS[9], choiceIndex: 3 },
           ]}
           correctAnswerIndex={1}
           currentUserChoiceIndex={0}

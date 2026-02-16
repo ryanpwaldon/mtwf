@@ -1,4 +1,4 @@
-import type { Persona } from "@acme/convex";
+import type { Character } from "@acme/convex";
 import { cn } from "@acme/ui";
 import {
   Field,
@@ -8,7 +8,7 @@ import {
   FieldTitle,
 } from "@acme/ui/field";
 import { RadioGroupItem } from "@acme/ui/radio-group";
-import { PersonaAvatarGroup } from "./persona-avatar-group";
+import { PlayerGroup } from "./player-group";
 
 export function Choice({
   id,
@@ -25,7 +25,7 @@ export function Choice({
   showResults: boolean;
   isCorrectAnswer: boolean;
   votePercent: number;
-  voters: Persona[];
+  voters: Character[];
   description: string;
   disabled: boolean;
 }) {
@@ -70,10 +70,10 @@ export function Choice({
             )}
           />
           {showResults ? (
-            <PersonaAvatarGroup
-              personas={voters}
+            <PlayerGroup
+              characters={voters}
               avatarSize="sm"
-              maxVisiblePersonas={3}
+              maxVisible={3}
             />
           ) : null}
         </div>

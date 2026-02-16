@@ -4,8 +4,8 @@ import type { FunctionReturnType } from "convex/server";
 import { useState } from "react";
 import Link from "next/link";
 
-import type { api, PersonaValue, QuizTheme } from "@acme/convex";
-import { PERSONA_OPTIONS } from "@acme/convex";
+import type { api, CharacterValue, QuizTheme } from "@acme/convex";
+import { CHARACTER_OPTIONS } from "@acme/convex";
 import { Badge } from "@acme/ui/badge";
 import { Button } from "@acme/ui/button";
 import {
@@ -21,12 +21,12 @@ import { InviteCodeField } from "~/components/invite-code-field";
 import { AvatarInput } from "./avatar-input";
 import { MovieInput } from "./movie-input";
 import { PageShell } from "./page-shell";
-import { PersonaAvatarGroup } from "./persona-avatar-group";
+import { PlayerGroup } from "./player-group";
 import { ThemeInput } from "./theme-input";
 
 interface QuizPageContentProps {
   inviteCode: string;
-  persona: {
+  character: {
     value: string;
     color: string;
     label: string;
@@ -35,8 +35,8 @@ interface QuizPageContentProps {
 
 type Movie = FunctionReturnType<typeof api.movies.popular>[number];
 
-export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
-  const [avatar, setAvatar] = useState<PersonaValue>(persona.value as PersonaValue); // prettier-ignore
+export function QuizPageContent({ inviteCode, character }: QuizPageContentProps) {
+  const [avatar, setAvatar] = useState<CharacterValue>(character.value as CharacterValue); // prettier-ignore
   const [movie, setMovie] = useState<Movie | null>(null);
   const [theme, setTheme] = useState<QuizTheme | null>(null);
 
@@ -95,7 +95,7 @@ export function QuizPageContent({ inviteCode, persona }: QuizPageContentProps) {
             <p className="font-medium">Players</p>
             <Badge>5</Badge>
           </div>
-          <PersonaAvatarGroup personas={PERSONA_OPTIONS.slice(0, 5)} />
+          <PlayerGroup characters={CHARACTER_OPTIONS.slice(0, 5)} />
         </div>
         <Button size="xl" variant="default" asChild>
           <Link href="/question">Start</Link>

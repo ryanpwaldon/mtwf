@@ -1,9 +1,9 @@
-import { getPersonaByValue, PERSONA_OPTIONS } from "@acme/convex";
+import { getCharacterByValue, CHARACTER_OPTIONS } from "@acme/convex";
 import { RadioGroup } from "@acme/ui/radio-group";
 
 import { Choice } from "~/components/choice";
 import { PageShell } from "~/components/page-shell";
-import { PersonaAvatarGroup } from "~/components/persona-avatar-group";
+import { PlayerGroup } from "~/components/player-group";
 import { QuestionStatusTrack } from "~/components/question-status-track";
 import { TimeRemainingBar } from "~/components/time-remaining-bar";
 
@@ -49,10 +49,10 @@ export default function QuestionPage() {
           Quentin Tarantino?
         </h1>
         <div className="mt-6 flex w-full items-center justify-center">
-          <PersonaAvatarGroup
+          <PlayerGroup
             avatarSize="default"
-            maxVisiblePersonas={5}
-            personas={PERSONA_OPTIONS.slice(0, 5)}
+            maxVisible={5}
+            characters={CHARACTER_OPTIONS.slice(0, 5)}
           />
         </div>
         <div className="mt-8">
@@ -66,10 +66,10 @@ export default function QuestionPage() {
               isCorrectAnswer={true}
               votePercent={30}
               voters={[
-                getPersonaByValue("lime"),
-                getPersonaByValue("amber"),
-                getPersonaByValue("blue"),
-                getPersonaByValue("pink"),
+                getCharacterByValue("lime"),
+                getCharacterByValue("amber"),
+                getCharacterByValue("blue"),
+                getCharacterByValue("pink"),
               ]}
             />
             <Choice
@@ -80,7 +80,7 @@ export default function QuestionPage() {
               showResults={true}
               isCorrectAnswer={false}
               votePercent={30}
-              voters={[getPersonaByValue("orange"), getPersonaByValue("teal")]}
+              voters={[getCharacterByValue("orange"), getCharacterByValue("teal")]}
             />
             <Choice
               disabled={false}
@@ -91,11 +91,11 @@ export default function QuestionPage() {
               isCorrectAnswer={false}
               votePercent={30}
               voters={[
-                getPersonaByValue("rose"),
-                getPersonaByValue("violet"),
-                getPersonaByValue("green"),
-                getPersonaByValue("sky"),
-                getPersonaByValue("cyan"),
+                getCharacterByValue("rose"),
+                getCharacterByValue("violet"),
+                getCharacterByValue("green"),
+                getCharacterByValue("sky"),
+                getCharacterByValue("cyan"),
               ]}
             />
             <Choice

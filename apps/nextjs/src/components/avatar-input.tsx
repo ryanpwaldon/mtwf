@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Pencil } from "lucide-react";
 
-import type { PersonaValue } from "@acme/convex";
-import { getPersonaByValue, PERSONA_OPTIONS } from "@acme/convex";
+import type { CharacterValue } from "@acme/convex";
+import { getCharacterByValue, CHARACTER_OPTIONS } from "@acme/convex";
 import { Avatar, AvatarBadge, AvatarFallback } from "@acme/ui/avatar";
 import { Button } from "@acme/ui/button";
 import {
@@ -19,13 +19,13 @@ import {
 } from "@acme/ui/command-picker";
 
 interface AvatarInputProps {
-  value: PersonaValue;
-  onChange: (value: PersonaValue) => void;
+  value: CharacterValue;
+  onChange: (value: CharacterValue) => void;
 }
 
 export function AvatarInput({ value, onChange }: AvatarInputProps) {
   const [open, setOpen] = useState(false);
-  const persona = getPersonaByValue(value);
+  const character = getCharacterByValue(value);
 
   return (
     <CommandPicker open={open} onOpenChange={setOpen}>
@@ -34,8 +34,8 @@ export function AvatarInput({ value, onChange }: AvatarInputProps) {
           variant="ghost"
           className="size-auto cursor-pointer rounded-full p-0"
         >
-          <Avatar size="lg" tooltip={persona.label}>
-            <AvatarFallback className={persona.color} />
+          <Avatar size="lg" tooltip={character.label}>
+            <AvatarFallback className={character.color} />
             <AvatarBadge>
               <Pencil />
             </AvatarBadge>
@@ -47,7 +47,7 @@ export function AvatarInput({ value, onChange }: AvatarInputProps) {
         <CommandPickerList>
           <CommandPickerEmpty>No colors found.</CommandPickerEmpty>
           <CommandPickerGroup>
-            {PERSONA_OPTIONS.map((option) => (
+            {CHARACTER_OPTIONS.map((option) => (
               <CommandPickerItem
                 key={option.value}
                 value={option.label}

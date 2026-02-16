@@ -1,7 +1,7 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
-import { personaValidator } from "./fields/persona";
+import { characterValidator } from "./fields/character";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
 
@@ -28,7 +28,7 @@ const schema = defineSchema({
   players: defineTable({
     gameId: v.id("games"),
     sessionId: v.string(),
-    persona: personaValidator,
+    character: characterValidator,
     isReady: v.boolean(),
   })
     .index("by_gameId", ["gameId"])

@@ -1,4 +1,4 @@
-import type { Persona } from "@acme/convex";
+import type { Character } from "@acme/convex";
 import { cn } from "@acme/ui";
 import {
   Card,
@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@acme/ui/card";
 
-import { PersonaAvatarGroup } from "./persona-avatar-group";
+import { PlayerGroup } from "./player-group";
 
 export function QuestionResult({
   question,
@@ -22,15 +22,15 @@ export function QuestionResult({
   question: string;
   questionIndex: number;
   answers: string[];
-  voters: { persona: Persona; choiceIndex: number }[];
+  voters: { character: Character; choiceIndex: number }[];
   correctAnswerIndex: number;
   currentUserChoiceIndex: number;
   className?: string;
 }) {
-  const votersByAnswer = new Map<number, Persona[]>();
+  const votersByAnswer = new Map<number, Character[]>();
   for (const voter of voters) {
     const list = votersByAnswer.get(voter.choiceIndex) ?? [];
-    list.push(voter.persona);
+    list.push(voter.character);
     votersByAnswer.set(voter.choiceIndex, list);
   }
 
@@ -85,10 +85,10 @@ export function QuestionResult({
               </span>
               <div className="relative flex items-center gap-2">
                 {answerVoters.length > 0 && (
-                  <PersonaAvatarGroup
-                    personas={answerVoters}
+                  <PlayerGroup
+                    characters={answerVoters}
                     avatarSize="sm"
-                    maxVisiblePersonas={3}
+                    maxVisible={3}
                   />
                 )}
                 <span

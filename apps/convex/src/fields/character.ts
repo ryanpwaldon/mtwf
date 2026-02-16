@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 
-export const PERSONA_OPTIONS = [
+export const CHARACTER_OPTIONS = [
   {
     value: "red",
     label: "Red",
@@ -88,18 +88,18 @@ export const PERSONA_OPTIONS = [
   },
 ] as const;
 
-export type Persona = (typeof PERSONA_OPTIONS)[number];
-export type PersonaValue = Persona["value"];
+export type Character = (typeof CHARACTER_OPTIONS)[number];
+export type CharacterValue = Character["value"];
 
-export const PERSONA_BY_VALUE = Object.fromEntries(
-  PERSONA_OPTIONS.map((persona) => [persona.value, persona]),
-) as Record<PersonaValue, Persona>;
+export const CHARACTER_BY_VALUE = Object.fromEntries(
+  CHARACTER_OPTIONS.map((character) => [character.value, character]),
+) as Record<CharacterValue, Character>;
 
-export function getPersonaByValue(value: PersonaValue): Persona {
-  return PERSONA_BY_VALUE[value];
+export function getCharacterByValue(value: CharacterValue): Character {
+  return CHARACTER_BY_VALUE[value];
 }
 
-export const personaValidator = v.union(
+export const characterValidator = v.union(
   v.literal("red"),
   v.literal("orange"),
   v.literal("amber"),

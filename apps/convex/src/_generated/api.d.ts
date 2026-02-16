@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as fields_character from "../fields/character.js";
 import type * as fields_persona from "../fields/persona.js";
 import type * as fields_quizTheme from "../fields/quizTheme.js";
 import type * as fields_quizTone from "../fields/quizTone.js";
@@ -21,6 +22,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  "fields/character": typeof fields_character;
   "fields/persona": typeof fields_persona;
   "fields/quizTheme": typeof fields_quizTheme;
   "fields/quizTone": typeof fields_quizTone;
