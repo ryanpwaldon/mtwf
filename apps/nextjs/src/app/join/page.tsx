@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useSessionMutation } from "convex-helpers/react/sessions";
 import { ConvexError } from "convex/values";
 
+import { Loader2 } from "lucide-react";
+
 import { api } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import { Card, CardContent } from "@acme/ui/card";
@@ -18,11 +20,13 @@ export default function JoinPage() {
   const router = useRouter();
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const joinGame = useSessionMutation(api.players.join);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    setPending(true);
     try {
       await joinGame({ code });
       router.push(`/game/${code}`);
@@ -30,6 +34,8 @@ export default function JoinPage() {
       setError(
         err instanceof ConvexError ? String(err.data) : "Failed to join game.",
       );
+    } finally {
+      setPending(false);
     }
   }
 
@@ -64,8 +70,8 @@ export default function JoinPage() {
                       setError(null);
                     }}
                   />
-                  <Button size="xl" type="submit">
-                    Join
+                  <Button size="xl" type="submit" disabled={pending}>
+                    {pending ? <Loader2 className="animate-spin" /> : "Join"}
                   </Button>
                 </div>
                 {error && <FieldError>{error}</FieldError>}
