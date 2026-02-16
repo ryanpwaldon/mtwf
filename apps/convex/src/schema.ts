@@ -14,7 +14,7 @@ const schema = defineSchema({
       v.literal("active"),
       v.literal("finished"),
     ),
-    quizMovieTitle: v.string(),
+    quizMovieTitle: v.nullable(v.string()),
     quizTone: quizToneValidator,
     quizTheme: quizThemeValidator,
     questionCount: v.number(),

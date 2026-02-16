@@ -11,13 +11,13 @@ export const create = mutation({
     const gameId = await ctx.db.insert("games", {
       code,
       status: "lobby",
-      currentQuestionIndex: 0,
-      quizMovieTitle: "",
+      quizMovieTitle: null,
       quizTone: "standard",
       quizTheme: "general-knowledge",
-      roundEndsAt: undefined,
       questionCount: 10,
       timeLimitSeconds: 20,
+      roundEndsAt: undefined,
+      currentQuestionIndex: 0,
     });
     await ctx.db.insert("players", {
       gameId,
@@ -26,5 +26,16 @@ export const create = mutation({
       isReady: false,
     });
     return gameId;
+  },
+});
+
+export const updateQuizMovieTitle = mutation({
+  args: {
+    gameId: v.id("games"),
+    quizMovieTitle: v.string(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.gameId, { quizMovieTitle: args.quizMovieTitle });
   },
 });
