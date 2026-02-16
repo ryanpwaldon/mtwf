@@ -9,8 +9,8 @@ const movieValidator = v.object({
   id: v.number(),
   title: v.string(),
   overview: v.string(),
-  poster_path: v.string(),
-  release_date: v.string(),
+  posterPath: v.string(),
+  releaseDate: v.string(),
 });
 
 function createTmdbClient() {
@@ -30,8 +30,8 @@ function mapMovie(movie: {
     id: movie.id,
     title: movie.title,
     overview: movie.overview,
-    poster_path: movie.poster_path ?? "",
-    release_date: movie.release_date,
+    posterPath: movie.poster_path ?? "",
+    releaseDate: movie.release_date,
   };
 }
 

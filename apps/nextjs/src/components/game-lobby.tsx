@@ -1,7 +1,6 @@
 "use client";
 
 import type { FunctionReturnType } from "convex/server";
-import { useState } from "react";
 import { useSessionMutation } from "convex-helpers/react/sessions";
 
 import { api, getCharacterByValue } from "@acme/convex";
@@ -24,7 +23,6 @@ import { PlayerGroup } from "./player-group";
 import { ThemeInput } from "./theme-input";
 
 type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
-type Movie = FunctionReturnType<typeof api.movies.popular>[number];
 type Player = FunctionReturnType<typeof api.players.getByGameId>[number];
 type Me = FunctionReturnType<typeof api.players.getMe>;
 
@@ -35,8 +33,7 @@ interface GameLobbyProps {
 }
 
 export function GameLobby({ game, players, me }: GameLobbyProps) {
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const updateQuizMovieId = useSessionMutation(api.games.updateQuizMovieId);
+  const updateQuizMovie = useSessionMutation(api.games.updateQuizMovie);
   const updateQuizTheme = useSessionMutation(api.games.updateQuizTheme);
   const updateCharacter = useSessionMutation(api.players.updateCharacter);
 
@@ -87,12 +84,11 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
           </CardHeader>
           <CardContent className="flex h-full items-center">
             <MovieInput
-              value={movie}
+              value={game.quizMovie}
               onChange={(movie) => {
-                setMovie(movie);
-                void updateQuizMovieId({
+                void updateQuizMovie({
                   gameId: game._id,
-                  quizMovieId: movie.id,
+                  quizMovie: movie,
                 });
               }}
             />
