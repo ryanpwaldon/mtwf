@@ -47,7 +47,7 @@ export const getByCode = query({
         v.literal("active"),
         v.literal("finished"),
       ),
-      quizMovieTitle: v.nullable(v.string()),
+      quizMovieId: v.nullable(v.string()),
       quizTone: quizToneValidator,
       quizTheme: quizThemeValidator,
       questionCount: v.number(),
@@ -84,7 +84,7 @@ export const create = mutation({
     const gameId = await ctx.db.insert("games", {
       code,
       status: "lobby",
-      quizMovieTitle: null,
+      quizMovieId: null,
       quizTone: "standard",
       quizTheme: "general-knowledge",
       questionCount: 10,
@@ -108,16 +108,16 @@ export const create = mutation({
   },
 });
 
-export const updateQuizMovieTitle = mutation({
+export const updateQuizMovieId = mutation({
   args: {
     ...SessionIdArg,
     gameId: v.id("games"),
-    quizMovieTitle: v.string(),
+    quizMovieId: v.string(),
   },
   returns: v.null(),
   handler: async (ctx, args) => {
     await getPlayerOrThrow(ctx, args.gameId, args.sessionId);
-    await ctx.db.patch(args.gameId, { quizMovieTitle: args.quizMovieTitle });
+    await ctx.db.patch(args.gameId, { quizMovieId: args.quizMovieId });
   },
 });
 
