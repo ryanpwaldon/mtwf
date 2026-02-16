@@ -14,12 +14,12 @@ const schema = defineSchema({
       v.literal("active"),
       v.literal("finished"),
     ),
-    currentQuestionIndex: v.number(),
     quizMovieTitle: v.string(),
     quizTone: quizToneValidator,
     quizTheme: quizThemeValidator,
     questionCount: v.number(),
     timeLimitSeconds: v.number(),
+    currentQuestionIndex: v.number(),
     roundEndsAt: v.optional(v.number()),
   })
     .index("by_code", ["code"])
