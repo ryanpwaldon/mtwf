@@ -1,9 +1,11 @@
 import type { GenericDatabaseReader } from "convex/server";
+import { doc } from "convex-helpers/validators";
 import { SessionIdArg } from "convex-helpers/server/sessions";
 import { ConvexError, v } from "convex/values";
 
 import type { DataModel, Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
+import schema from "./schema";
 import { CHARACTER_OPTIONS } from "./fields/character";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
@@ -36,27 +38,7 @@ function generateGameCode(): string {
 
 export const getByCode = query({
   args: { code: v.string() },
-  returns: v.union(
-    v.object({
-      _id: v.id("games"),
-      _creationTime: v.number(),
-      code: v.string(),
-      status: v.union(
-        v.literal("lobby"),
-        v.literal("generating"),
-        v.literal("active"),
-        v.literal("finished"),
-      ),
-      quizMovieId: v.nullable(v.number()),
-      quizTone: quizToneValidator,
-      quizTheme: quizThemeValidator,
-      questionCount: v.number(),
-      timeLimitSeconds: v.number(),
-      currentQuestionIndex: v.number(),
-      roundEndsAt: v.optional(v.number()),
-    }),
-    v.null(),
-  ),
+  returns: v.union(doc(schema, "games"), v.null()),
   handler: async (ctx, args) => {
     return await ctx.db
       .query("games")

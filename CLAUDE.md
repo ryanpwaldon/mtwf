@@ -57,6 +57,8 @@ Shared configs for ESLint, Prettier, Tailwind, and TypeScript extended by all pa
 
 When working with Convex code, read `.cursor/rules/convex_rules.mdc` for patterns and conventions.
 
+- Prefer `doc(schema, "tableName")` from `convex-helpers/validators` for return validators when returning full documents, instead of manually duplicating the table schema.
+
 ## Tech Stack
 
 - TypeScript 5.9 (strict mode), React 19, Next.js 16
