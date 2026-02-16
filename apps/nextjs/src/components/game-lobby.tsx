@@ -40,12 +40,9 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
   const updateQuizTheme = useSessionMutation(api.games.updateQuizTheme);
   const updateCharacter = useSessionMutation(api.players.updateCharacter);
 
-  const takenValues = players
-    .filter((p) => p.character !== me?.character)
-    .map((p) => p.character);
-
   const readyCount = players.filter((p) => p.isReady).length;
   const characters = players.map((p) => getCharacterByValue(p.character));
+  const takenCharacterValues = players.filter((p) => p.character !== me.character).map((p) => p.character); // prettier-ignore
 
   return (
     <PageShell>
@@ -75,7 +72,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
             <CardContent className="flex h-full items-center justify-center">
               <AvatarInput
                 value={me.character}
-                takenValues={takenValues}
+                takenValues={takenCharacterValues}
                 onChange={(character) => {
                   void updateCharacter({ gameId: game._id, character });
                 }}
