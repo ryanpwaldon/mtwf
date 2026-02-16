@@ -3,6 +3,8 @@ import { v } from "convex/values";
 
 import { mutation } from "./_generated/server";
 import { CHARACTER_OPTIONS } from "./fields/character";
+import { quizThemeValidator } from "./fields/quizTheme";
+import { quizToneValidator } from "./fields/quizTone";
 
 const CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const CODE_LENGTH = 6;
@@ -66,5 +68,21 @@ export const updateQuizMovieTitle = mutation({
   returns: v.null(),
   handler: async (ctx, args) => {
     await ctx.db.patch(args.gameId, { quizMovieTitle: args.quizMovieTitle });
+  },
+});
+
+export const updateQuizTone = mutation({
+  args: { gameId: v.id("games"), quizTone: quizToneValidator },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.gameId, { quizTone: args.quizTone });
+  },
+});
+
+export const updateQuizTheme = mutation({
+  args: { gameId: v.id("games"), quizTheme: quizThemeValidator },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.gameId, { quizTheme: args.quizTheme });
   },
 });
