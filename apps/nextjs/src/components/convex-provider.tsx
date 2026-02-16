@@ -38,7 +38,8 @@ function useLocalStorage(key: string, initialValue: SessionId | undefined) {
   return [value, setValue] as const;
 }
 
-// Fallback for environments where crypto.randomUUID is unavailable (e.g. older iOS Safari).
+// Fallback for environments where crypto.randomUUID is unavailable.
+// Like, when accessing dev server via unsecure (HTTP) local network IP.
 function generateSessionId() {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();
