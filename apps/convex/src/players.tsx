@@ -76,6 +76,21 @@ export const getMe = query({
   },
 });
 
+export const setReady = mutation({
+  args: { gameId: v.id("games"), isReady: v.boolean(), ...SessionIdArg },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const player = await ctx.db
+      .query("players")
+      .withIndex("by_gameId_and_sessionId", (q) =>
+        q.eq("gameId", args.gameId).eq("sessionId", args.sessionId),
+      )
+      .unique();
+    if (!player) throw new ConvexError("Player not found.");
+    await ctx.db.patch(player._id, { isReady: args.isReady });
+  },
+});
+
 export const updateCharacter = mutation({
   args: { gameId: v.id("games"), character: characterValidator, ...SessionIdArg },
   returns: v.null(),

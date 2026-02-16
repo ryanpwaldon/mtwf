@@ -36,6 +36,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
   const updateQuizMovie = useSessionMutation(api.games.updateQuizMovie);
   const updateQuizTheme = useSessionMutation(api.games.updateQuizTheme);
   const updateCharacter = useSessionMutation(api.players.updateCharacter);
+  const setReady = useSessionMutation(api.players.setReady);
 
   const readyCount = players.filter((p) => p.isReady).length;
   const characters = players.map((p) => getCharacterByValue(p.character));
@@ -119,8 +120,14 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
           </div>
           <PlayerGroup characters={characters} />
         </div>
-        <Button size="xl" variant="default">
-          Ready up!
+        <Button
+          size="xl"
+          variant={me.isReady ? "outline" : "default"}
+          onClick={() =>
+            void setReady({ gameId: game._id, isReady: !me.isReady })
+          }
+        >
+          {me.isReady ? "Cancel" : "Start"}
         </Button>
       </div>
     </PageShell>
