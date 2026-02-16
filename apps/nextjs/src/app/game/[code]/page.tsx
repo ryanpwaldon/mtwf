@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useSessionQuery } from "convex-helpers/react/sessions";
 import { useQuery } from "convex/react";
 
 import { api } from "@acme/convex";
@@ -15,8 +16,10 @@ import { GameResults } from "~/components/game-results";
 export default function GamePage() {
   const { code } = useParams<{ code: string }>();
   const game = useQuery(api.games.getByCode, { code });
+  const players = useQuery(api.players.getByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
+  const me = useSessionQuery(api.players.getMe, game ? { gameId: game._id } : "skip"); // prettier-ignore
 
-  if (game === undefined) {
+  if (game === undefined || players === undefined || me === undefined) {
     return <FullScreenLoader />;
   }
 
@@ -31,7 +34,9 @@ export default function GamePage() {
 
   return (
     <>
-      {game.status === "lobby" && <GameLobby game={game} />}
+      {game.status === "lobby" && (
+        <GameLobby game={game} players={players} me={me} />
+      )}
       {game.status === "generating" && <GameGenerating game={game} />}
       {game.status === "active" && <GameQuestion game={game} />}
       {game.status === "finished" && <GameResults game={game} />}

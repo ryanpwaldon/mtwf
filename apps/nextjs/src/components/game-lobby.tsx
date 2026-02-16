@@ -4,8 +4,7 @@ import type { FunctionReturnType } from "convex/server";
 import { useState } from "react";
 import { useSessionMutation } from "convex-helpers/react/sessions";
 
-import type { CharacterValue } from "@acme/convex";
-import { api, CHARACTER_OPTIONS } from "@acme/convex";
+import { api, getCharacterByValue } from "@acme/convex";
 import { Badge } from "@acme/ui/badge";
 import { Button } from "@acme/ui/button";
 import {
@@ -26,16 +25,27 @@ import { ThemeInput } from "./theme-input";
 
 type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
 type Movie = FunctionReturnType<typeof api.movies.popular>[number];
+type Player = FunctionReturnType<typeof api.players.getByGameId>[number];
+type Me = FunctionReturnType<typeof api.players.getMe>;
 
 interface GameLobbyProps {
   game: Game;
+  players: Player[];
+  me: Me;
 }
 
-export function GameLobby({ game }: GameLobbyProps) {
+export function GameLobby({ game, players, me }: GameLobbyProps) {
   const [movie, setMovie] = useState<Movie | null>(null);
   const updateQuizMovieId = useSessionMutation(api.games.updateQuizMovieId);
   const updateQuizTheme = useSessionMutation(api.games.updateQuizTheme);
-  const [avatar, setAvatar] = useState<CharacterValue>("lime");
+  const updateCharacter = useSessionMutation(api.players.updateCharacter);
+
+  const takenValues = players
+    .filter((p) => p.character !== me?.character)
+    .map((p) => p.character);
+
+  const readyCount = players.filter((p) => p.isReady).length;
+  const characters = players.map((p) => getCharacterByValue(p.character));
 
   return (
     <PageShell>
@@ -63,7 +73,13 @@ export function GameLobby({ game }: GameLobbyProps) {
               <CardDescription>Select your color</CardDescription>
             </CardHeader>
             <CardContent className="flex h-full items-center justify-center">
-              <AvatarInput value={avatar} onChange={setAvatar} />
+              <AvatarInput
+                value={me.character}
+                takenValues={takenValues}
+                onChange={(character) => {
+                  void updateCharacter({ gameId: game._id, character });
+                }}
+              />
             </CardContent>
           </Card>
         </div>
@@ -104,9 +120,11 @@ export function GameLobby({ game }: GameLobbyProps) {
         <div className="flex flex-col items-start gap-2">
           <div className="flex items-center gap-2">
             <p className="font-medium">Players</p>
-            <Badge>4/5 ready</Badge>
+            <Badge>
+              {readyCount}/{players.length} ready
+            </Badge>
           </div>
-          <PlayerGroup characters={CHARACTER_OPTIONS.slice(0, 5)} />
+          <PlayerGroup characters={characters} />
         </div>
         <Button size="xl" variant="default">
           Ready up!

@@ -1,8 +1,8 @@
 import { SessionIdArg } from "convex-helpers/server/sessions";
 import { ConvexError, v } from "convex/values";
 
-import { mutation } from "./_generated/server";
-import { CHARACTER_OPTIONS } from "./fields/character";
+import { mutation, query } from "./_generated/server";
+import { CHARACTER_OPTIONS, characterValidator } from "./fields/character";
 
 export const join = mutation({
   args: {
@@ -46,5 +46,58 @@ export const join = mutation({
       character: character.value,
       isReady: false,
     });
+  },
+});
+
+export const getByGameId = query({
+  args: { gameId: v.id("games") },
+  returns: v.array(v.object({ character: characterValidator, isReady: v.boolean() })),
+  handler: async (ctx, args) => {
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
+      .collect();
+    return players.map((p) => ({ character: p.character, isReady: p.isReady }));
+  },
+});
+
+export const getMe = query({
+  args: { gameId: v.id("games"), ...SessionIdArg },
+  returns: v.object({ character: characterValidator, isReady: v.boolean() }),
+  handler: async (ctx, args) => {
+    const player = await ctx.db
+      .query("players")
+      .withIndex("by_gameId_and_sessionId", (q) =>
+        q.eq("gameId", args.gameId).eq("sessionId", args.sessionId),
+      )
+      .unique();
+    if (!player) throw new ConvexError("Player not found.");
+    return { character: player.character, isReady: player.isReady };
+  },
+});
+
+export const updateCharacter = mutation({
+  args: { gameId: v.id("games"), character: characterValidator, ...SessionIdArg },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const player = await ctx.db
+      .query("players")
+      .withIndex("by_gameId_and_sessionId", (q) =>
+        q.eq("gameId", args.gameId).eq("sessionId", args.sessionId),
+      )
+      .unique();
+    if (!player) throw new ConvexError("Player not found.");
+
+    // Check the character isn't taken by another player.
+    const existing = await ctx.db
+      .query("players")
+      .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
+      .collect();
+    const taken = existing.some(
+      (p) => p._id !== player._id && p.character === args.character,
+    );
+    if (taken) throw new ConvexError("Character already taken.");
+
+    await ctx.db.patch(player._id, { character: args.character });
   },
 });

@@ -20,10 +20,11 @@ import {
 
 interface AvatarInputProps {
   value: CharacterValue;
+  takenValues: CharacterValue[];
   onChange: (value: CharacterValue) => void;
 }
 
-export function AvatarInput({ value, onChange }: AvatarInputProps) {
+export function AvatarInput({ value, takenValues, onChange }: AvatarInputProps) {
   const [open, setOpen] = useState(false);
   const character = getCharacterByValue(value);
 
@@ -52,6 +53,7 @@ export function AvatarInput({ value, onChange }: AvatarInputProps) {
                 key={option.value}
                 value={option.label}
                 data-checked={value === option.value}
+                disabled={takenValues.includes(option.value)}
                 onSelect={() => {
                   onChange(option.value);
                   setOpen(false);
