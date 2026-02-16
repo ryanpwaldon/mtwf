@@ -41,4 +41,6 @@ export const QUIZ_TONE_OPTIONS = [
 
 export type QuizTone = (typeof QUIZ_TONE_OPTIONS)[number]["value"];
 
-export const quizToneValidator = v.string();
+export const quizToneValidator = v.union(
+  ...QUIZ_TONE_OPTIONS.map((option) => v.literal(option.value)),
+);
