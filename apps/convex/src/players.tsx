@@ -25,7 +25,7 @@ export const join = mutation({
         q.eq("gameId", game._id).eq("sessionId", args.sessionId),
       )
       .unique();
-    if (existing) throw new ConvexError("already joined");
+    if (existing) throw new ConvexError("Already joined.");
 
     // Check if the game is full.
     const players = await ctx.db
@@ -34,7 +34,7 @@ export const join = mutation({
       .collect();
     const takenCharacters = new Set(players.map((p) => p.character));
     const available = CHARACTER_OPTIONS.filter((c) => !takenCharacters.has(c.value)); // prettier-ignore
-    if (available.length === 0) throw new ConvexError("game is full");
+    if (available.length === 0) throw new ConvexError("Game is full.");
 
     // Random character for the player.
     const character = available[Math.floor(Math.random() * available.length)];

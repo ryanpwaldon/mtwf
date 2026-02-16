@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSessionMutation } from "convex-helpers/react/sessions";
+import { ConvexError } from "convex/values";
 
 import { api } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import { Card, CardContent } from "@acme/ui/card";
+import { Field, FieldError, FieldLabel } from "@acme/ui/field";
 import { Input } from "@acme/ui/input";
 
 import { Header } from "~/components/header";
@@ -25,7 +27,9 @@ export default function JoinPage() {
       await joinGame({ code });
       router.push(`/game/${code}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to join game.");
+      setError(
+        err instanceof ConvexError ? String(err.data) : "Failed to join game.",
+      );
     }
   }
 
@@ -47,22 +51,25 @@ export default function JoinPage() {
               onSubmit={handleSubmit}
               className="flex w-full flex-col gap-2"
             >
-              <div className="flex w-full items-center gap-2">
-                <Input
-                  aria-label="Game code"
-                  placeholder="Enter game code"
-                  className="h-12 bg-white font-mono text-base! uppercase placeholder:normal-case"
-                  value={code}
-                  onChange={(e) => {
-                    setCode(e.target.value);
-                    setError(null);
-                  }}
-                />
-                <Button size="xl" type="submit">
-                  Join
-                </Button>
-              </div>
-              {error && <p className="text-destructive text-sm">{error}</p>}
+              <Field data-invalid={!!error || undefined}>
+                <FieldLabel className="sr-only">Game code</FieldLabel>
+                <div className="flex w-full items-center gap-2">
+                  <Input
+                    placeholder="Enter game code"
+                    aria-invalid={!!error || undefined}
+                    className="h-12 bg-white font-mono text-base! uppercase placeholder:normal-case"
+                    value={code}
+                    onChange={(e) => {
+                      setCode(e.target.value);
+                      setError(null);
+                    }}
+                  />
+                  <Button size="xl" type="submit">
+                    Join
+                  </Button>
+                </div>
+                {error && <FieldError>{error}</FieldError>}
+              </Field>
             </form>
           </CardContent>
         </Card>
