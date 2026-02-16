@@ -7,6 +7,7 @@ import type { DataModel, Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import schema from "./schema";
 import { CHARACTER_OPTIONS } from "./fields/character";
+import { movieValidator } from "./fields/movie";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
 
@@ -94,13 +95,7 @@ export const updateQuizMovie = mutation({
   args: {
     ...SessionIdArg,
     gameId: v.id("games"),
-    quizMovie: v.object({
-      id: v.number(),
-      title: v.string(),
-      overview: v.string(),
-      posterPath: v.string(),
-      releaseDate: v.string(),
-    }),
+    quizMovie: movieValidator,
   },
   returns: v.null(),
   handler: async (ctx, args) => {

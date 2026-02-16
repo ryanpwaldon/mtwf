@@ -4,14 +4,7 @@ import { TMDB } from "@lorenzopant/tmdb";
 import { v } from "convex/values";
 
 import { action } from "./_generated/server.js";
-
-const movieValidator = v.object({
-  id: v.number(),
-  title: v.string(),
-  overview: v.string(),
-  posterPath: v.string(),
-  releaseDate: v.string(),
-});
+import { movieValidator } from "./fields/movie";
 
 function createTmdbClient() {
   const token = process.env.TMDB_ACCESS_TOKEN;

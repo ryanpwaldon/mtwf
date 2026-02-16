@@ -2,6 +2,7 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 import { characterValidator } from "./fields/character";
+import { movieValidator } from "./fields/movie";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
 
@@ -14,15 +15,7 @@ const schema = defineSchema({
       v.literal("active"),
       v.literal("finished"),
     ),
-    quizMovie: v.nullable(
-      v.object({
-        id: v.number(),
-        title: v.string(),
-        overview: v.string(),
-        posterPath: v.string(),
-        releaseDate: v.string(),
-      }),
-    ),
+    quizMovie: v.nullable(movieValidator),
     quizTone: quizToneValidator,
     quizTheme: quizThemeValidator,
     questionCount: v.number(),
