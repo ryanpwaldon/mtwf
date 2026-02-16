@@ -2,12 +2,8 @@
 
 import type { FunctionReturnType } from "convex/server";
 import { useEffect, useRef, useState } from "react";
-
-import { useDebouncedValue } from "~/hooks/use-debounced-value";
 import { useAction } from "convex/react";
 import { Film } from "lucide-react";
-
-import { ImageWithFallback } from "~/components/image-with-fallback";
 
 import { api } from "@acme/convex";
 import { Button } from "@acme/ui/button";
@@ -23,11 +19,14 @@ import {
   CommandPickerTrigger,
 } from "@acme/ui/command-picker";
 
+import { ImageWithFallback } from "~/components/image-with-fallback";
+import { useDebouncedValue } from "~/hooks/use-debounced-value";
+
 type Movie = FunctionReturnType<typeof api.movies.popular>[number];
 
 interface MovieInputProps {
   value: Movie | null;
-  onChange: (value: Movie | null) => void;
+  onChange: (value: Movie) => void;
 }
 
 export function MovieInput({ value, onChange }: MovieInputProps) {
@@ -98,7 +97,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
               fill
               alt={`${value.title} poster`}
               src={`https://image.tmdb.org/t/p/w92${value.poster_path}`}
-              icon={<Film className="size-1/3 text-muted-foreground" />}
+              icon={<Film className="text-muted-foreground size-1/3" />}
               containerClassName="aspect-2/3 h-full shrink-0"
             />
             <div className="min-w-0 px-3">
@@ -152,7 +151,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
                       fill
                       alt={`${movie.title} poster`}
                       src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
-                      icon={<Film className="size-1/3 text-muted-foreground" />}
+                      icon={<Film className="text-muted-foreground size-1/3" />}
                       containerClassName="aspect-2/3 h-18 shrink-0"
                     />
                     <div className="min-w-0">

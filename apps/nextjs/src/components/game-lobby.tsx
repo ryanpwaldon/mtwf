@@ -2,9 +2,10 @@
 
 import type { FunctionReturnType } from "convex/server";
 import { useState } from "react";
+import { useSessionMutation } from "convex-helpers/react/sessions";
 
-import type { api, CharacterValue, QuizTheme } from "@acme/convex";
-import { CHARACTER_OPTIONS } from "@acme/convex";
+import type { CharacterValue } from "@acme/convex";
+import { api, CHARACTER_OPTIONS } from "@acme/convex";
 import { Badge } from "@acme/ui/badge";
 import { Button } from "@acme/ui/button";
 import {
@@ -31,9 +32,10 @@ interface GameLobbyProps {
 }
 
 export function GameLobby({ game }: GameLobbyProps) {
-  const [avatar, setAvatar] = useState<CharacterValue>("lime");
   const [movie, setMovie] = useState<Movie | null>(null);
-  const [theme, setTheme] = useState<QuizTheme | null>(null);
+  const updateQuizMovieId = useSessionMutation(api.games.updateQuizMovieId);
+  const updateQuizTheme = useSessionMutation(api.games.updateQuizTheme);
+  const [avatar, setAvatar] = useState<CharacterValue>("lime");
 
   return (
     <PageShell>
@@ -71,7 +73,16 @@ export function GameLobby({ game }: GameLobbyProps) {
             <CardDescription>Pick the movie for this round</CardDescription>
           </CardHeader>
           <CardContent className="flex h-full items-center">
-            <MovieInput value={movie} onChange={setMovie} />
+            <MovieInput
+              value={movie}
+              onChange={(movie) => {
+                setMovie(movie);
+                void updateQuizMovieId({
+                  gameId: game._id,
+                  quizMovieId: movie.id,
+                });
+              }}
+            />
           </CardContent>
         </Card>
         <Card className="mt-4">
@@ -80,7 +91,12 @@ export function GameLobby({ game }: GameLobbyProps) {
             <CardDescription>Make it interesting!</CardDescription>
           </CardHeader>
           <CardContent className="flex h-full items-center">
-            <ThemeInput value={theme} onChange={setTheme} />
+            <ThemeInput
+              value={game.quizTheme}
+              onChange={(quizTheme) => {
+                void updateQuizTheme({ gameId: game._id, quizTheme });
+              }}
+            />
           </CardContent>
         </Card>
       </main>
