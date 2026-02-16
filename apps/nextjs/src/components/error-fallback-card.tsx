@@ -8,7 +8,7 @@ interface ErrorFallbackCardProps {
 
 export function ErrorFallbackCard({ onRetry }: ErrorFallbackCardProps) {
   return (
-    <div className="mx-auto flex min-h-screen max-w-xl items-center justify-center p-4">
+    <div className="mx-auto flex min-h-dvh max-w-xl items-center justify-center p-4">
       <div className="bg-background flex w-full flex-col items-center gap-3 rounded-md border p-6 text-center">
         <div className="flex flex-col items-center gap-1">
           <h1 className="text-xl font-semibold">Something went wrong</h1>
