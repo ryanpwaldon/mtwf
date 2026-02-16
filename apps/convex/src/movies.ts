@@ -23,7 +23,7 @@ function mapMovie(movie: {
     id: movie.id,
     title: movie.title,
     overview: movie.overview,
-    posterPath: movie.poster_path ?? "",
+    posterPath: movie.poster_path ?? null,
     releaseDate: movie.release_date,
   };
 }

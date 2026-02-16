@@ -96,7 +96,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
             <ImageWithFallback
               fill
               alt={`${value.title} poster`}
-              src={`https://image.tmdb.org/t/p/w92${value.posterPath}`}
+              src={value.posterPath ? `https://image.tmdb.org/t/p/w92${value.posterPath}` : null}
               icon={<Film className="text-muted-foreground size-1/3" />}
               containerClassName="aspect-2/3 h-full shrink-0"
             />
@@ -150,7 +150,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
                     <ImageWithFallback
                       fill
                       alt={`${movie.title} poster`}
-                      src={`https://image.tmdb.org/t/p/w92${movie.posterPath}`}
+                      src={movie.posterPath ? `https://image.tmdb.org/t/p/w92${movie.posterPath}` : null}
                       icon={<Film className="text-muted-foreground size-1/3" />}
                       containerClassName="aspect-2/3 h-18 shrink-0"
                     />

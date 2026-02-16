@@ -6,7 +6,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 
-interface ImageWithFallbackProps extends ComponentProps<typeof Image> {
+interface ImageWithFallbackProps extends Omit<ComponentProps<typeof Image>, "src"> {
+  src: ComponentProps<typeof Image>["src"] | null;
   icon?: ReactNode;
   containerClassName?: string;
 }
@@ -16,6 +17,7 @@ export function ImageWithFallback({
   containerClassName,
   className,
   onError,
+  src,
   ...imageProps
 }: ImageWithFallbackProps) {
   const [errored, setErrored] = useState(false);
@@ -26,13 +28,14 @@ export function ImageWithFallback({
         {icon}
         <div className="absolute inset-0 rounded-[inherit] border" />
       </div>
-      {!errored && (
+      {!errored && src != null && (
         <Image
           className={`relative ${className ?? ""}`}
           onError={(e) => {
             setErrored(true);
             onError?.(e);
           }}
+          src={src}
           {...imageProps}
         />
       )}
