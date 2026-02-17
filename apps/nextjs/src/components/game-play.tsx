@@ -2,8 +2,8 @@
 
 import type { FunctionReturnType } from "convex/server";
 import { useEffect, useState } from "react";
-import { useSessionMutation } from "convex-helpers/react/sessions";
 import NumberFlow from "@number-flow/react";
+import { useSessionMutation } from "convex-helpers/react/sessions";
 import { AnimatePresence, motion } from "motion/react";
 
 import { api, CHARACTER_OPTIONS } from "@acme/convex";
@@ -124,8 +124,7 @@ function GamePlayInner({
   const [localPick, setLocalPick] = useState<{ index: number; label: string } | null>(null); // prettier-ignore
   const selectedLabel = localPick !== null && localPick.index === game.currentQuestionIndex ? localPick.label : (myAnswer ?? null); // prettier-ignore
   const timeRemaining = useCountdown(game.roundEndsAt, phase === "answering");
-  const secondsLeft =
-    phase === "answering" ? Math.ceil(timeRemaining / 1000) : 0;
+  const secondsLeft = phase === "answering" ? Math.ceil(timeRemaining / 1000) : 0; // prettier-ignore
   const showResults = phase === "results";
   const isAnswering = phase === "answering";
 
@@ -144,7 +143,11 @@ function GamePlayInner({
           </div>
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-2">
-          <QuestionStatusTrack className="w-full" steps={questionResults} activeIndex={game.currentQuestionIndex} />
+          <QuestionStatusTrack
+            className="w-full"
+            steps={questionResults}
+            activeIndex={game.currentQuestionIndex}
+          />
           <motion.div
             className="w-full"
             key={game.currentQuestionIndex}
@@ -152,7 +155,10 @@ function GamePlayInner({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
           >
-            <TimeRemainingBar phase={phase} durationSeconds={game.timeLimitSeconds} />
+            <TimeRemainingBar
+              phase={phase}
+              durationSeconds={game.timeLimitSeconds}
+            />
           </motion.div>
         </div>
         <div className="flex h-full w-20 items-center justify-center">
