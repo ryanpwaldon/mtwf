@@ -16,8 +16,8 @@ import { GameResults } from "~/components/game-results";
 export default function GamePage() {
   const { code } = useParams<{ code: string }>();
   const game = useQuery(api.games.getByCode, { code });
-  const players = useQuery(api.players.getByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
   const me = useSessionQuery(api.players.getMe, game ? { gameId: game._id } : "skip"); // prettier-ignore
+  const players = useQuery(api.players.getByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
   const questions = useQuery(api.questions.getByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
   const answers = useQuery(api.answers.getByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
 
