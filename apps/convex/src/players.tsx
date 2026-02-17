@@ -1,9 +1,11 @@
 import { SessionIdArg } from "convex-helpers/server/sessions";
+import { doc } from "convex-helpers/validators";
 import { ConvexError, v } from "convex/values";
 
 import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { CHARACTER_OPTIONS, characterValidator } from "./fields/character";
+import schema from "./schema";
 
 // ========================================================================================
 // Create
@@ -87,15 +89,16 @@ export const me = query({
 
 export const allByGameId = query({
   args: { gameId: v.id("games") },
-  returns: v.array(
-    v.object({ character: characterValidator, isReady: v.boolean() }),
-  ),
+  returns: v.array(doc(schema, "players").omit("sessionId")),
   handler: async (ctx, args) => {
     const players = await ctx.db
       .query("players")
       .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
       .collect();
-    return players.map((p) => ({ character: p.character, isReady: p.isReady }));
+    return players.map((player) => {
+      const { sessionId: _sessionId, ...rest } = player;
+      return rest;
+    });
   },
 });
 
@@ -104,7 +107,11 @@ export const allByGameId = query({
 // ========================================================================================
 
 export const updateIsReady = mutation({
-  args: { gameId: v.id("games"), isReady: v.boolean(), ...SessionIdArg },
+  args: {
+    ...SessionIdArg,
+    gameId: v.id("games"),
+    isReady: v.boolean(),
+  },
   returns: v.null(),
   handler: async (ctx, args) => {
     const player = await ctx.db
