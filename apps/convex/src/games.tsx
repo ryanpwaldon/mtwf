@@ -12,21 +12,6 @@ import { quizToneValidator } from "./fields/quizTone";
 import schema from "./schema";
 
 // ========================================================================================
-// Single
-// ========================================================================================
-
-export const byCode = query({
-  args: { code: v.string() },
-  returns: v.union(doc(schema, "games"), v.null()),
-  handler: (ctx, args) => {
-    return ctx.db
-      .query("games")
-      .withIndex("by_code", (q) => q.eq("code", args.code.toUpperCase()))
-      .unique();
-  },
-});
-
-// ========================================================================================
 // Create
 // ========================================================================================
 
@@ -70,6 +55,21 @@ export const create = mutation({
       isReady: false,
     });
     return code;
+  },
+});
+
+// ========================================================================================
+// Single
+// ========================================================================================
+
+export const byCode = query({
+  args: { code: v.string() },
+  returns: v.union(doc(schema, "games"), v.null()),
+  handler: (ctx, args) => {
+    return ctx.db
+      .query("games")
+      .withIndex("by_code", (q) => q.eq("code", args.code.toUpperCase()))
+      .unique();
   },
 });
 
