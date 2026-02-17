@@ -4,6 +4,10 @@ import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { characterValidator } from "./fields/character";
 
+// ========================================================================================
+// Many
+// ========================================================================================
+
 export const getByGameId = query({
   args: { gameId: v.id("games") },
   returns: v.array(
