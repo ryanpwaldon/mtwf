@@ -10,7 +10,7 @@ import { FullScreenError } from "~/components/full-screen-error";
 import { FullScreenLoader } from "~/components/full-screen-loader";
 import { GameGenerating } from "~/components/game-generating";
 import { GameLobby } from "~/components/game-lobby";
-import { GameQuestion } from "~/components/game-question";
+import { GamePlay } from "~/components/game-play";
 import { GameResults } from "~/components/game-results";
 
 export default function GamePage() {
@@ -37,7 +37,7 @@ export default function GamePage() {
     <>
       {game.status === "lobby" && <GameLobby game={game} players={players} me={me} />}
       {game.status === "generating" && <GameGenerating game={game} />}
-      {game.status === "active" && <GameQuestion game={game} />}
+      {game.status === "active" && <GamePlay game={game} />}
       {game.status === "finished" && <GameResults game={game} />}
     </>
   );

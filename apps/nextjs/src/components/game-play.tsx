@@ -12,11 +12,11 @@ import { PageShell } from "./page-shell";
 
 type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
 
-interface GameQuestionProps {
+interface GamePlayProps {
   game: Game;
 }
 
-export function GameQuestion({ game: _game }: GameQuestionProps) {
+export function GamePlay({ game: _game }: GamePlayProps) {
   return (
     <PageShell>
       <header className="flex h-16 items-center justify-between border-b">
