@@ -16,6 +16,7 @@
     "@acme/convex": "workspace:*",
     "@acme/ui": "workspace:*",
     "@acme/validators": "workspace:*",
+    "@number-flow/react": "^0.5.12",
     "@t3-oss/env-nextjs": "^0.13.10",
     "@tanstack/react-form": "catalog:",
     "convex": "catalog:",

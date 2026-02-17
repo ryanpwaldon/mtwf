@@ -3,6 +3,7 @@
 import type { FunctionReturnType } from "convex/server";
 import { useEffect, useRef, useState } from "react";
 import { useSessionMutation } from "convex-helpers/react/sessions";
+import NumberFlow from "@number-flow/react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { api, CHARACTER_OPTIONS } from "@acme/convex";
@@ -153,7 +154,7 @@ function GamePlayInner({
         <div className="flex h-full w-20 items-center justify-center">
           {isAnswering ? (
             <div className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-full text-center text-sm font-medium">
-              {secondsLeft}
+              <NumberFlow value={secondsLeft} />
             </div>
           ) : (
             <div className="size-7" />
