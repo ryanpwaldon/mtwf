@@ -11,5 +11,10 @@ interface GameGeneratingProps {
 }
 
 export function GameGenerating({ game: _game }: GameGeneratingProps) {
-  return <FullScreenLoader />;
+  return (
+    <FullScreenLoader
+      title="Get ready..."
+      description="Please wait while we prepare the game for you."
+    />
+  );
 }
