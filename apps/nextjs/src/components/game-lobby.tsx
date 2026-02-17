@@ -23,8 +23,8 @@ import { PlayerGroup } from "./player-group";
 import { ThemeInput } from "./theme-input";
 
 type Game = NonNullable<FunctionReturnType<typeof api.games.byCode>>;
-type Player = FunctionReturnType<typeof api.players.getByGameId>[number];
-type Me = FunctionReturnType<typeof api.players.getMe>;
+type Player = FunctionReturnType<typeof api.players.allByGameId>[number];
+type Me = FunctionReturnType<typeof api.players.me>;
 
 interface GameLobbyProps {
   game: Game;
@@ -36,7 +36,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
   const updateQuizMovie = useSessionMutation(api.games.updateQuizMovie);
   const updateQuizTheme = useSessionMutation(api.games.updateQuizTheme);
   const updateCharacter = useSessionMutation(api.players.updateCharacter);
-  const setReady = useSessionMutation(api.players.setReady);
+  const updateIsReady = useSessionMutation(api.players.updateIsReady);
 
   const readyCount = players.filter((p) => p.isReady).length;
   const characters = players.map((p) => getCharacterByValue(p.character));
@@ -124,7 +124,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
           size="xl"
           variant={me.isReady ? "outline" : "default"}
           onClick={() =>
-            void setReady({ gameId: game._id, isReady: !me.isReady })
+            void updateIsReady({ gameId: game._id, isReady: !me.isReady })
           }
         >
           {me.isReady ? "Cancel" : "Start"}

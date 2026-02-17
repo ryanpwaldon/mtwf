@@ -5,6 +5,10 @@ import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { CHARACTER_OPTIONS, characterValidator } from "./fields/character";
 
+// ========================================================================================
+// Create
+// ========================================================================================
+
 export const join = mutation({
   args: {
     code: v.string(),
@@ -50,9 +54,15 @@ export const join = mutation({
   },
 });
 
-export const getByGameId = query({
+// ========================================================================================
+// Many
+// ========================================================================================
+
+export const allByGameId = query({
   args: { gameId: v.id("games") },
-  returns: v.array(v.object({ character: characterValidator, isReady: v.boolean() })),
+  returns: v.array(
+    v.object({ character: characterValidator, isReady: v.boolean() }),
+  ),
   handler: async (ctx, args) => {
     const players = await ctx.db
       .query("players")
@@ -62,9 +72,17 @@ export const getByGameId = query({
   },
 });
 
-export const getMe = query({
+// ========================================================================================
+// Single
+// ========================================================================================
+
+export const me = query({
   args: { gameId: v.id("games"), ...SessionIdArg },
-  returns: v.object({ _id: v.id("players"), character: characterValidator, isReady: v.boolean() }),
+  returns: v.object({
+    _id: v.id("players"),
+    character: characterValidator,
+    isReady: v.boolean(),
+  }),
   handler: async (ctx, args) => {
     const player = await ctx.db
       .query("players")
@@ -73,11 +91,19 @@ export const getMe = query({
       )
       .unique();
     if (!player) throw new ConvexError("Player not found.");
-    return { _id: player._id, character: player.character, isReady: player.isReady };
+    return {
+      _id: player._id,
+      character: player.character,
+      isReady: player.isReady,
+    };
   },
 });
 
-export const setReady = mutation({
+// ========================================================================================
+// Update
+// ========================================================================================
+
+export const updateIsReady = mutation({
   args: { gameId: v.id("games"), isReady: v.boolean(), ...SessionIdArg },
   returns: v.null(),
   handler: async (ctx, args) => {
@@ -103,7 +129,9 @@ export const setReady = mutation({
         .query("players")
         .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
         .collect();
-      const allReady = players.every((p) => p._id === player._id ? true : p.isReady);
+      const allReady = players.every((p) =>
+        p._id === player._id ? true : p.isReady,
+      );
       if (!allReady) return;
 
       if (!game.quizMovie) throw new ConvexError("No movie selected.");
@@ -117,7 +145,11 @@ export const setReady = mutation({
 });
 
 export const updateCharacter = mutation({
-  args: { gameId: v.id("games"), character: characterValidator, ...SessionIdArg },
+  args: {
+    gameId: v.id("games"),
+    character: characterValidator,
+    ...SessionIdArg,
+  },
   returns: v.null(),
   handler: async (ctx, args) => {
     const player = await ctx.db
