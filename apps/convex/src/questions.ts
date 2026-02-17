@@ -4,7 +4,11 @@ import { v } from "convex/values";
 import { query } from "./_generated/server";
 import schema from "./schema";
 
-export const getByGameId = query({
+// ========================================================================================
+// Many
+// ========================================================================================
+
+export const allByGameId = query({
   args: { gameId: v.id("games") },
   returns: v.array(doc(schema, "questions")),
   handler: async (ctx, args) => {
