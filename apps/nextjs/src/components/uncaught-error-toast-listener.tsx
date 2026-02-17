@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { ConvexError } from "convex/values";
 
 import { toast } from "@acme/ui/toast";
 
@@ -9,7 +10,9 @@ const UNCAUGHT_ERROR_TOAST_COOLDOWN_MS = 4000;
 
 let lastUncaughtErrorToastTimestamp = 0;
 
-export function notifyUncaughtError() {
+export function notifyUncaughtError(
+  message = "Something went wrong. Please try again.",
+) {
   const now = Date.now();
   const elapsed = now - lastUncaughtErrorToastTimestamp;
 
@@ -18,19 +21,25 @@ export function notifyUncaughtError() {
   }
 
   lastUncaughtErrorToastTimestamp = now;
-  toast.error("Something went wrong. Please try again.", {
+  toast.error(message, {
     id: UNCAUGHT_ERROR_TOAST_ID,
   });
 }
 
+function extractConvexErrorMessage(error: unknown): string | undefined {
+  if (error instanceof ConvexError && typeof error.data === "string") {
+    return error.data;
+  }
+}
+
 export function UncaughtErrorToastListener() {
   useEffect(() => {
-    const onWindowError = () => {
-      notifyUncaughtError();
+    const onWindowError = (event: ErrorEvent) => {
+      notifyUncaughtError(extractConvexErrorMessage(event.error));
     };
 
-    const onUnhandledRejection = () => {
-      notifyUncaughtError();
+    const onUnhandledRejection = (event: PromiseRejectionEvent) => {
+      notifyUncaughtError(extractConvexErrorMessage(event.reason));
     };
 
     window.addEventListener("error", onWindowError);

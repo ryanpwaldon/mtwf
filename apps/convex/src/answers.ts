@@ -49,7 +49,7 @@ export const submit = mutation({
   handler: async (ctx, args) => {
     const game = await ctx.db.get(args.gameId);
     if (!game) throw new ConvexError("game not found");
-    if (game.status !== "active" || game.phase !== "answering") throw new ConvexError("Not accepting answers."); // prettier-ignore
+    if (game.status !== "active" || game.phase !== "answering") return null;
 
     // Find the player.
     const player = await ctx.db
