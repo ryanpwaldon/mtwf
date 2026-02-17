@@ -138,6 +138,6 @@ async function getPlayerOrThrow(
       q.eq("gameId", gameId).eq("sessionId", sessionId),
     )
     .unique();
-  if (!player) throw new ConvexError("not a participant");
+  if (!player) throw new ConvexError("Not a participant.");
   return player;
 }
