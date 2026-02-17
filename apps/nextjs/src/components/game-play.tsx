@@ -1,7 +1,7 @@
 "use client";
 
 import type { FunctionReturnType } from "convex/server";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSessionMutation } from "convex-helpers/react/sessions";
 import NumberFlow from "@number-flow/react";
 import { AnimatePresence, motion } from "motion/react";
@@ -124,8 +124,10 @@ function GamePlayInner({
   const [localPick, setLocalPick] = useState<{ index: number; label: string } | null>(null); // prettier-ignore
   const selectedLabel = localPick !== null && localPick.index === game.currentQuestionIndex ? localPick.label : (myAnswer ?? null); // prettier-ignore
   const timeRemaining = useCountdown(game.roundEndsAt, phase === "answering");
-  const secondsLeft = Math.ceil(timeRemaining / 1000);
-  const timeFraction = phase === "answering" && game.timeLimitSeconds > 0 ? timeRemaining / (game.timeLimitSeconds * 1000) : 0; // prettier-ignore
+  const secondsLeft =
+    phase === "reveal" ? game.timeLimitSeconds
+    : phase === "answering" ? Math.ceil(timeRemaining / 1000)
+    : 0; // results
   const showResults = phase === "results";
   const isAnswering = phase === "answering";
 
@@ -145,20 +147,20 @@ function GamePlayInner({
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <QuestionStatusTrack className="w-full" steps={questionResults} />
-          {isAnswering ? (
-            <TimeRemainingBar value={timeFraction} />
-          ) : (
-            <div className="h-2" />
-          )}
+          <motion.div
+            className="w-full"
+            key={game.currentQuestionIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <TimeRemainingBar phase={phase} durationSeconds={game.timeLimitSeconds} />
+          </motion.div>
         </div>
         <div className="flex h-full w-20 items-center justify-center">
-          {isAnswering ? (
-            <div className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-full text-center text-sm font-medium">
-              <NumberFlow value={secondsLeft} />
-            </div>
-          ) : (
-            <div className="size-7" />
-          )}
+          <div className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-full text-center text-sm font-medium">
+            <NumberFlow value={secondsLeft} />
+          </div>
         </div>
       </header>
       <main className="px-4">
@@ -227,23 +229,17 @@ const itemVariants = {
 
 function useCountdown(roundEndsAt: number | undefined, active: boolean) {
   const [timeRemaining, setTimeRemaining] = useState(0);
-  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     if (!active || !roundEndsAt) return;
     const endTime = roundEndsAt;
     function tick() {
-      const remaining = Math.max(0, endTime - Date.now());
-      setTimeRemaining(remaining);
-      if (remaining > 0) {
-        rafRef.current = requestAnimationFrame(tick);
-      }
+      setTimeRemaining(Math.max(0, endTime - Date.now()));
     }
-
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
   }, [roundEndsAt, active]);
 
-  // When not active, always return 0 regardless of stale state.
   return active ? timeRemaining : 0;
 }

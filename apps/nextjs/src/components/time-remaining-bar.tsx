@@ -1,15 +1,24 @@
+import { motion } from "motion/react";
+
 interface TimeRemainingBarProps {
-  value: number;
+  phase: "reveal" | "answering" | "results";
+  durationSeconds: number;
 }
 
-export function TimeRemainingBar({ value }: TimeRemainingBarProps) {
-  const normalizedValue = Math.min(1, Math.max(0, value));
-
+export function TimeRemainingBar({
+  phase,
+  durationSeconds,
+}: TimeRemainingBarProps) {
   return (
     <div className="bg-primary/10 flex h-2 w-full justify-end rounded-full">
-      <div
+      <motion.div
         className="bg-primary h-full rounded-full"
-        style={{ width: `${normalizedValue * 100}%` }}
+        animate={{ width: phase === "reveal" ? "100%" : "0%" }}
+        transition={
+          phase === "answering"
+            ? { duration: durationSeconds, ease: "linear" }
+            : { duration: 0 }
+        }
       />
     </div>
   );
