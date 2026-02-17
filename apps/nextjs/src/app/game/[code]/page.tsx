@@ -19,7 +19,7 @@ export default function GamePage() {
   const me = useSessionQuery(api.players.getMe, game ? { gameId: game._id } : "skip"); // prettier-ignore
   const players = useQuery(api.players.getByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
   const questions = useQuery(api.questions.getByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
-  const answers = useQuery(api.answers.getByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
+  const answers = useQuery(api.answers.allByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
 
   if (game === undefined || players === undefined || me === undefined) {
     return <FullScreenLoader />;

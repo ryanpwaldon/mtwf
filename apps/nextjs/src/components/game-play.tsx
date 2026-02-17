@@ -16,7 +16,7 @@ import { PageShell } from "./page-shell";
 type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
 type Me = NonNullable<FunctionReturnType<typeof api.players.getMe>>;
 type Question = FunctionReturnType<typeof api.questions.getByGameId>[number];
-type Answer = FunctionReturnType<typeof api.answers.getByGameId>[number];
+type Answer = FunctionReturnType<typeof api.answers.allByGameId>[number];
 
 interface GamePlayProps {
   game: Game;

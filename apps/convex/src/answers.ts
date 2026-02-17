@@ -1,23 +1,19 @@
 import { SessionIdArg } from "convex-helpers/server/sessions";
+import { doc } from "convex-helpers/validators";
 import { ConvexError, v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { characterValidator } from "./fields/character";
+import schema from "./schema";
 
 // ========================================================================================
 // Many
 // ========================================================================================
 
-export const getByGameId = query({
+export const allByGameId = query({
   args: { gameId: v.id("games") },
   returns: v.array(
-    v.object({
-      _id: v.id("answers"),
-      questionId: v.id("questions"),
-      playerId: v.id("players"),
-      selectedLabel: v.string(),
-      isCorrect: v.boolean(),
-      answeredAt: v.number(),
+    doc(schema, "answers").extend({
       character: characterValidator,
     }),
   ),
@@ -34,20 +30,14 @@ export const getByGameId = query({
     return answers.flatMap((a) => {
       const player = playerMap.get(a.playerId.toString());
       if (!player) return [];
-      return [
-        {
-          _id: a._id,
-          questionId: a.questionId,
-          playerId: a.playerId,
-          selectedLabel: a.selectedLabel,
-          isCorrect: a.isCorrect,
-          answeredAt: a.answeredAt,
-          character: player.character,
-        },
-      ];
+      return [{ ...a, character: player.character }];
     });
   },
 });
+
+// ========================================================================================
+// Update
+// ========================================================================================
 
 export const submit = mutation({
   args: {
@@ -59,9 +49,7 @@ export const submit = mutation({
   handler: async (ctx, args) => {
     const game = await ctx.db.get(args.gameId);
     if (!game) throw new ConvexError("game not found");
-    if (game.status !== "active" || game.phase !== "answering") {
-      throw new ConvexError("Not accepting answers.");
-    }
+    if (game.status !== "active" || game.phase !== "answering") throw new ConvexError("Not accepting answers."); // prettier-ignore
 
     // Find the player.
     const player = await ctx.db
@@ -83,10 +71,7 @@ export const submit = mutation({
 
     // Validate label.
     const validLabels = question.choices.map((c) => c.label);
-    if (!validLabels.includes(args.selectedLabel)) {
-      throw new ConvexError("Invalid choice label.");
-    }
-
+    if (!validLabels.includes(args.selectedLabel)) throw new ConvexError("Invalid choice label."); // prettier-ignore
     const isCorrect = args.selectedLabel === question.correctLabel;
 
     // Upsert: check if the player already has an answer for this question.
