@@ -359,6 +359,9 @@ export const getGame = internalQuery({
   },
 });
 
+const REVEAL_DURATION_MS = 3000;
+const RESULTS_DURATION_MS = 5000;
+
 export const saveQuestions = internalMutation({
   args: {
     gameId: v.id("games"),
@@ -381,7 +384,92 @@ export const saveQuestions = internalMutation({
         correctLabel: q.correctLabel,
       });
     }
-    await ctx.db.patch(args.gameId, { status: "active" });
+    await ctx.db.patch(args.gameId, {
+      status: "active",
+      phase: "reveal",
+      currentQuestionIndex: 0,
+    });
+    await ctx.scheduler.runAfter(
+      REVEAL_DURATION_MS,
+      internal.quizmaster.startAnswering,
+      { gameId: args.gameId, expectedIndex: 0 },
+    );
+  },
+});
+
+export const startAnswering = internalMutation({
+  args: { gameId: v.id("games"), expectedIndex: v.number() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const game = await ctx.db.get(args.gameId);
+    if (!game) return null;
+    if (game.status !== "active" || game.phase !== "reveal") return null;
+    if (game.currentQuestionIndex !== args.expectedIndex) return null;
+
+    const roundEndsAt = Date.now() + game.timeLimitSeconds * 1000;
+    await ctx.db.patch(args.gameId, { phase: "answering", roundEndsAt });
+    await ctx.scheduler.runAfter(
+      game.timeLimitSeconds * 1000,
+      internal.quizmaster.endAnswering,
+      { gameId: args.gameId, expectedIndex: args.expectedIndex },
+    );
+  },
+});
+
+export const endAnswering = internalMutation({
+  args: { gameId: v.id("games"), expectedIndex: v.number() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const game = await ctx.db.get(args.gameId);
+    if (!game) return null;
+    if (game.status !== "active" || game.phase !== "answering") return null;
+    if (game.currentQuestionIndex !== args.expectedIndex) return null;
+
+    await ctx.db.patch(args.gameId, {
+      phase: "results",
+      roundEndsAt: undefined,
+    });
+    await ctx.scheduler.runAfter(
+      RESULTS_DURATION_MS,
+      internal.quizmaster.advanceQuestion,
+      { gameId: args.gameId, expectedIndex: args.expectedIndex },
+    );
+  },
+});
+
+export const advanceQuestion = internalMutation({
+  args: { gameId: v.id("games"), expectedIndex: v.number() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const game = await ctx.db.get(args.gameId);
+    if (!game) return null;
+    if (game.status !== "active" || game.phase !== "results") return null;
+    if (game.currentQuestionIndex !== args.expectedIndex) return null;
+
+    // Count total questions for this game.
+    const questions = await ctx.db
+      .query("questions")
+      .withIndex("by_gameId_and_index", (q) => q.eq("gameId", args.gameId))
+      .collect();
+    const isLastQuestion = args.expectedIndex >= questions.length - 1;
+
+    if (isLastQuestion) {
+      await ctx.db.patch(args.gameId, {
+        status: "finished",
+        phase: undefined,
+      });
+    } else {
+      const nextIndex = args.expectedIndex + 1;
+      await ctx.db.patch(args.gameId, {
+        phase: "reveal",
+        currentQuestionIndex: nextIndex,
+      });
+      await ctx.scheduler.runAfter(
+        REVEAL_DURATION_MS,
+        internal.quizmaster.startAnswering,
+        { gameId: args.gameId, expectedIndex: nextIndex },
+      );
+    }
   },
 });
 

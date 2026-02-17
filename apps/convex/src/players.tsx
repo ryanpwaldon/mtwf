@@ -64,7 +64,7 @@ export const getByGameId = query({
 
 export const getMe = query({
   args: { gameId: v.id("games"), ...SessionIdArg },
-  returns: v.object({ character: characterValidator, isReady: v.boolean() }),
+  returns: v.object({ _id: v.id("players"), character: characterValidator, isReady: v.boolean() }),
   handler: async (ctx, args) => {
     const player = await ctx.db
       .query("players")
@@ -73,7 +73,7 @@ export const getMe = query({
       )
       .unique();
     if (!player) throw new ConvexError("Player not found.");
-    return { character: player.character, isReady: player.isReady };
+    return { _id: player._id, character: player.character, isReady: player.isReady };
   },
 });
 

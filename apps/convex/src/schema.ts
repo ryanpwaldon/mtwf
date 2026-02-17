@@ -22,6 +22,13 @@ const schema = defineSchema({
     timeLimitSeconds: v.number(),
     currentQuestionIndex: v.number(),
     roundEndsAt: v.optional(v.number()),
+    phase: v.optional(
+      v.union(
+        v.literal("reveal"),
+        v.literal("answering"),
+        v.literal("results"),
+      ),
+    ),
   })
     .index("by_code", ["code"])
     .index("by_status", ["status"]),

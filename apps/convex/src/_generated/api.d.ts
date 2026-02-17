@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as answers from "../answers.js";
 import type * as fields_character from "../fields/character.js";
 import type * as fields_movie from "../fields/movie.js";
 import type * as fields_quizTheme from "../fields/quizTheme.js";
@@ -16,6 +17,7 @@ import type * as games from "../games.js";
 import type * as migrations from "../migrations.js";
 import type * as movies from "../movies.js";
 import type * as players from "../players.js";
+import type * as questions from "../questions.js";
 import type * as quizmaster from "../quizmaster.js";
 
 import type {
@@ -25,6 +27,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  answers: typeof answers;
   "fields/character": typeof fields_character;
   "fields/movie": typeof fields_movie;
   "fields/quizTheme": typeof fields_quizTheme;
@@ -33,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   migrations: typeof migrations;
   movies: typeof movies;
   players: typeof players;
+  questions: typeof questions;
   quizmaster: typeof quizmaster;
 }>;
 

@@ -1,15 +1,15 @@
 import type { GenericDatabaseReader } from "convex/server";
-import { doc } from "convex-helpers/validators";
 import { SessionIdArg } from "convex-helpers/server/sessions";
+import { doc } from "convex-helpers/validators";
 import { ConvexError, v } from "convex/values";
 
 import type { DataModel, Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
-import schema from "./schema";
 import { CHARACTER_OPTIONS } from "./fields/character";
 import { movieValidator } from "./fields/movie";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
+import schema from "./schema";
 
 async function getPlayerOrThrow(
   ctx: { db: GenericDatabaseReader<DataModel> },
@@ -71,7 +71,7 @@ export const create = mutation({
       quizTone: "standard",
       quizTheme: "general-knowledge",
       questionCount: 10,
-      timeLimitSeconds: 20,
+      timeLimitSeconds: 5,
       roundEndsAt: undefined,
       currentQuestionIndex: 0,
     });
@@ -125,3 +125,4 @@ export const updateQuizTheme = mutation({
     await ctx.db.patch(args.gameId, { quizTheme: args.quizTheme });
   },
 });
+
