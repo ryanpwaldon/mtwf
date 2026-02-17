@@ -38,7 +38,7 @@ export default function GamePage() {
     // prettier-ignore
     <>
       {game.status === "lobby" && <GameLobby game={game} players={players} me={me} />}
-      {game.status === "generating" && <GameGenerating game={game} />}
+      {game.status === "generating" && <GameGenerating />}
       {game.status === "active" && <GamePlay game={game} me={me} questions={questions ?? []} answers={answers ?? []} />}
       {game.status === "finished" && <GameResults game={game} />}
     </>
