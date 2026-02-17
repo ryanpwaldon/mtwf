@@ -25,43 +25,8 @@ interface GamePlayProps {
   answers: Answer[];
 }
 
-const questionVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.1 } },
-  exit: { opacity: 0, y: -20 },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 },
-};
-
-function useCountdown(roundEndsAt: number | undefined, active: boolean) {
-  const [timeRemaining, setTimeRemaining] = useState(0);
-  const rafRef = useRef<number>(0);
-
-  useEffect(() => {
-    if (!active || !roundEndsAt) return;
-    const endTime = roundEndsAt;
-    function tick() {
-      const remaining = Math.max(0, endTime - Date.now());
-      setTimeRemaining(remaining);
-      if (remaining > 0) {
-        rafRef.current = requestAnimationFrame(tick);
-      }
-    }
-
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [roundEndsAt, active]);
-
-  // When not active, always return 0 regardless of stale state.
-  return active ? timeRemaining : 0;
-}
-
 export function GamePlay({ game, me, questions, answers }: GamePlayProps) {
   const submitAnswer = useSessionMutation(api.answers.submit);
-
   const phase = game.phase;
   if (!phase) return null;
 
@@ -80,15 +45,14 @@ export function GamePlay({ game, me, questions, answers }: GamePlayProps) {
   const currentAnswers = answers.filter(
     (a) => a.questionId === currentQuestion._id,
   );
-  const totalAnswers = currentAnswers.length;
-  const answerSummary = currentQuestion.choices.map((choice) => {
-    const choiceAnswers = currentAnswers.filter(
-      (a) => a.selectedLabel === choice.label,
-    );
-    const voters = choiceAnswers
-      .map((a) => CHARACTER_OPTIONS.find((c) => c.value === a.character) ?? null)
-      .filter((c) => c !== null);
 
+  // Count total answers for the question.
+  const totalAnswers = currentAnswers.length;
+
+  // Build answer summary per choice.
+  const answerSummary = currentQuestion.choices.map((choice) => {
+    const choiceAnswers = currentAnswers.filter((a) => a.selectedLabel === choice.label); // prettier-ignore
+    const voters = choiceAnswers.map((a) => CHARACTER_OPTIONS.find((c) => c.value === a.character) ?? null).filter((c) => c !== null); // prettier-ignore
     return {
       label: choice.label,
       text: choice.text,
@@ -105,14 +69,9 @@ export function GamePlay({ game, me, questions, answers }: GamePlayProps) {
   // Build question results for the status track.
   const questionResults = questions.map((q) => {
     if (q.index > game.currentQuestionIndex) return "incomplete" as const;
-    if (q.index === game.currentQuestionIndex && phase !== "results") {
-      return "incomplete" as const;
-    }
-
+    if (q.index === game.currentQuestionIndex && phase !== "results") return "incomplete" as const; // prettier-ignore
     // For past questions and current during results, check player's answer.
-    const ans = answers.find(
-      (a) => a.questionId === q._id && a.playerId === me._id,
-    );
+    const ans = answers.find((a) => a.questionId === q._id && a.playerId === me._id); // prettier-ignore
     if (!ans) return "skipped" as const;
     return ans.isCorrect ? ("correct" as const) : ("incorrect" as const);
   });
@@ -126,9 +85,7 @@ export function GamePlay({ game, me, questions, answers }: GamePlayProps) {
       answerSummary={answerSummary}
       questionResults={questionResults}
       questionCount={questions.length}
-      submitAnswer={(label: string) =>
-        submitAnswer({ gameId: game._id, selectedLabel: label })
-      }
+      submitAnswer={(label: string) => submitAnswer({ gameId: game._id, selectedLabel: label })} // prettier-ignore
     />
   );
 }
@@ -163,34 +120,19 @@ function GamePlayInner({
   // Track the local pick with the question index it belongs to. When the
   // question advances, the index won't match and we fall through to the
   // server answer, eliminating the need for effects to reset/sync state.
-  const [localPick, setLocalPick] = useState<{
-    index: number;
-    label: string;
-  } | null>(null);
-
-  const selectedLabel =
-    localPick !== null && localPick.index === game.currentQuestionIndex
-      ? localPick.label
-      : (myAnswer ?? null);
-
-  const timeRemaining = useCountdown(
-    game.roundEndsAt,
-    phase === "answering",
-  );
+  const [localPick, setLocalPick] = useState<{ index: number; label: string } | null>(null); // prettier-ignore
+  const selectedLabel = localPick !== null && localPick.index === game.currentQuestionIndex ? localPick.label : (myAnswer ?? null); // prettier-ignore
+  const timeRemaining = useCountdown(game.roundEndsAt, phase === "answering");
+  const secondsLeft = Math.ceil(timeRemaining / 1000);
+  const timeFraction = phase === "answering" && game.timeLimitSeconds > 0 ? timeRemaining / (game.timeLimitSeconds * 1000) : 0; // prettier-ignore
+  const showResults = phase === "results";
+  const isAnswering = phase === "answering";
 
   const handleSelect = (label: string) => {
     if (phase !== "answering") return;
     setLocalPick({ index: game.currentQuestionIndex, label });
     void submitAnswer(label);
   };
-
-  const secondsLeft = Math.ceil(timeRemaining / 1000);
-  const timeFraction =
-    phase === "answering" && game.timeLimitSeconds > 0
-      ? timeRemaining / (game.timeLimitSeconds * 1000)
-      : 0;
-  const showResults = phase === "results";
-  const isAnswering = phase === "answering";
 
   return (
     <PageShell>
@@ -201,10 +143,7 @@ function GamePlayInner({
           </div>
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-2">
-          <QuestionStatusTrack
-            className="w-full"
-            steps={questionResults}
-          />
+          <QuestionStatusTrack className="w-full" steps={questionResults} />
           {isAnswering ? (
             <TimeRemainingBar value={timeFraction} />
           ) : (
@@ -221,7 +160,6 @@ function GamePlayInner({
           )}
         </div>
       </header>
-
       <main className="px-4">
         <AnimatePresence mode="wait">
           <motion.div
@@ -269,4 +207,42 @@ function GamePlayInner({
       </main>
     </PageShell>
   );
+}
+
+// ========================================================================================
+// Helpers
+// ========================================================================================
+
+const questionVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.1 } },
+  exit: { opacity: 0, y: -20 },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+};
+
+function useCountdown(roundEndsAt: number | undefined, active: boolean) {
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (!active || !roundEndsAt) return;
+    const endTime = roundEndsAt;
+    function tick() {
+      const remaining = Math.max(0, endTime - Date.now());
+      setTimeRemaining(remaining);
+      if (remaining > 0) {
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    }
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [roundEndsAt, active]);
+
+  // When not active, always return 0 regardless of stale state.
+  return active ? timeRemaining : 0;
 }
