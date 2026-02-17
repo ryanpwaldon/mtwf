@@ -17,6 +17,9 @@ export const generateQuestions = internalAction({
       const questionCount = await ctx.runQuery(internal.quizmaster.getQuestionCount, { gameId: args.gameId }); // prettier-ignore
       const selected = shuffleArray(QUESTION_POOL).slice(0, questionCount);
 
+      // Simulate LLM generation delay.
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
       // Save questions to the database.
       await ctx.runMutation(internal.quizmaster.saveQuestions, {
         gameId: args.gameId,
