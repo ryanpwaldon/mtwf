@@ -11,42 +11,24 @@ import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
 import schema from "./schema";
 
-async function getPlayerOrThrow(
-  ctx: { db: GenericDatabaseReader<DataModel> },
-  gameId: Id<"games">,
-  sessionId: string,
-) {
-  const player = await ctx.db
-    .query("players")
-    .withIndex("by_gameId_and_sessionId", (q) =>
-      q.eq("gameId", gameId).eq("sessionId", sessionId),
-    )
-    .unique();
-  if (!player) throw new ConvexError("not a participant");
-  return player;
-}
+// ========================================================================================
+// Single
+// ========================================================================================
 
-const CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const CODE_LENGTH = 6;
-
-function generateGameCode(): string {
-  let code = "";
-  for (let i = 0; i < CODE_LENGTH; i++) {
-    code += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
-  }
-  return code;
-}
-
-export const getByCode = query({
+export const byCode = query({
   args: { code: v.string() },
   returns: v.union(doc(schema, "games"), v.null()),
-  handler: async (ctx, args) => {
-    return await ctx.db
+  handler: (ctx, args) => {
+    return ctx.db
       .query("games")
       .withIndex("by_code", (q) => q.eq("code", args.code.toUpperCase()))
       .unique();
   },
 });
+
+// ========================================================================================
+// Create
+// ========================================================================================
 
 export const create = mutation({
   args: { ...SessionIdArg },
@@ -91,6 +73,10 @@ export const create = mutation({
   },
 });
 
+// ========================================================================================
+// Update
+// ========================================================================================
+
 export const updateQuizMovie = mutation({
   args: {
     ...SessionIdArg,
@@ -126,3 +112,32 @@ export const updateQuizTheme = mutation({
   },
 });
 
+// ========================================================================================
+// Helpers
+// ========================================================================================
+
+const CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const CODE_LENGTH = 6;
+
+function generateGameCode(): string {
+  let code = "";
+  for (let i = 0; i < CODE_LENGTH; i++) {
+    code += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+  }
+  return code;
+}
+
+async function getPlayerOrThrow(
+  ctx: { db: GenericDatabaseReader<DataModel> },
+  gameId: Id<"games">,
+  sessionId: string,
+) {
+  const player = await ctx.db
+    .query("players")
+    .withIndex("by_gameId_and_sessionId", (q) =>
+      q.eq("gameId", gameId).eq("sessionId", sessionId),
+    )
+    .unique();
+  if (!player) throw new ConvexError("not a participant");
+  return player;
+}

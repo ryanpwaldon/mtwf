@@ -13,7 +13,7 @@ import { QuestionStatusTrack } from "~/components/question-status-track";
 import { TimeRemainingBar } from "~/components/time-remaining-bar";
 import { PageShell } from "./page-shell";
 
-type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
+type Game = NonNullable<FunctionReturnType<typeof api.games.byCode>>;
 type Me = NonNullable<FunctionReturnType<typeof api.players.getMe>>;
 type Question = FunctionReturnType<typeof api.questions.getByGameId>[number];
 type Answer = FunctionReturnType<typeof api.answers.allByGameId>[number];

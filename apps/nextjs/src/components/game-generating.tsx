@@ -4,7 +4,7 @@ import type { api } from "@acme/convex";
 
 import { FullScreenLoader } from "./full-screen-loader";
 
-type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
+type Game = NonNullable<FunctionReturnType<typeof api.games.byCode>>;
 
 interface GameGeneratingProps {
   game: Game;

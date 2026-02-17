@@ -11,7 +11,7 @@ import { Leaderboard } from "~/components/leaderboard";
 import { QuestionResult } from "~/components/question-result";
 import { PageShell } from "./page-shell";
 
-type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
+type Game = NonNullable<FunctionReturnType<typeof api.games.byCode>>;
 
 interface GameResultsProps {
   game: Game;

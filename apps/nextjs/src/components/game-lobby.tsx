@@ -22,7 +22,7 @@ import { PageShell } from "./page-shell";
 import { PlayerGroup } from "./player-group";
 import { ThemeInput } from "./theme-input";
 
-type Game = NonNullable<FunctionReturnType<typeof api.games.getByCode>>;
+type Game = NonNullable<FunctionReturnType<typeof api.games.byCode>>;
 type Player = FunctionReturnType<typeof api.players.getByGameId>[number];
 type Me = FunctionReturnType<typeof api.players.getMe>;
 
