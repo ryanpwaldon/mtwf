@@ -122,7 +122,7 @@ function GamePlayInner({
   // question advances, the index won't match and we fall through to the
   // server answer, eliminating the need for effects to reset/sync state.
   const [localPick, setLocalPick] = useState<{ index: number; label: string } | null>(null); // prettier-ignore
-  const selectedLabel = localPick !== null && localPick.index === game.currentQuestionIndex ? localPick.label : (myAnswer ?? null); // prettier-ignore
+  const selectedLabel = localPick !== null && localPick.index === game.currentQuestionIndex && phase === "answering" ? localPick.label : (myAnswer ?? null); // prettier-ignore
   const timeRemaining = useCountdown(game.roundEndsAt, phase === "answering");
   const secondsLeft = phase === "answering" ? Math.ceil(timeRemaining / 1000) : 0; // prettier-ignore
   const showResults = phase === "results";
@@ -190,7 +190,7 @@ function GamePlayInner({
             </motion.h1>
             <div className="mt-8">
               <RadioGroup
-                value={selectedLabel ?? undefined}
+                value={selectedLabel ?? ""}
                 onValueChange={isAnswering ? handleSelect : undefined}
               >
                 {answerSummary.map((choice) => (
