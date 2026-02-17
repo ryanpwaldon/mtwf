@@ -144,7 +144,7 @@ function GamePlayInner({
           </div>
         </div>
         <div className="flex w-full flex-col items-center justify-center gap-2">
-          <QuestionStatusTrack className="w-full" steps={questionResults} />
+          <QuestionStatusTrack className="w-full" steps={questionResults} activeIndex={game.currentQuestionIndex} />
           <motion.div
             className="w-full"
             key={game.currentQuestionIndex}

@@ -4,17 +4,19 @@ export type QuestionStatus = "incomplete" | "correct" | "incorrect" | "skipped";
 
 interface QuestionStatusTrackProps extends React.ComponentProps<"div"> {
   steps: QuestionStatus[];
+  activeIndex?: number;
 }
 
 const stepStyles: Record<QuestionStatus, string> = {
   incomplete: "bg-primary/10",
   correct: "bg-correct",
   incorrect: "bg-incorrect",
-  skipped: "bg-muted",
+  skipped: "bg-primary/10",
 };
 
 export function QuestionStatusTrack({
   steps,
+  activeIndex,
   className,
   ...props
 }: QuestionStatusTrackProps) {
@@ -30,7 +32,9 @@ export function QuestionStatusTrack({
           data-status={status}
           className={cn(
             "flex-1 rounded-full transition-colors",
-            stepStyles[status],
+            index === activeIndex && (status === "incomplete" || status === "skipped")
+              ? "bg-primary"
+              : stepStyles[status],
           )}
         />
       ))}
