@@ -55,24 +55,6 @@ export const join = mutation({
 });
 
 // ========================================================================================
-// Many
-// ========================================================================================
-
-export const allByGameId = query({
-  args: { gameId: v.id("games") },
-  returns: v.array(
-    v.object({ character: characterValidator, isReady: v.boolean() }),
-  ),
-  handler: async (ctx, args) => {
-    const players = await ctx.db
-      .query("players")
-      .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
-      .collect();
-    return players.map((p) => ({ character: p.character, isReady: p.isReady }));
-  },
-});
-
-// ========================================================================================
 // Single
 // ========================================================================================
 
@@ -96,6 +78,24 @@ export const me = query({
       character: player.character,
       isReady: player.isReady,
     };
+  },
+});
+
+// ========================================================================================
+// Many
+// ========================================================================================
+
+export const allByGameId = query({
+  args: { gameId: v.id("games") },
+  returns: v.array(
+    v.object({ character: characterValidator, isReady: v.boolean() }),
+  ),
+  handler: async (ctx, args) => {
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
+      .collect();
+    return players.map((p) => ({ character: p.character, isReady: p.isReady }));
   },
 });
 
