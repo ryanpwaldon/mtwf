@@ -17,6 +17,7 @@ import type * as games from "../games.js";
 import type * as migrations from "../migrations.js";
 import type * as movies from "../movies.js";
 import type * as players from "../players.js";
+import type * as questionPool from "../questionPool.js";
 import type * as questions from "../questions.js";
 import type * as quizmaster from "../quizmaster.js";
 
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   migrations: typeof migrations;
   movies: typeof movies;
   players: typeof players;
+  questionPool: typeof questionPool;
   questions: typeof questions;
   quizmaster: typeof quizmaster;
 }>;
