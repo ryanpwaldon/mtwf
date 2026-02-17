@@ -140,11 +140,11 @@ export const updateIsReady = mutation({
         p._id === player._id ? true : p.isReady,
       );
       if (!allReady) return;
-
       if (!game.quizMovie) throw new ConvexError("No movie selected.");
 
+      // Generate questions.
       await ctx.db.patch(args.gameId, { status: "generating" });
-      await ctx.scheduler.runAfter(0, internal.quizmaster.generate, {
+      await ctx.scheduler.runAfter(0, internal.quizmaster.generateQuestions, {
         gameId: args.gameId,
       });
     }
