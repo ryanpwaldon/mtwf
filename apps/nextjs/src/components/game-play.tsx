@@ -177,7 +177,7 @@ function GamePlayInner({
             </motion.h2>
             <motion.h1
               variants={itemVariants}
-              className="mt-4 text-center text-2xl font-extrabold tracking-tight"
+              className="mt-1 text-center text-2xl font-extrabold tracking-tight"
             >
               {currentQuestion.text}
             </motion.h1>
