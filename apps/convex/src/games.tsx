@@ -64,7 +64,7 @@ export const create = mutation({
 
 export const byCode = query({
   args: { code: v.string() },
-  returns: v.union(doc(schema, "games"), v.null()),
+  returns: v.nullable(doc(schema, "games")),
   handler: (ctx, args) => {
     return ctx.db
       .query("games")
