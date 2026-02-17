@@ -103,7 +103,7 @@ function GamePlayInner({
   submitAnswer,
 }: {
   game: Game;
-  phase: "reveal" | "answering" | "results";
+  phase: "answering" | "results";
   currentQuestion: Question;
   myAnswer: string | null;
   answerSummary: {
@@ -125,9 +125,7 @@ function GamePlayInner({
   const selectedLabel = localPick !== null && localPick.index === game.currentQuestionIndex ? localPick.label : (myAnswer ?? null); // prettier-ignore
   const timeRemaining = useCountdown(game.roundEndsAt, phase === "answering");
   const secondsLeft =
-    phase === "reveal" ? game.timeLimitSeconds
-    : phase === "answering" ? Math.ceil(timeRemaining / 1000)
-    : 0; // results
+    phase === "answering" ? Math.ceil(timeRemaining / 1000) : 0;
   const showResults = phase === "results";
   const isAnswering = phase === "answering";
 

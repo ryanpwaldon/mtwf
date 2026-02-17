@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 
 interface TimeRemainingBarProps {
-  phase: "reveal" | "answering" | "results";
+  phase: "answering" | "results";
   durationSeconds: number;
 }
 
@@ -13,7 +13,8 @@ export function TimeRemainingBar({
     <div className="bg-primary/10 flex h-2 w-full justify-end rounded-full">
       <motion.div
         className="bg-primary h-full rounded-full"
-        animate={{ width: phase === "reveal" ? "100%" : "0%" }}
+        initial={{ width: "100%" }}
+        animate={{ width: "0%" }}
         transition={
           phase === "answering"
             ? { duration: durationSeconds, ease: "linear" }

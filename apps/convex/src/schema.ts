@@ -23,11 +23,7 @@ const schema = defineSchema({
     currentQuestionIndex: v.number(),
     roundEndsAt: v.optional(v.number()),
     phase: v.optional(
-      v.union(
-        v.literal("reveal"),
-        v.literal("answering"),
-        v.literal("results"),
-      ),
+      v.union(v.literal("answering"), v.literal("results")),
     ),
   })
     .index("by_code", ["code"])

@@ -57,37 +57,19 @@ export const saveQuestions = internalMutation({
         correctLabel: q.correctLabel,
       });
     }
-    await ctx.db.patch(args.gameId, {
-      status: "active",
-      phase: "reveal",
-      currentQuestionIndex: 0,
-    });
-    await ctx.scheduler.runAfter(
-      REVEAL_DURATION_MS,
-      internal.quizmaster.startAnswering,
-      { gameId: args.gameId, expectedIndex: 0 },
-    );
-  },
-});
-
-export const startAnswering = internalMutation({
-  args: { gameId: v.id("games"), expectedIndex: v.number() },
-  returns: v.null(),
-  handler: async (ctx, args) => {
     const game = await ctx.db.get(args.gameId);
     if (!game) return null;
-    if (game.status !== "active" || game.phase !== "reveal") return null;
-    if (game.currentQuestionIndex !== args.expectedIndex) return null;
     const roundEndsAt = Date.now() + game.timeLimitSeconds * 1000;
-
-    // Start the answering phase.
-    await ctx.db.patch(args.gameId, { phase: "answering", roundEndsAt });
-
-    // Advance to the results phase after the answering phase.
+    await ctx.db.patch(args.gameId, {
+      status: "active",
+      phase: "answering",
+      currentQuestionIndex: 0,
+      roundEndsAt,
+    });
     await ctx.scheduler.runAfter(
       game.timeLimitSeconds * 1000,
       internal.quizmaster.endAnswering,
-      { gameId: args.gameId, expectedIndex: args.expectedIndex },
+      { gameId: args.gameId, expectedIndex: 0 },
     );
   },
 });
@@ -139,16 +121,17 @@ export const advanceQuestion = internalMutation({
         phase: undefined,
       });
     } else {
-      // Advance to the next question reveal phase.
+      // Advance to the next question answering phase.
       const nextIndex = args.expectedIndex + 1;
+      const roundEndsAt = Date.now() + game.timeLimitSeconds * 1000;
       await ctx.db.patch(args.gameId, {
-        phase: "reveal",
+        phase: "answering",
         currentQuestionIndex: nextIndex,
+        roundEndsAt,
       });
-      // Advance to the answering phase after the reveal phase.
       await ctx.scheduler.runAfter(
-        REVEAL_DURATION_MS,
-        internal.quizmaster.startAnswering,
+        game.timeLimitSeconds * 1000,
+        internal.quizmaster.endAnswering,
         { gameId: args.gameId, expectedIndex: nextIndex },
       );
     }
@@ -167,7 +150,6 @@ export const resetStatus = internalMutation({
 // Helpers
 // ========================================================================================
 
-const REVEAL_DURATION_MS = 3000;
 const RESULTS_DURATION_MS = 5000;
 
 // Fisher-Yates shuffle.
