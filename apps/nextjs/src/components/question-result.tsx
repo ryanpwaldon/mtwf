@@ -78,7 +78,7 @@ export function QuestionResult({
                 {choice.voters.length > 0 && (
                   <PlayerGroup
                     characters={choice.voters}
-                    avatarSize="sm"
+                    avatarSize="xs"
                     maxVisible={3}
                   />
                 )}
