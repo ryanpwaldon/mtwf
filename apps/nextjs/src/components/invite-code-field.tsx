@@ -44,14 +44,7 @@ export function InviteCodeField({ code }: { code: string }) {
       >
         {code}
       </div>
-      <Tooltip
-        open={copiedOpen}
-        onOpenChange={(nextOpen) => {
-          if (!nextOpen) {
-            setCopiedOpen(false);
-          }
-        }}
-      >
+      <Tooltip open={copiedOpen}>
         <TooltipTrigger asChild>
           <Button
             type="button"
