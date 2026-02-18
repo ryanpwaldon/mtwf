@@ -4,7 +4,7 @@ import type { FunctionReturnType } from "convex/server";
 import { useEffect, useState } from "react";
 import NumberFlow from "@number-flow/react";
 import { useSessionMutation } from "convex-helpers/react/sessions";
-import { CheckIcon, XIcon } from "lucide-react";
+import { CheckIcon, CircleSmallIcon, XIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { api, CHARACTER_OPTIONS } from "@acme/convex";
@@ -208,13 +208,14 @@ function GamePlayInner({
               className="mt-8 flex justify-center"
             >
               <PlayerGroup
+                avatarSize="default"
                 characters={playerCharacters}
                 renderBadge={(character) => {
                   if (!answerCorrectness.has(character.value)) return null;
                   if (phase === "answering") {
                     return (
-                      <AvatarBadge position="top-left" className="bg-white">
-                        <CheckIcon className="stroke-neutral-500 stroke-5" />
+                      <AvatarBadge position="top-left" className="bg-primary">
+                        <CircleSmallIcon className="fill-primary-foreground" />
                       </AvatarBadge>
                     );
                   }
@@ -236,7 +237,7 @@ function GamePlayInner({
             </motion.div>
             <motion.h2
               variants={itemVariants}
-              className="text-muted-foreground mt-2 text-center text-base font-medium"
+              className="text-muted-foreground mt-3 text-center text-base font-medium"
             >
               Question {game.currentQuestionIndex + 1} of {questionCount}
             </motion.h2>
