@@ -19,13 +19,13 @@ export function PlayerGroup({
   avatarSize = "sm",
   maxVisible = 3,
   renderBadge,
-  animate,
+  animateEntrance,
 }: {
   characters: Character[];
   avatarSize?: AvatarSize;
   maxVisible?: number;
   renderBadge?: (character: Character) => ReactNode;
-  animate?: boolean;
+  animateEntrance?: boolean;
 }) {
   const visibleCharacters = characters.slice(0, maxVisible);
   const hiddenCount = Math.max(0, characters.length - visibleCharacters.length);
@@ -39,7 +39,7 @@ export function PlayerGroup({
             size={avatarSize}
             key={character.value}
             tooltip={character.label}
-            className={animate ? "ring-background ring-2" : undefined}
+            className={animateEntrance ? "ring-background ring-2" : undefined}
           >
             <AvatarFallback className={cn(character.color)} />
             <AnimatePresence>
@@ -57,7 +57,7 @@ export function PlayerGroup({
           </Avatar>
         );
 
-        if (animate) {
+        if (animateEntrance) {
           return (
             <motion.div
               key={character.value}
@@ -78,7 +78,7 @@ export function PlayerGroup({
         return avatar;
       })}
       {hiddenCount > 0 ? (
-        animate ? (
+        animateEntrance ? (
           <motion.div
             key="count"
             initial={{ opacity: 0, x: -8 }}

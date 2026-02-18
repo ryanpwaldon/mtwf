@@ -85,7 +85,7 @@ export function Choice({
               characters={voters}
               avatarSize="xs"
               maxVisible={1}
-              animate
+              animateEntrance
             />
           ) : null}
         </div>
