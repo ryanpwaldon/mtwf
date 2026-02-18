@@ -67,12 +67,38 @@ function AvatarFallback({
   );
 }
 
-function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
+type AvatarBadgePosition =
+  | "top-left"
+  | "top"
+  | "top-right"
+  | "left"
+  | "right"
+  | "bottom-left"
+  | "bottom"
+  | "bottom-right";
+
+const badgePositionClasses: Record<AvatarBadgePosition, string> = {
+  "top-left": "top-0 left-0",
+  top: "top-0 left-1/2 -translate-x-1/2",
+  "top-right": "top-0 right-0",
+  left: "top-1/2 left-0 -translate-y-1/2",
+  right: "top-1/2 right-0 -translate-y-1/2",
+  "bottom-left": "bottom-0 left-0",
+  bottom: "bottom-0 left-1/2 -translate-x-1/2",
+  "bottom-right": "bottom-0 right-0",
+};
+
+function AvatarBadge({
+  className,
+  position = "bottom-right",
+  ...props
+}: React.ComponentProps<"span"> & { position?: AvatarBadgePosition }) {
   return (
     <span
       data-slot="avatar-badge"
       className={cn(
-        "bg-primary text-primary-foreground ring-background absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full ring-2 select-none",
+        "bg-primary text-primary-foreground ring-background absolute z-10 inline-flex items-center justify-center rounded-full ring-2 select-none",
+        badgePositionClasses[position],
         "group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
         "group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
         "group-data-[size=lg]/avatar:size-4 group-data-[size=lg]/avatar:[&>svg]:size-2.5",

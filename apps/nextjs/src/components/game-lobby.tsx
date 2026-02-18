@@ -2,8 +2,10 @@
 
 import type { FunctionReturnType } from "convex/server";
 import { useSessionMutation } from "convex-helpers/react/sessions";
+import { CheckIcon } from "lucide-react";
 
 import { api, getCharacterByValue } from "@acme/convex";
+import { AvatarBadge } from "@acme/ui/avatar";
 import { Badge } from "@acme/ui/badge";
 import { Button } from "@acme/ui/button";
 import {
@@ -40,6 +42,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
 
   const characters = players.map((p) => getCharacterByValue(p.character));
   const takenCharacterValues = players.filter((p) => p.character !== me.character).map((p) => p.character); // prettier-ignore
+  const readyByCharacter = new Map(players.map((p) => [p.character, p.isReady])); // prettier-ignore
 
   return (
     <PageShell>
@@ -115,7 +118,17 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
             <p className="font-medium">Players</p>
             <Badge variant="secondary">{players.length}</Badge>
           </div>
-          <PlayerGroup characters={characters} />
+          <PlayerGroup
+            avatarSize="default"
+            characters={characters}
+            renderBadge={(character) =>
+              readyByCharacter.get(character.value) ? (
+                <AvatarBadge position="top-left" className="bg-lime-400">
+                  <CheckIcon className="stroke-lime-900 stroke-5" />
+                </AvatarBadge>
+              ) : null
+            }
+          />
         </div>
         <Button
           size="xl"
