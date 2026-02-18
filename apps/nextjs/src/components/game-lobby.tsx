@@ -38,7 +38,6 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
   const updateCharacter = useSessionMutation(api.players.updateCharacter);
   const updateIsReady = useSessionMutation(api.players.updateIsReady);
 
-  const readyCount = players.filter((p) => p.isReady).length;
   const characters = players.map((p) => getCharacterByValue(p.character));
   const takenCharacterValues = players.filter((p) => p.character !== me.character).map((p) => p.character); // prettier-ignore
 
