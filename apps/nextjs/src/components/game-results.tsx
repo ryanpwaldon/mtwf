@@ -21,7 +21,7 @@ export function GameResults({ game: _game }: GameResultsProps) {
   return (
     <PageShell>
       <Header />
-      <main className="flex-1 px-4">
+      <main className="flex-1 px-4 pb-16">
         <div className="mt-8">
           <h1 className="text-2xl font-extrabold tracking-tight">
             Quiz results
