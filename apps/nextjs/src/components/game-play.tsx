@@ -10,6 +10,7 @@ import { api, CHARACTER_OPTIONS } from "@acme/convex";
 import { RadioGroup } from "@acme/ui/radio-group";
 
 import { Choice } from "~/components/choice";
+import { PlayerGroup } from "~/components/player-group";
 import { QuestionStatusTrack } from "~/components/question-status-track";
 import { TimeRemainingBar } from "~/components/time-remaining-bar";
 import { PageShell } from "./page-shell";
@@ -17,16 +18,18 @@ import { PageShell } from "./page-shell";
 type Game = NonNullable<FunctionReturnType<typeof api.games.byCode>>;
 type Me = NonNullable<FunctionReturnType<typeof api.players.me>>;
 type Question = FunctionReturnType<typeof api.questions.allByGameId>[number];
+type Player = FunctionReturnType<typeof api.players.allByGameId>[number];
 type Answer = FunctionReturnType<typeof api.answers.allByGameId>[number];
 
 interface GamePlayProps {
   game: Game;
   me: Me;
+  players: Player[];
   questions: Question[];
   answers: Answer[];
 }
 
-export function GamePlay({ game, me, questions, answers }: GamePlayProps) {
+export function GamePlay({ game, me, players, questions, answers }: GamePlayProps) {
   const submitAnswer = useSessionMutation(api.answers.submit);
   const phase = game.phase;
   if (!phase) return null;
@@ -77,6 +80,11 @@ export function GamePlay({ game, me, questions, answers }: GamePlayProps) {
     return ans.isCorrect ? ("correct" as const) : ("incorrect" as const);
   });
 
+  // Map player character values to full CHARACTER_OPTIONS objects.
+  const playerCharacters = players
+    .map((p) => CHARACTER_OPTIONS.find((c) => c.value === p.character))
+    .filter((c) => c != null);
+
   return (
     <GamePlayInner
       game={game}
@@ -86,6 +94,7 @@ export function GamePlay({ game, me, questions, answers }: GamePlayProps) {
       answerSummary={answerSummary}
       questionResults={questionResults}
       questionCount={questions.length}
+      playerCharacters={playerCharacters}
       submitAnswer={(label: string) => submitAnswer({ gameId: game._id, selectedLabel: label })} // prettier-ignore
     />
   );
@@ -100,6 +109,7 @@ function GamePlayInner({
   answerSummary,
   questionResults,
   questionCount,
+  playerCharacters,
   submitAnswer,
 }: {
   game: Game;
@@ -116,6 +126,7 @@ function GamePlayInner({
   }[];
   questionResults: ("correct" | "incorrect" | "skipped" | "incomplete")[];
   questionCount: number;
+  playerCharacters: (typeof CHARACTER_OPTIONS)[number][];
   submitAnswer: (label: string) => void;
 }) {
   // Track the local pick with the question index it belongs to. When the
@@ -176,9 +187,15 @@ function GamePlayInner({
             animate="visible"
             exit="exit"
           >
+            <motion.div
+              variants={itemVariants}
+              className="mt-8 flex justify-center"
+            >
+              <PlayerGroup characters={playerCharacters} />
+            </motion.div>
             <motion.h2
               variants={itemVariants}
-              className="text-muted-foreground mt-8 text-center text-base font-medium"
+              className="text-muted-foreground mt-2 text-center text-base font-medium"
             >
               Question {game.currentQuestionIndex + 1} of {questionCount}
             </motion.h2>

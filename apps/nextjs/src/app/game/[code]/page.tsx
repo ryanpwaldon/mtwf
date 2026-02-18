@@ -21,9 +21,12 @@ export default function GamePage() {
   const questions = useQuery(api.questions.allByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
   const answers = useQuery(api.answers.allByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
 
-  if (game === undefined || players === undefined || me === undefined) {
-    return <FullScreenLoader />;
-  }
+  const isLoading =
+    game === undefined ||
+    players === undefined ||
+    me === undefined ||
+    questions === undefined ||
+    answers === undefined;
 
   if (game === null) {
     return (
@@ -34,12 +37,16 @@ export default function GamePage() {
     );
   }
 
+  if (isLoading) {
+    return <FullScreenLoader />;
+  }
+
   return (
     // prettier-ignore
     <>
       {game.status === "lobby" && <GameLobby game={game} players={players} me={me} />}
       {game.status === "generating" && <GameGenerating />}
-      {game.status === "active" && <GamePlay game={game} me={me} questions={questions ?? []} answers={answers ?? []} />}
+      {game.status === "active" && <GamePlay game={game} me={me} players={players} questions={questions} answers={answers} />}
       {game.status === "finished" && <GameResults game={game} />}
     </>
   );
