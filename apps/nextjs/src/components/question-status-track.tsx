@@ -32,7 +32,7 @@ export function QuestionStatusTrack({
           data-status={status}
           className={cn(
             "flex-1 rounded-full transition-colors",
-            index === activeIndex && (status === "incomplete" || status === "skipped")
+            index === activeIndex
               ? "bg-primary"
               : stepStyles[status],
           )}
