@@ -86,7 +86,7 @@ export function GameResults({
           <h1 className="text-2xl font-extrabold tracking-tight">
             Quiz results
           </h1>
-          <p className="text-muted-foreground">See how your friends did!</p>
+          <p className="text-muted-foreground">And the results are in...</p>
         </div>
         <Card className="mt-6 py-0">
           <CardContent className="p-0">
@@ -96,6 +96,7 @@ export function GameResults({
             />
           </CardContent>
         </Card>
+        <h2 className="mt-6 text-lg font-medium">Score breakdown</h2>
         {questionResults.map((result) => (
           <QuestionResult
             key={result.id}

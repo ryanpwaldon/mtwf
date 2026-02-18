@@ -26,7 +26,7 @@ export function Leaderboard({
   totalQuestions,
   className,
 }: LeaderboardProps) {
-  const minimumRows = 8;
+  const minimumRows = 0;
   const emptyRowCount = Math.max(0, minimumRows - entries.length);
 
   return (
