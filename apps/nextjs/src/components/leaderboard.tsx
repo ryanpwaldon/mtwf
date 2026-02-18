@@ -1,5 +1,4 @@
 import type { Character } from "@acme/convex";
-import { getCharacterByValue } from "@acme/convex";
 import { cn } from "@acme/ui";
 import { Avatar, AvatarFallback } from "@acme/ui/avatar";
 import {
@@ -11,55 +10,24 @@ import {
   TableRow,
 } from "@acme/ui/table";
 
-interface LeaderboardEntry {
-  id: string;
-  place: number;
+export interface LeaderboardEntry {
   character: Character;
   correctAnswers: number;
-  totalQuestions: number;
 }
 
-const mockLeaderboardData: LeaderboardEntry[] = [
-  {
-    id: "1",
-    place: 1,
-    character: getCharacterByValue("lime"),
-    correctAnswers: 10,
-    totalQuestions: 10,
-  },
-  {
-    id: "2",
-    place: 2,
-    character: getCharacterByValue("amber"),
-    correctAnswers: 9,
-    totalQuestions: 10,
-  },
-  {
-    id: "3",
-    place: 3,
-    character: getCharacterByValue("blue"),
-    correctAnswers: 8,
-    totalQuestions: 10,
-  },
-  {
-    id: "4",
-    place: 4,
-    character: getCharacterByValue("pink"),
-    correctAnswers: 6,
-    totalQuestions: 10,
-  },
-  {
-    id: "5",
-    place: 5,
-    character: getCharacterByValue("teal"),
-    correctAnswers: 4,
-    totalQuestions: 10,
-  },
-];
+interface LeaderboardProps {
+  entries: LeaderboardEntry[];
+  totalQuestions: number;
+  className?: string;
+}
 
-export function Leaderboard({ className }: { className?: string }) {
+export function Leaderboard({
+  entries,
+  totalQuestions,
+  className,
+}: LeaderboardProps) {
   const minimumRows = 8;
-  const emptyRowCount = Math.max(0, minimumRows - mockLeaderboardData.length);
+  const emptyRowCount = Math.max(0, minimumRows - entries.length);
 
   return (
     <Table className={cn(className)}>
@@ -70,12 +38,12 @@ export function Leaderboard({ className }: { className?: string }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {mockLeaderboardData.map((entry) => (
-          <TableRow key={entry.id}>
+        {entries.map((entry, i) => (
+          <TableRow key={entry.character.value}>
             <TableCell>
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground w-3.5 font-medium">
-                  {entry.place}.
+                  {i + 1}.
                 </span>
                 <Avatar size="sm" tooltip={entry.character.label}>
                   <AvatarFallback className={entry.character.color} />
@@ -84,7 +52,7 @@ export function Leaderboard({ className }: { className?: string }) {
               </div>
             </TableCell>
             <TableCell className="text-right">
-              {entry.correctAnswers}/{entry.totalQuestions}
+              {entry.correctAnswers}/{totalQuestions}
             </TableCell>
           </TableRow>
         ))}

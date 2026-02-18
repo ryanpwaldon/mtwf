@@ -10,31 +10,29 @@ import {
 
 import { PlayerGroup } from "./player-group";
 
+export interface QuestionResultChoice {
+  text: string;
+  voters: Character[];
+}
+
+interface QuestionResultProps {
+  question: string;
+  questionIndex: number;
+  choices: QuestionResultChoice[];
+  correctIndex: number;
+  myChoiceIndex: number;
+  className?: string;
+}
+
 export function QuestionResult({
   question,
   questionIndex,
-  answers,
-  voters,
-  correctAnswerIndex,
-  currentUserChoiceIndex,
+  choices,
+  correctIndex,
+  myChoiceIndex,
   className,
-}: {
-  question: string;
-  questionIndex: number;
-  answers: string[];
-  voters: { character: Character; choiceIndex: number }[];
-  correctAnswerIndex: number;
-  currentUserChoiceIndex: number;
-  className?: string;
-}) {
-  const votersByAnswer = new Map<number, Character[]>();
-  for (const voter of voters) {
-    const list = votersByAnswer.get(voter.choiceIndex) ?? [];
-    list.push(voter.character);
-    votersByAnswer.set(voter.choiceIndex, list);
-  }
-
-  const totalVoters = voters.length;
+}: QuestionResultProps) {
+  const totalVoters = choices.reduce((sum, c) => sum + c.voters.length, 0);
 
   return (
     <Card className={cn("gap-0 p-0", className)}>
@@ -45,18 +43,11 @@ export function QuestionResult({
         <CardDescription>{question}</CardDescription>
       </CardHeader>
       <CardContent className="divide-y p-0">
-        {answers.map((answer, i) => {
-          const answerVoters = votersByAnswer.get(i) ?? [];
-          const votePercent =
-            totalVoters > 0
-              ? Math.round((answerVoters.length / totalVoters) * 100)
-              : 0;
+        {choices.map((choice, i) => {
+          const votePercent = totalVoters > 0 ? Math.round((choice.voters.length / totalVoters) * 100) : 0; // prettier-ignore
           const letter = String.fromCharCode(65 + i);
-          const isCorrect = i === correctAnswerIndex;
-          const isUserWrongPick =
-            i === currentUserChoiceIndex &&
-            currentUserChoiceIndex !== correctAnswerIndex;
-
+          const isCorrect = i === correctIndex;
+          const isUserWrongPick = i === myChoiceIndex && myChoiceIndex !== correctIndex; // prettier-ignore
           return (
             <div
               key={i}
@@ -81,12 +72,12 @@ export function QuestionResult({
                   isUserWrongPick && "text-incorrect-foreground",
                 )}
               >
-                {letter}. {answer}
+                {letter}. {choice.text}
               </span>
               <div className="relative flex items-center gap-2">
-                {answerVoters.length > 0 && (
+                {choice.voters.length > 0 && (
                   <PlayerGroup
-                    characters={answerVoters}
+                    characters={choice.voters}
                     avatarSize="sm"
                     maxVisible={3}
                   />
