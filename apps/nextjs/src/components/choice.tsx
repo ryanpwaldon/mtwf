@@ -50,8 +50,16 @@ export function Choice({
           "group-data-[show-results=true]/choice:group-has-data-[state=checked]/choice:group-data-[correct-answer=false]/choice:bg-incorrect/30",
         )}
         style={{ transformOrigin: "left" }}
-        animate={{ scaleX: showResults ? votePercent / 100 : 0 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
+        animate={{
+          opacity: showResults ? 1 : 0,
+          scaleX: showResults ? votePercent / 100 : 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 35,
+          mass: 1,
+        }}
       />
       <Field orientation="horizontal" className="relative">
         <FieldContent>
