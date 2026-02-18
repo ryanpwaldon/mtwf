@@ -1,6 +1,7 @@
+import { motion } from "motion/react";
+
 import type { Character } from "@acme/convex";
 import { cn } from "@acme/ui";
-import { motion } from "motion/react";
 import {
   Field,
   FieldContent,
@@ -72,7 +73,12 @@ export function Choice({
             )}
           />
           {showResults ? (
-            <PlayerGroup characters={voters} avatarSize="xs" maxVisible={3} />
+            <PlayerGroup
+              characters={voters}
+              avatarSize="xs"
+              maxVisible={1}
+              animate
+            />
           ) : null}
         </div>
       </Field>
