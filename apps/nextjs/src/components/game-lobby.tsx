@@ -114,9 +114,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
         <div className="flex flex-col items-start gap-2">
           <div className="flex items-center gap-2">
             <p className="font-medium">Players</p>
-            <Badge>
-              {readyCount}/{players.length} ready
-            </Badge>
+            <Badge variant="secondary">{players.length}</Badge>
           </div>
           <PlayerGroup characters={characters} />
         </div>
