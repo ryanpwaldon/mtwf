@@ -71,7 +71,7 @@ export function Choice({
             )}
           />
           {showResults ? (
-            <PlayerGroup characters={voters} avatarSize="sm" maxVisible={3} />
+            <PlayerGroup characters={voters} avatarSize="xs" maxVisible={3} />
           ) : null}
         </div>
       </Field>

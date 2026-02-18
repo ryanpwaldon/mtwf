@@ -9,7 +9,7 @@ import {
   AvatarGroupCount,
 } from "@acme/ui/avatar";
 
-type AvatarSize = "default" | "sm" | "lg";
+type AvatarSize = "xs" | "default" | "sm" | "lg";
 
 export function PlayerGroup({
   characters,
