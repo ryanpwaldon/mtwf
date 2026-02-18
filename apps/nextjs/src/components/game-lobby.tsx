@@ -1,6 +1,7 @@
 "use client";
 
 import type { FunctionReturnType } from "convex/server";
+import { useState } from "react";
 import { useSessionMutation } from "convex-helpers/react/sessions";
 import { CheckIcon } from "lucide-react";
 
@@ -39,10 +40,19 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
   const updateQuizTheme = useSessionMutation(api.games.updateQuizTheme);
   const updateCharacter = useSessionMutation(api.players.updateCharacter);
   const updateIsReady = useSessionMutation(api.players.updateIsReady);
-
+  const [isUpdatingReady, setIsUpdatingReady] = useState(false);
   const characters = players.map((p) => getCharacterByValue(p.character));
   const takenCharacterValues = players.filter((p) => p.character !== me.character).map((p) => p.character); // prettier-ignore
   const readyByCharacter = new Map(players.map((p) => [p.character, p.isReady])); // prettier-ignore
+
+  async function handleReadyToggle() {
+    setIsUpdatingReady(true);
+    try {
+      await updateIsReady({ gameId: game._id, isReady: !me.isReady });
+    } finally {
+      setIsUpdatingReady(false);
+    }
+  }
 
   return (
     <PageShell>
@@ -132,9 +142,10 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
         </div>
         <Button
           size="xl"
-          variant={me.isReady ? "outline" : "default"}
-          onClick={() => void updateIsReady({ gameId: game._id, isReady: !me.isReady })} // prettier-ignore
+          disabled={isUpdatingReady}
           className="transition-none"
+          onClick={() => void handleReadyToggle()}
+          variant={me.isReady ? "outline" : "default"}
         >
           {me.isReady ? "Waiting..." : "Start"}
         </Button>
