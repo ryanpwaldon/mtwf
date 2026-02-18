@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 import type { Character } from "@acme/convex";
 import { cn } from "@acme/ui";
@@ -28,6 +29,7 @@ export function PlayerGroup({
   return (
     <AvatarGroup>
       {visibleCharacters.map((character) => {
+        const badge = renderBadge?.(character);
         return (
           <Avatar
             size={avatarSize}
@@ -35,7 +37,18 @@ export function PlayerGroup({
             tooltip={character.label}
           >
             <AvatarFallback className={cn(character.color)} />
-            {renderBadge?.(character)}
+            <AnimatePresence>
+              {badge && (
+                <motion.div
+                  key="badge"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {badge}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </Avatar>
         );
       })}

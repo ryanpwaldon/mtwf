@@ -4,9 +4,11 @@ import type { FunctionReturnType } from "convex/server";
 import { useEffect, useState } from "react";
 import NumberFlow from "@number-flow/react";
 import { useSessionMutation } from "convex-helpers/react/sessions";
+import { CheckIcon, XIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { api, CHARACTER_OPTIONS } from "@acme/convex";
+import { AvatarBadge } from "@acme/ui/avatar";
 import { RadioGroup } from "@acme/ui/radio-group";
 
 import { Choice } from "~/components/choice";
@@ -29,7 +31,13 @@ interface GamePlayProps {
   answers: Answer[];
 }
 
-export function GamePlay({ game, me, players, questions, answers }: GamePlayProps) {
+export function GamePlay({
+  game,
+  me,
+  players,
+  questions,
+  answers,
+}: GamePlayProps) {
   const submitAnswer = useSessionMutation(api.answers.submit);
   const phase = game.phase;
   if (!phase) return null;
@@ -80,6 +88,11 @@ export function GamePlay({ game, me, players, questions, answers }: GamePlayProp
     return ans.isCorrect ? ("correct" as const) : ("incorrect" as const);
   });
 
+  // Map each character to whether their answer is correct (presence means they answered).
+  const answerCorrectness = new Map(
+    currentAnswers.map((a) => [a.character, a.isCorrect]),
+  );
+
   // Map player character values to full CHARACTER_OPTIONS objects.
   const playerCharacters = players
     .map((p) => CHARACTER_OPTIONS.find((c) => c.value === p.character))
@@ -95,6 +108,7 @@ export function GamePlay({ game, me, players, questions, answers }: GamePlayProp
       questionResults={questionResults}
       questionCount={questions.length}
       playerCharacters={playerCharacters}
+      answerCorrectness={answerCorrectness}
       submitAnswer={(label: string) => submitAnswer({ gameId: game._id, selectedLabel: label })} // prettier-ignore
     />
   );
@@ -110,6 +124,7 @@ function GamePlayInner({
   questionResults,
   questionCount,
   playerCharacters,
+  answerCorrectness,
   submitAnswer,
 }: {
   game: Game;
@@ -127,6 +142,7 @@ function GamePlayInner({
   questionResults: ("correct" | "incorrect" | "skipped" | "incomplete")[];
   questionCount: number;
   playerCharacters: (typeof CHARACTER_OPTIONS)[number][];
+  answerCorrectness: Map<string, boolean>;
   submitAnswer: (label: string) => void;
 }) {
   // Track the local pick with the question index it belongs to. When the
@@ -191,7 +207,32 @@ function GamePlayInner({
               variants={itemVariants}
               className="mt-8 flex justify-center"
             >
-              <PlayerGroup characters={playerCharacters} />
+              <PlayerGroup
+                characters={playerCharacters}
+                renderBadge={(character) => {
+                  if (!answerCorrectness.has(character.value)) return null;
+                  if (phase === "answering") {
+                    return (
+                      <AvatarBadge position="top-left" className="bg-white">
+                        <CheckIcon className="stroke-neutral-500 stroke-5" />
+                      </AvatarBadge>
+                    );
+                  }
+                  const isCorrect = answerCorrectness.get(character.value);
+                  return (
+                    <AvatarBadge
+                      position="top-left"
+                      className={isCorrect ? "bg-correct" : "bg-incorrect"}
+                    >
+                      {isCorrect ? (
+                        <CheckIcon className="stroke-correct-foreground stroke-5" />
+                      ) : (
+                        <XIcon className="stroke-incorrect-foreground stroke-5" />
+                      )}
+                    </AvatarBadge>
+                  );
+                }}
+              />
             </motion.div>
             <motion.h2
               variants={itemVariants}
