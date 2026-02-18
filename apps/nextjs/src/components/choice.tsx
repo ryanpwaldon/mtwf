@@ -60,7 +60,7 @@ export function Choice({
             {description}
           </FieldDescription>
         </FieldContent>
-        <div className="flex self-stretch flex-col items-end justify-between">
+        <div className="flex flex-col items-end justify-between self-stretch">
           <RadioGroupItem
             id={id}
             value={value}
