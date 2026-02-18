@@ -133,11 +133,10 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
         <Button
           size="xl"
           variant={me.isReady ? "outline" : "default"}
-          onClick={() =>
-            void updateIsReady({ gameId: game._id, isReady: !me.isReady })
-          }
+          onClick={() => void updateIsReady({ gameId: game._id, isReady: !me.isReady })} // prettier-ignore
+          className="transition-none"
         >
-          {me.isReady ? "Cancel" : "Start"}
+          {me.isReady ? "Waiting..." : "Start"}
         </Button>
       </div>
     </PageShell>
