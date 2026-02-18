@@ -57,6 +57,12 @@ function CommandPickerContent({
     <DialogContent
       ref={ref}
       showCloseButton={false}
+      onOpenAutoFocus={(event) => {
+        // Prevent auto-focus on touch devices to avoid opening the on-screen keyboard.
+        if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+          event.preventDefault();
+        }
+      }}
       className="bg-muted inset-0 h-(--visual-viewport-height,100dvh) max-h-none w-full max-w-full! translate-0 rounded-none p-0 ring-0 sm:p-0"
     >
       <DialogTitle className="sr-only">{title}</DialogTitle>
@@ -80,7 +86,6 @@ function CommandPickerInput({
     <div className="border-input flex h-16 items-center border-b">
       <div className="flex-1 **:data-[slot=command-input]:h-full! **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-16! **:data-[slot=input-group]:rounded-none! **:data-[slot=input-group]:rounded-r-none! **:data-[slot=input-group]:border-0! **:data-[slot=input-group]:bg-transparent! **:data-[slot=input-group-addon]:**:size-5! **:data-[slot=input-group-addon]:h-full! **:data-[slot=input-group-addon]:pl-6!">
         <CommandInput
-          autoFocus
           className={cn("text-base", className)}
           {...props}
         />
