@@ -8,6 +8,7 @@ import {
   FieldTitle,
 } from "@acme/ui/field";
 import { RadioGroupItem } from "@acme/ui/radio-group";
+
 import { PlayerGroup } from "./player-group";
 
 export function Choice({
@@ -59,7 +60,7 @@ export function Choice({
             {description}
           </FieldDescription>
         </FieldContent>
-        <div className="flex h-full flex-col items-end justify-between">
+        <div className="flex self-stretch flex-col items-end justify-between">
           <RadioGroupItem
             id={id}
             value={value}
@@ -70,11 +71,7 @@ export function Choice({
             )}
           />
           {showResults ? (
-            <PlayerGroup
-              characters={voters}
-              avatarSize="sm"
-              maxVisible={3}
-            />
+            <PlayerGroup characters={voters} avatarSize="sm" maxVisible={3} />
           ) : null}
         </div>
       </Field>
