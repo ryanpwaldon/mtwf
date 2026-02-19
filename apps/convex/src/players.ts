@@ -35,7 +35,7 @@ export const join = mutation({
         q.eq("gameId", game._id).eq("sessionId", args.sessionId),
       )
       .unique();
-    if (existing) throw new ConvexError("Already joined.");
+    if (existing) return null;
 
     // Check if the game is full.
     const players = await ctx.db
