@@ -61,7 +61,7 @@ export function ThemeInput({ value, onChange }: ThemeInputProps) {
                 }}
               >
                 <div
-                  className={`aspect-2/3 h-18 shrink-0 rounded ${option.posterClassName}`}
+                  className={`aspect-2/3 h-18 shrink-0 rounded-md ${option.posterClassName}`}
                 />
                 <div className="min-w-0">
                   <div className="truncate text-sm font-medium">
