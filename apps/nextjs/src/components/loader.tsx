@@ -35,11 +35,11 @@ export function Loader({ className }: { className?: string }) {
   }, []);
 
   return (
-    <div className={cn("grid size-8 grid-cols-2", className)}>
+    <div className={cn("grid size-8 grid-cols-2 gap-0.5", className)}>
       {[0, 1, 2, 3].map((i) => (
         <div
           key={i}
-          className={`${COLOR_BAND[(i + offset) % COLOR_BAND.length]}`}
+          className={cn(COLOR_BAND[(i + offset) % COLOR_BAND.length])}
         />
       ))}
     </div>
