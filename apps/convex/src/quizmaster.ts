@@ -43,8 +43,8 @@ export const generateQuestions = internalAction({
         quizToneValue: gameConfig.quizTone,
       });
 
-      const model = openrouter("openai/gpt-4o-mini", {
-        plugins: [{ id: "response-healing" }],
+      const model = openrouter("openrouter/auto", {
+        plugins: [{ id: "response-healing" }, { id: "web" }],
       });
 
       const schema = buildQuestionSchema(gameConfig.questionCount);
@@ -110,5 +110,6 @@ function buildPrompt(config: {
     `- Randomize the position of the correct answer across questions — do not always place it in the same slot.`,
     `- Do not repeat questions or ask the same question worded differently.`,
     `- Do not reference the plot summary provided above in your questions.`,
+    `- Every question and every answer choice must be factually accurate and verifiable. Do not fabricate or guess any facts.`,
   ].join("\n");
 }
