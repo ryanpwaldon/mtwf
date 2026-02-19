@@ -115,7 +115,7 @@ export const submit = mutation({
         .collect(),
     ]);
     if (answerCount >= players.length) {
-      await ctx.scheduler.runAfter(0, internal.quizmaster.endAnswering, {
+      await ctx.scheduler.runAfter(0, internal.gameEngine.endAnswering, {
         gameId: args.gameId,
         expectedIndex: game.currentQuestionIndex,
       });

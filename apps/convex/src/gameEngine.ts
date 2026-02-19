@@ -14,20 +14,20 @@ export const generateQuestions = internalAction({
   handler: async (ctx, args) => {
     try {
       // Generate questions.
-      const questionCount = await ctx.runQuery(internal.quizmaster.getQuestionCount, { gameId: args.gameId }); // prettier-ignore
+      const questionCount = await ctx.runQuery(internal.gameEngine.getQuestionCount, { gameId: args.gameId }); // prettier-ignore
       const selected = shuffleArray(QUESTION_POOL).slice(0, questionCount);
 
       // Simulate LLM generation delay.
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
       // Save questions to the database.
-      await ctx.runMutation(internal.quizmaster.saveQuestions, {
+      await ctx.runMutation(internal.gameEngine.saveQuestions, {
         gameId: args.gameId,
         questions: selected,
       });
     } catch (error) {
       // Reset to lobby so the host can retry.
-      await ctx.runMutation(internal.quizmaster.resetStatus, {
+      await ctx.runMutation(internal.gameEngine.resetStatus, {
         gameId: args.gameId,
       });
       throw error;
@@ -68,7 +68,7 @@ export const saveQuestions = internalMutation({
     });
     await ctx.scheduler.runAfter(
       game.timeLimitSeconds * 1000,
-      internal.quizmaster.endAnswering,
+      internal.gameEngine.endAnswering,
       { gameId: args.gameId, expectedIndex: 0 },
     );
   },
@@ -92,7 +92,7 @@ export const endAnswering = internalMutation({
     // Advance to the next question after the results phase.
     await ctx.scheduler.runAfter(
       RESULTS_DURATION_MS,
-      internal.quizmaster.advanceQuestion,
+      internal.gameEngine.advanceQuestion,
       { gameId: args.gameId, expectedIndex: args.expectedIndex },
     );
   },
@@ -131,7 +131,7 @@ export const advanceQuestion = internalMutation({
       });
       await ctx.scheduler.runAfter(
         game.timeLimitSeconds * 1000,
-        internal.quizmaster.endAnswering,
+        internal.gameEngine.endAnswering,
         { gameId: args.gameId, expectedIndex: nextIndex },
       );
     }

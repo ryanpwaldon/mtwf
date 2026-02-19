@@ -14,13 +14,13 @@ import type * as fields_gameCode from "../fields/gameCode.js";
 import type * as fields_movie from "../fields/movie.js";
 import type * as fields_quizTheme from "../fields/quizTheme.js";
 import type * as fields_quizTone from "../fields/quizTone.js";
+import type * as gameEngine from "../gameEngine.js";
 import type * as games from "../games.js";
 import type * as migrations from "../migrations.js";
 import type * as movies from "../movies.js";
 import type * as players from "../players.js";
 import type * as questionPool from "../questionPool.js";
 import type * as questions from "../questions.js";
-import type * as quizmaster from "../quizmaster.js";
 
 import type {
   ApiFromModules,
@@ -35,13 +35,13 @@ declare const fullApi: ApiFromModules<{
   "fields/movie": typeof fields_movie;
   "fields/quizTheme": typeof fields_quizTheme;
   "fields/quizTone": typeof fields_quizTone;
+  gameEngine: typeof gameEngine;
   games: typeof games;
   migrations: typeof migrations;
   movies: typeof movies;
   players: typeof players;
   questionPool: typeof questionPool;
   questions: typeof questions;
-  quizmaster: typeof quizmaster;
 }>;
 
 /**
