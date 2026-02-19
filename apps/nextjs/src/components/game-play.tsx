@@ -8,6 +8,7 @@ import { CheckIcon, CircleSmallIcon, XIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { api, CHARACTER_OPTIONS } from "@acme/convex";
+import { cn } from "@acme/ui";
 import { AvatarBadge } from "@acme/ui/avatar";
 import { RadioGroup } from "@acme/ui/radio-group";
 
@@ -208,7 +209,7 @@ function GamePlayInner({
                     return (
                       <AvatarBadge
                         position="top-left"
-                        className="bg-background border-primary/20 border"
+                        className="bg-background border-primary/20 size-3! border"
                       >
                         <CircleSmallIcon className="fill-primary" />
                       </AvatarBadge>
@@ -218,12 +219,15 @@ function GamePlayInner({
                   return (
                     <AvatarBadge
                       position="top-left"
-                      className={isCorrect ? "bg-correct" : "bg-incorrect"}
+                      className={cn(
+                        "size-3!",
+                        isCorrect ? "bg-correct" : "bg-incorrect",
+                      )}
                     >
                       {isCorrect ? (
-                        <CheckIcon className="stroke-correct-foreground stroke-5" />
+                        <CheckIcon className="stroke-black stroke-5" />
                       ) : (
-                        <XIcon className="stroke-incorrect-foreground stroke-5" />
+                        <XIcon className="stroke-black stroke-5" />
                       )}
                     </AvatarBadge>
                   );
