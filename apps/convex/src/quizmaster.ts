@@ -10,7 +10,6 @@ import type { QuizTone } from "./fields/quizTone";
 import { internal } from "./_generated/api";
 import { internalAction } from "./_generated/server";
 import { getQuizThemeByValue } from "./fields/quizTheme";
-import { getQuizToneByValue } from "./fields/quizTone";
 
 const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
 
@@ -82,26 +81,34 @@ function buildPrompt(config: {
   quizThemeValue: QuizTheme;
   quizToneValue: QuizTone;
 }): string {
-  const { quizMovie, quizThemeValue, quizToneValue, questionCount } = config;
+  const { quizMovie, quizThemeValue, questionCount } = config;
   const movieTitle = quizMovie.title;
   const movieReleaseYear = quizMovie.releaseDate.split("-")[0] ?? "Unknown";
   const moviePlot = quizMovie.overview || "Unknown";
   const quizTheme = getQuizThemeByValue(quizThemeValue);
-  const quizTone = getQuizToneByValue(quizToneValue);
 
   return [
-    "You are a movie quiz generator.",
-    "",
-    `Movie: ${movieTitle} (${movieReleaseYear})`,
-    `Plot: ${moviePlot}`,
-    "",
-    `Theme: ${quizTheme.label} — ${quizTheme.description}`,
-    `Tone: ${quizTone.label} — ${quizTone.description}`,
-    "",
-    `Generate exactly ${questionCount} multiple-choice trivia questions about this movie based on the theme above.`,
-    "Each question must have exactly 4 choices labelled A, B, C, and D.",
-    "One choice must be the correct answer and the other three must be plausible but incorrect distractors.",
-    'Set correctLabel to the label of the correct choice (e.g. "A", "B", "C", or "D").',
-    "Write the questions and answer choices in the tone described above.",
+    `You are a movie trivia quiz generator.`,
+    ``,
+    `## Movie`,
+    `- Title: ${movieTitle}`,
+    `- Release Year: ${movieReleaseYear}`,
+    `- Plot: ${moviePlot}`,
+    ``,
+    `## Category: ${quizTheme.label}`,
+    `${quizTheme.instructions}`,
+    ``,
+    `## Task`,
+    `Generate exactly ${questionCount} multiple-choice trivia questions about the movie above.`,
+    ``,
+    `## Rules`,
+    `- Every question must be specifically about "${movieTitle}" (${movieReleaseYear}).`,
+    `- Every question must fall within the "${quizTheme.label}" category.`,
+    `- Each question must have exactly 4 answer choices labeled A, B, C, and D.`,
+    `- Exactly one choice must be correct. Set correctLabel to that choice's label.`,
+    `- The 3 incorrect choices must be plausible but unambiguously wrong.`,
+    `- Randomize the position of the correct answer across questions — do not always place it in the same slot.`,
+    `- Do not repeat questions or ask the same question worded differently.`,
+    `- Do not reference the plot summary provided above in your questions.`,
   ].join("\n");
 }

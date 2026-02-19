@@ -4,77 +4,45 @@ export const QUIZ_THEME_OPTIONS = [
   {
     value: "general-knowledge",
     label: "General Knowledge",
-    description: "General knowledge questions.",
+    description:
+      "Test your overall knowledge of the movie's cast, story, and key moments.",
+    instructions:
+      "Questions should cover a broad range of well-known facts about the movie, including main cast, director, major plot points, characters, iconic quotes, release details, and notable awards; focus on information an average fan would reasonably know.",
     posterClassName: "bg-linear-to-br from-lime-500 to-zinc-800",
   },
   {
-    value: "cast",
-    label: "Cast",
-    description: "Questions about the cast of a movie.",
+    value: "fun-facts",
+    label: "Fun Facts",
+    description: "Discover surprising and lesser-known trivia about the movie.",
+    instructions:
+      "Questions should focus on surprising, unusual, or lesser-known trivia about the movie such as unexpected casting choices, improvised scenes, on-set stories, hidden easter eggs, production anecdotes, or interesting coincidences; avoid basic plot or obvious cast questions.",
     posterClassName: "bg-linear-to-br from-violet-600 to-blue-700",
   },
   {
-    value: "plot-twist",
-    label: "Plot Twist",
-    description: "Questions about surprising moments, twists, and reveals.",
-    posterClassName:
-      "bg-conic-[from_180deg_at_50%_70%] from-fuchsia-600 via-sky-500 to-fuchsia-600",
+    value: "soundtracks",
+    label: "Soundtracks",
+    description: "Challenge yourself on the movie's music, score, and songs.",
+    instructions:
+      "Questions must focus exclusively on the movie's music including the composer, score, soundtrack songs, performing artists, lyrical moments, music-related awards, and memorable musical scenes; do not ask about general plot, dialogue, or visuals unless directly tied to the music.",
+    posterClassName: "bg-conic from-emerald-400 via-teal-600 to-emerald-400",
   },
   {
     value: "behind-scenes",
     label: "Behind Scenes",
     description:
-      "Production trivia, filming locations, and director decisions.",
+      "Go beyond the screen with trivia about how the movie was made.",
+    instructions:
+      "Questions should focus strictly on the production and making of the movie such as directing decisions, casting process, filming locations, budget, special effects techniques, deleted scenes, production challenges, and key crew members; avoid in-universe plot or character trivia unless it directly relates to production.",
     posterClassName:
       "bg-radial-[at_top_left] from-amber-500 via-orange-800 to-stone-900",
   },
   {
-    value: "iconic-lines",
-    label: "Iconic Lines",
-    description: "Memorable quotes and who said what.",
+    value: "iconic-quotes",
+    label: "Iconic Quotes",
+    description: "See how well you remember the movie's most famous lines.",
+    instructions:
+      "Questions must center on memorable lines of dialogue from the movie, including identifying who said a quote, completing a famous line, or recalling the context of a specific quote; every question must explicitly involve dialogue from the film.",
     posterClassName: "bg-linear-to-b from-rose-500 via-pink-600 to-purple-900",
-  },
-  {
-    value: "deep-cuts",
-    label: "Deep Cuts",
-    description: "Obscure details only superfans would know.",
-    posterClassName:
-      "bg-radial from-cyan-400 via-indigo-900 to-slate-950",
-  },
-  {
-    value: "soundtrack",
-    label: "Soundtrack",
-    description: "Music, scores, and songs featured in the film.",
-    posterClassName:
-      "bg-conic from-emerald-400 via-teal-600 to-emerald-400",
-  },
-  {
-    value: "character-study",
-    label: "Character Study",
-    description: "Deep questions about character motivations and arcs.",
-    posterClassName:
-      "bg-radial-[at_30%_70%] from-red-500 via-rose-800 to-zinc-900",
-  },
-  {
-    value: "visual-clues",
-    label: "Visual Clues",
-    description: "Set design, costumes, props, and visual Easter eggs.",
-    posterClassName:
-      "bg-linear-to-tr from-sky-600 via-blue-400 to-violet-800",
-  },
-  {
-    value: "timeline",
-    label: "Timeline",
-    description: "Chronological order of events and when things happen.",
-    posterClassName:
-      "bg-linear-to-r from-zinc-800 via-amber-500 to-zinc-800",
-  },
-  {
-    value: "fan-theory",
-    label: "Fan Theory",
-    description: "Popular theories and alternate interpretations.",
-    posterClassName:
-      "bg-conic-[from_90deg_at_70%_30%] from-purple-900 via-fuchsia-400 to-purple-900",
   },
 ] as const;
 
