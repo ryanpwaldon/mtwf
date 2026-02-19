@@ -58,9 +58,6 @@ export function GamePlay({
     (a) => a.questionId === currentQuestion._id,
   );
 
-  // Count total answers for the question.
-  const totalAnswers = currentAnswers.length;
-
   // Build answer summary per choice.
   const answerSummary = currentQuestion.choices.map((choice) => {
     const choiceAnswers = currentAnswers.filter((a) => a.selectedLabel === choice.label); // prettier-ignore
@@ -69,10 +66,6 @@ export function GamePlay({
       label: choice.label,
       text: choice.text,
       count: choiceAnswers.length,
-      percent:
-        totalAnswers > 0
-          ? Math.round((choiceAnswers.length / totalAnswers) * 100)
-          : 0,
       isCorrect: choice.label === currentQuestion.correctLabel,
       voters: phase === "results" ? voters : [],
     };
@@ -135,7 +128,6 @@ function GamePlayInner({
     label: string;
     text: string;
     count: number;
-    percent: number;
     isCorrect: boolean;
     voters: (typeof CHARACTER_OPTIONS)[number][];
   }[];
@@ -264,7 +256,6 @@ function GamePlayInner({
                       disabled={!isAnswering}
                       showResults={showResults}
                       isCorrectAnswer={choice.isCorrect}
-                      votePercent={choice.percent}
                       voters={choice.voters}
                     />
                   </motion.div>

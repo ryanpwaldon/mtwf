@@ -1,5 +1,3 @@
-import { motion } from "motion/react";
-
 import type { Character } from "@acme/convex";
 import { cn } from "@acme/ui";
 import {
@@ -18,7 +16,6 @@ export function Choice({
   value,
   showResults,
   isCorrectAnswer,
-  votePercent,
   voters,
   description,
   disabled,
@@ -27,7 +24,6 @@ export function Choice({
   value: string;
   showResults: boolean;
   isCorrectAnswer: boolean;
-  votePercent: number;
   voters: Character[];
   description: string;
   disabled: boolean;
@@ -43,24 +39,6 @@ export function Choice({
         "data-[show-results=true]:data-[correct-answer=false]:has-data-[state=checked]:border-incorrect data-[show-results=true]:data-[correct-answer=false]:has-data-[state=checked]:bg-incorrect/5",
       )}
     >
-      <motion.div
-        className={cn(
-          "bg-primary/10 absolute left-0 h-full w-full",
-          "group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:bg-correct/30",
-          "group-data-[show-results=true]/choice:group-has-data-[state=checked]/choice:group-data-[correct-answer=false]/choice:bg-incorrect/30",
-        )}
-        style={{ transformOrigin: "left" }}
-        animate={{
-          opacity: showResults ? 1 : 0,
-          scaleX: showResults ? votePercent / 100 : 0,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 35,
-          mass: 1,
-        }}
-      />
       <Field orientation="horizontal" className="relative">
         <FieldContent>
           <FieldTitle className="group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:text-correct-foreground group-data-[show-results=true]/choice:group-has-data-[state=checked]/choice:group-data-[correct-answer=false]/choice:text-incorrect-foreground">
