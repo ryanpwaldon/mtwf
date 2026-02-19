@@ -122,7 +122,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
         <Card className="mt-4">
           <CardHeader className="border-b">
             <CardTitle>Theme</CardTitle>
-            <CardDescription>Make it interesting!</CardDescription>
+            <CardDescription>Select a question category</CardDescription>
           </CardHeader>
           <CardContent className="flex h-full items-center">
             <ThemeInput
