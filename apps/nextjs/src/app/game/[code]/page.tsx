@@ -1,8 +1,13 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
-import { useSessionQuery } from "convex-helpers/react/sessions";
+import {
+  useSessionMutation,
+  useSessionQuery,
+} from "convex-helpers/react/sessions";
 import { useQuery } from "convex/react";
+import { ConvexError } from "convex/values";
 
 import { api } from "@acme/convex";
 
@@ -21,12 +26,22 @@ export default function GamePage() {
   const questions = useQuery(api.questions.allByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
   const answers = useQuery(api.answers.allByGameId, game ? { gameId: game._id } : "skip"); // prettier-ignore
 
-  const isLoading =
-    game === undefined ||
-    players === undefined ||
-    me === undefined ||
-    questions === undefined ||
-    answers === undefined;
+  const joinGame = useSessionMutation(api.players.join);
+  const [joinError, setJoinError] = useState<string | null>(null);
+  const hasAttemptedJoin = useRef(false);
+
+  useEffect(() => {
+    if (game && me === null && !hasAttemptedJoin.current) {
+      hasAttemptedJoin.current = true;
+      joinGame({ code: game.code }).catch((err: unknown) => {
+        const message =
+          err instanceof ConvexError
+            ? String(err.data)
+            : "An unexpected error occurred.";
+        setJoinError(message);
+      });
+    }
+  }, [game, joinGame, me]);
 
   if (game === null) {
     return (
@@ -37,7 +52,19 @@ export default function GamePage() {
     );
   }
 
-  if (isLoading) {
+  if (joinError !== null) {
+    return (
+      <FullScreenError title="Could not join game." description={joinError} />
+    );
+  }
+
+  if (
+    game === undefined ||
+    players === undefined ||
+    me === undefined || me === null ||
+    questions === undefined ||
+    answers === undefined
+  ) {
     return <FullScreenLoader />;
   }
 

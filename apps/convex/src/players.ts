@@ -65,11 +65,13 @@ export const join = mutation({
 
 export const me = query({
   args: { gameId: v.id("games"), ...SessionIdArg },
-  returns: v.object({
-    _id: v.id("players"),
-    character: characterValidator,
-    isReady: v.boolean(),
-  }),
+  returns: v.nullable(
+    v.object({
+      _id: v.id("players"),
+      character: characterValidator,
+      isReady: v.boolean(),
+    }),
+  ),
   handler: async (ctx, args) => {
     const player = await ctx.db
       .query("players")
@@ -77,7 +79,7 @@ export const me = query({
         q.eq("gameId", args.gameId).eq("sessionId", args.sessionId),
       )
       .unique();
-    if (!player) throw new ConvexError("Player not found.");
+    if (!player) return null;
     return {
       _id: player._id,
       character: player.character,

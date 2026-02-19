@@ -27,7 +27,7 @@ import { ThemeInput } from "./theme-input";
 
 type Game = NonNullable<FunctionReturnType<typeof api.games.byCode>>;
 type Player = FunctionReturnType<typeof api.players.allByGameId>[number];
-type Me = FunctionReturnType<typeof api.players.me>;
+type Me = NonNullable<FunctionReturnType<typeof api.players.me>>;
 
 interface GameLobbyProps {
   game: Game;
