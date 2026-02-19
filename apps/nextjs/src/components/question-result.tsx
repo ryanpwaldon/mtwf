@@ -49,9 +49,9 @@ export function QuestionResult({
             <div
               key={i}
               className={cn(
-                "relative flex w-full items-center justify-between gap-2 p-2",
-                isCorrect && "bg-correct/5",
-                isUserWrongPick && "bg-incorrect/5",
+                "relative flex w-full items-center justify-between gap-2 bg-clip-padding p-2",
+                isCorrect && "bg-correct/20",
+                isUserWrongPick && "bg-incorrect/20",
               )}
             >
               <span
