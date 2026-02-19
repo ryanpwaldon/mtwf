@@ -39,7 +39,7 @@ export const create = mutation({
       quizTone: "standard",
       quizTheme: "general-knowledge",
       questionCount: 10,
-      timeLimitSeconds: 5,
+      timeLimitSeconds: 30,
       roundEndsAt: undefined,
       currentQuestionIndex: 0,
     });
