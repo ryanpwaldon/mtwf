@@ -214,8 +214,11 @@ function GamePlayInner({
                   if (!answerCorrectness.has(character.value)) return null;
                   if (phase === "answering") {
                     return (
-                      <AvatarBadge position="top-left" className="bg-primary">
-                        <CircleSmallIcon className="fill-primary-foreground" />
+                      <AvatarBadge
+                        position="top-left"
+                        className="bg-background border-primary/20 border"
+                      >
+                        <CircleSmallIcon className="fill-primary" />
                       </AvatarBadge>
                     );
                   }
