@@ -2,6 +2,7 @@ import { SessionIdArg } from "convex-helpers/server/sessions";
 import { doc } from "convex-helpers/validators";
 import { ConvexError, v } from "convex/values";
 
+import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { characterValidator } from "./fields/character";
 import schema from "./schema";
@@ -96,6 +97,27 @@ export const submit = mutation({
         selectedLabel: args.selectedLabel,
         isCorrect,
         answeredAt: Date.now(),
+      });
+    }
+
+    // End the question early if all players have now answered.
+    const [answerCount, players] = await Promise.all([
+      ctx.db
+        .query("answers")
+        .withIndex("by_gameId_and_questionId", (q) =>
+          q.eq("gameId", args.gameId).eq("questionId", question._id),
+        )
+        .collect()
+        .then((rows) => rows.length),
+      ctx.db
+        .query("players")
+        .withIndex("by_gameId", (q) => q.eq("gameId", args.gameId))
+        .collect(),
+    ]);
+    if (answerCount >= players.length) {
+      await ctx.scheduler.runAfter(0, internal.quizmaster.endAnswering, {
+        gameId: args.gameId,
+        expectedIndex: game.currentQuestionIndex,
       });
     }
   },
