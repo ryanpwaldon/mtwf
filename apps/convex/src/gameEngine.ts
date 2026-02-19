@@ -1,37 +1,29 @@
 import { v } from "convex/values";
 
 import { internal } from "./_generated/api";
-import {
-  internalAction,
-  internalMutation,
-  internalQuery,
-} from "./_generated/server";
-import { QUESTION_POOL } from "./questionPool";
+import { internalMutation, internalQuery } from "./_generated/server";
+import { movieValidator } from "./fields/movie";
+import { quizThemeValidator } from "./fields/quizTheme";
+import { quizToneValidator } from "./fields/quizTone";
 
-export const generateQuestions = internalAction({
+export const getGameConfig = internalQuery({
   args: { gameId: v.id("games") },
-  returns: v.null(),
+  returns: v.object({
+    questionCount: v.number(),
+    quizMovie: movieValidator,
+    quizTheme: quizThemeValidator,
+    quizTone: quizToneValidator,
+  }),
   handler: async (ctx, args) => {
-    try {
-      // Generate questions.
-      const questionCount = await ctx.runQuery(internal.gameEngine.getQuestionCount, { gameId: args.gameId }); // prettier-ignore
-      const selected = shuffleArray(QUESTION_POOL).slice(0, questionCount);
-
-      // Simulate LLM generation delay.
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      // Save questions to the database.
-      await ctx.runMutation(internal.gameEngine.saveQuestions, {
-        gameId: args.gameId,
-        questions: selected,
-      });
-    } catch (error) {
-      // Reset to lobby so the host can retry.
-      await ctx.runMutation(internal.gameEngine.resetStatus, {
-        gameId: args.gameId,
-      });
-      throw error;
-    }
+    const game = await ctx.db.get(args.gameId);
+    if (!game) throw new Error("Game not found.");
+    if (!game.quizMovie) throw new Error("No movie selected.");
+    return {
+      questionCount: game.questionCount,
+      quizMovie: game.quizMovie,
+      quizTheme: game.quizTheme,
+      quizTone: game.quizTone,
+    };
   },
 });
 
@@ -151,25 +143,3 @@ export const resetStatus = internalMutation({
 // ========================================================================================
 
 const RESULTS_DURATION_MS = 5000;
-
-// Fisher-Yates shuffle.
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = shuffled[i];
-    shuffled[i] = shuffled[j] as T;
-    shuffled[j] = temp as T;
-  }
-  return shuffled;
-}
-
-export const getQuestionCount = internalQuery({
-  args: { gameId: v.id("games") },
-  returns: v.number(),
-  handler: async (ctx, args) => {
-    const game = await ctx.db.get(args.gameId);
-    if (!game) throw new Error("Game not found.");
-    return game.questionCount;
-  },
-});

@@ -39,7 +39,16 @@ export const QUIZ_TONE_OPTIONS = [
   },
 ] as const;
 
-export type QuizTone = (typeof QUIZ_TONE_OPTIONS)[number]["value"];
+export type QuizToneOption = (typeof QUIZ_TONE_OPTIONS)[number];
+export type QuizTone = QuizToneOption["value"];
+
+export const QUIZ_TONE_BY_VALUE = Object.fromEntries(
+  QUIZ_TONE_OPTIONS.map((tone) => [tone.value, tone]),
+) as Record<QuizTone, QuizToneOption>;
+
+export function getQuizToneByValue(value: QuizTone): QuizToneOption {
+  return QUIZ_TONE_BY_VALUE[value];
+}
 
 export const quizToneValidator = v.union(
   ...QUIZ_TONE_OPTIONS.map((option) => v.literal(option.value)),
