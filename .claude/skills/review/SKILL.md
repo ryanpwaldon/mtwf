@@ -19,6 +19,7 @@ Review all my uncommitted changes (staged, unstaged, and untracked files). Your 
    - **Incomplete work**: TODO comments, placeholder values, half-finished implementations.
    - **Consistency**: does the new code follow the same patterns and conventions as the surrounding code?
    - **Edge cases**: inputs or states that could break the new code.
+   - **Alternative approaches**: was there a simpler, more idiomatic, or otherwise better way to solve this? Only flag if the difference is meaningful, not just stylistic.
 
 ## Output format
 
