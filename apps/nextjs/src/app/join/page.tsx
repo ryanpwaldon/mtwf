@@ -2,42 +2,42 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "@tanstack/react-form";
 import { useSessionMutation } from "convex-helpers/react/sessions";
 import { ConvexError } from "convex/values";
+import { z } from "zod";
 
-import { Loader2 } from "lucide-react";
-
-import { api } from "@acme/convex";
+import { api, gameCodeZodSchema } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 import { Card, CardContent } from "@acme/ui/card";
 import { Field, FieldError, FieldLabel } from "@acme/ui/field";
 import { Input } from "@acme/ui/input";
 
 import { Header } from "~/components/header";
+import { Loader } from "~/components/loader";
 import { PageShell } from "~/components/page-shell";
 
 export default function JoinPage() {
   const router = useRouter();
-  const [code, setCode] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
   const joinGame = useSessionMutation(api.players.join);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    setPending(true);
-    try {
-      await joinGame({ code });
-      router.push(`/game/${code}`);
-    } catch (err) {
-      setError(
-        err instanceof ConvexError ? String(err.data) : "Failed to join game.",
-      );
-    } finally {
-      setPending(false);
-    }
-  }
+  const form = useForm({
+    defaultValues: { code: "" },
+    validators: { onSubmit: z.object({ code: gameCodeZodSchema }) },
+    onSubmit: async ({ value }) => {
+      try {
+        await joinGame({ code: value.code });
+        router.push(`/game/${value.code}`);
+      } catch (err) {
+        setServerError(
+          err instanceof ConvexError
+            ? String(err.data)
+            : "Failed to join game.",
+        );
+      }
+    },
+  });
 
   return (
     <PageShell>
@@ -54,28 +54,61 @@ export default function JoinPage() {
         <Card className="mt-6 w-full">
           <CardContent className="flex justify-center">
             <form
-              onSubmit={handleSubmit}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void form.handleSubmit();
+              }}
               className="flex w-full flex-col gap-2"
             >
-              <Field data-invalid={!!error || undefined}>
-                <FieldLabel className="sr-only">Game code</FieldLabel>
-                <div className="flex w-full items-center gap-2">
-                  <Input
-                    placeholder="Enter game code"
-                    aria-invalid={!!error || undefined}
-                    className="h-12 bg-white font-mono text-base! uppercase placeholder:normal-case"
-                    value={code}
-                    onChange={(e) => {
-                      setCode(e.target.value);
-                      setError(null);
-                    }}
-                  />
-                  <Button size="xl" type="submit" disabled={pending}>
-                    {pending ? <Loader2 className="animate-spin" /> : "Join"}
-                  </Button>
-                </div>
-                {error && <FieldError>{error}</FieldError>}
-              </Field>
+              <form.Field name="code">
+                {(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  const hasError = isInvalid || !!serverError;
+                  return (
+                    <Field data-invalid={hasError || undefined}>
+                      <FieldLabel className="sr-only">Game code</FieldLabel>
+                      <div className="flex w-full items-center gap-2">
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          placeholder="Enter game code"
+                          aria-invalid={hasError || undefined}
+                          className="h-12 bg-white font-mono text-base! uppercase placeholder:normal-case"
+                          value={field.state.value}
+                          onBlur={field.handleBlur}
+                          onChange={(e) => {
+                            field.handleChange(e.target.value);
+                            setServerError(null);
+                          }}
+                        />
+                        <form.Subscribe selector={(s) => s.isSubmitting}>
+                          {(isSubmitting) => (
+                            <Button
+                              size="xl"
+                              type="submit"
+                              disabled={isSubmitting}
+                              className="disabled:opacity-100"
+                            >
+                              {isSubmitting ? (
+                                <Loader className="size-6" />
+                              ) : (
+                                "Join"
+                              )}
+                            </Button>
+                          )}
+                        </form.Subscribe>
+                      </div>
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                      {!isInvalid && serverError && (
+                        <FieldError>{serverError}</FieldError>
+                      )}
+                    </Field>
+                  );
+                }}
+              </form.Field>
             </form>
           </CardContent>
         </Card>
