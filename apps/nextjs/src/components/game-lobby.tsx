@@ -25,7 +25,6 @@ import { MovieInput } from "./movie-input";
 import { PageShell } from "./page-shell";
 import { PlayerGroup } from "./player-group";
 import { ThemeInput } from "./theme-input";
-import { ToneInput } from "./tone-input";
 
 type Game = NonNullable<FunctionReturnType<typeof api.games.byCode>>;
 type Player = FunctionReturnType<typeof api.players.allByGameId>[number];
@@ -40,7 +39,6 @@ interface GameLobbyProps {
 export function GameLobby({ game, players, me }: GameLobbyProps) {
   const updateQuizMovie = useSessionMutation(api.games.updateQuizMovie);
   const updateQuizTheme = useSessionMutation(api.games.updateQuizTheme);
-  const updateQuizTone = useSessionMutation(api.games.updateQuizTone);
   const updateCharacter = useSessionMutation(api.players.updateCharacter);
   const updateIsReady = useSessionMutation(api.players.updateIsReady);
   const [isUpdatingReady, setIsUpdatingReady] = useState(false);
@@ -129,20 +127,6 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
               value={game.quizTheme}
               onChange={(quizTheme) => {
                 void updateQuizTheme({ gameId: game._id, quizTheme });
-              }}
-            />
-          </CardContent>
-        </Card>
-        <Card className="mt-4">
-          <CardHeader className="border-b">
-            <CardTitle>Tone</CardTitle>
-            <CardDescription>Set the quiz host's vibe</CardDescription>
-          </CardHeader>
-          <CardContent className="flex h-full items-center">
-            <ToneInput
-              value={game.quizTone}
-              onChange={(quizTone) => {
-                void updateQuizTone({ gameId: game._id, quizTone });
               }}
             />
           </CardContent>
