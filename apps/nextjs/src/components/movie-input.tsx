@@ -27,9 +27,10 @@ type Movie = FunctionReturnType<typeof api.movies.popular>[number];
 interface MovieInputProps {
   value: Movie | null;
   onChange: (value: Movie) => void;
+  invalid?: boolean;
 }
 
-export function MovieInput({ value, onChange }: MovieInputProps) {
+export function MovieInput({ value, onChange, invalid }: MovieInputProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -96,7 +97,11 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
             <ImageWithFallback
               fill
               alt={`${value.title} poster`}
-              src={value.posterPath ? `https://image.tmdb.org/t/p/w92${value.posterPath}` : null}
+              src={
+                value.posterPath
+                  ? `https://image.tmdb.org/t/p/w92${value.posterPath}`
+                  : null
+              }
               icon={<Film className="text-muted-foreground size-1/3" />}
               containerClassName="aspect-2/3 h-full shrink-0"
             />
@@ -114,6 +119,7 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
         <CommandPickerTrigger asChild>
           <Button
             variant="outline"
+            aria-invalid={invalid}
             className="text-muted-foreground h-22 w-full cursor-pointer border-dashed"
           >
             <Film className="size-5" />
@@ -150,7 +156,11 @@ export function MovieInput({ value, onChange }: MovieInputProps) {
                     <ImageWithFallback
                       fill
                       alt={`${movie.title} poster`}
-                      src={movie.posterPath ? `https://image.tmdb.org/t/p/w92${movie.posterPath}` : null}
+                      src={
+                        movie.posterPath
+                          ? `https://image.tmdb.org/t/p/w92${movie.posterPath}`
+                          : null
+                      }
                       icon={<Film className="text-muted-foreground size-1/3" />}
                       containerClassName="aspect-2/3 h-18 shrink-0"
                     />

@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@acme/ui/card";
+import { FieldError } from "@acme/ui/field";
 
 import { Header } from "~/components/header";
 import { InviteCodeField } from "~/components/invite-code-field";
@@ -45,7 +46,14 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
   const takenCharacterValues = players.filter((p) => p.character !== me.character).map((p) => p.character); // prettier-ignore
   const readyByCharacter = new Map(players.map((p) => [p.character, p.isReady])); // prettier-ignore
 
+  const [hasAttemptedReady, setHasAttemptedReady] = useState(false);
+  const isMovieInvalid = hasAttemptedReady && !game.quizMovie;
+
   async function handleReadyToggle() {
+    if (!game.quizMovie) {
+      setHasAttemptedReady(true);
+      return;
+    }
     setIsUpdatingReady(true);
     try {
       await updateIsReady({ gameId: game._id, isReady: !me.isReady });
@@ -95,9 +103,10 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
             <CardTitle>Movie</CardTitle>
             <CardDescription>Pick the movie for this round</CardDescription>
           </CardHeader>
-          <CardContent className="flex h-full items-center">
+          <CardContent className="flex h-full flex-col gap-2">
             <MovieInput
               value={game.quizMovie}
+              invalid={isMovieInvalid || undefined}
               onChange={(movie) => {
                 void updateQuizMovie({
                   gameId: game._id,
@@ -105,6 +114,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
                 });
               }}
             />
+            {isMovieInvalid && <FieldError>Please select a movie.</FieldError>}
           </CardContent>
         </Card>
         <Card className="mt-4">
