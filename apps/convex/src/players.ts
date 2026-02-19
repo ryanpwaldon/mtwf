@@ -5,6 +5,7 @@ import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { CHARACTER_OPTIONS, characterValidator } from "./fields/character";
+import { gameCodeValidator, parseGameCode } from "./fields/gameCode";
 import schema from "./schema";
 
 // ========================================================================================
@@ -13,14 +14,16 @@ import schema from "./schema";
 
 export const join = mutation({
   args: {
-    code: v.string(),
+    code: gameCodeValidator,
     ...SessionIdArg,
   },
   returns: v.null(),
   handler: async (ctx, args) => {
+    const validatedGameCode = parseGameCode(args.code);
+
     const game = await ctx.db
       .query("games")
-      .withIndex("by_code", (q) => q.eq("code", args.code.toUpperCase()))
+      .withIndex("by_code", (q) => q.eq("code", validatedGameCode))
       .unique();
     if (!game) throw new ConvexError("Game not found.");
     if (game.status !== "lobby") throw new ConvexError("Game is not in lobby.");

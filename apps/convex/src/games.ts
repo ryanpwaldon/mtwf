@@ -6,6 +6,7 @@ import { ConvexError, v } from "convex/values";
 import type { DataModel, Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { CHARACTER_OPTIONS } from "./fields/character";
+import { gameCodeValidator, generateGameCode } from "./fields/gameCode";
 import { movieValidator } from "./fields/movie";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
@@ -63,12 +64,12 @@ export const create = mutation({
 // ========================================================================================
 
 export const byCode = query({
-  args: { code: v.string() },
+  args: { code: gameCodeValidator },
   returns: v.nullable(doc(schema, "games")),
   handler: (ctx, args) => {
     return ctx.db
       .query("games")
-      .withIndex("by_code", (q) => q.eq("code", args.code.toUpperCase()))
+      .withIndex("by_code", (q) => q.eq("code", args.code))
       .unique();
   },
 });
@@ -115,17 +116,6 @@ export const updateQuizTheme = mutation({
 // ========================================================================================
 // Helpers
 // ========================================================================================
-
-const CODE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const CODE_LENGTH = 6;
-
-function generateGameCode(): string {
-  let code = "";
-  for (let i = 0; i < CODE_LENGTH; i++) {
-    code += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
-  }
-  return code;
-}
 
 async function getPlayerOrThrow(
   ctx: { db: GenericDatabaseReader<DataModel> },

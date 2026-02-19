@@ -2,13 +2,14 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 import { characterValidator } from "./fields/character";
+import { gameCodeValidator } from "./fields/gameCode";
 import { movieValidator } from "./fields/movie";
 import { quizThemeValidator } from "./fields/quizTheme";
 import { quizToneValidator } from "./fields/quizTone";
 
 const schema = defineSchema({
   games: defineTable({
-    code: v.string(),
+    code: gameCodeValidator,
     status: v.union(
       v.literal("lobby"),
       v.literal("generating"),
@@ -22,9 +23,7 @@ const schema = defineSchema({
     timeLimitSeconds: v.number(),
     currentQuestionIndex: v.number(),
     roundEndsAt: v.optional(v.number()),
-    phase: v.optional(
-      v.union(v.literal("answering"), v.literal("results")),
-    ),
+    phase: v.optional(v.union(v.literal("answering"), v.literal("results"))),
   })
     .index("by_code", ["code"])
     .index("by_status", ["status"]),
