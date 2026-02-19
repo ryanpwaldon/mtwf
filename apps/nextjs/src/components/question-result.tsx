@@ -32,8 +32,6 @@ export function QuestionResult({
   myChoiceIndex,
   className,
 }: QuestionResultProps) {
-  const totalVoters = choices.reduce((sum, c) => sum + c.voters.length, 0);
-
   return (
     <Card className={cn("gap-0 p-0", className)}>
       <CardHeader className="border-b p-2!">
@@ -44,7 +42,6 @@ export function QuestionResult({
       </CardHeader>
       <CardContent className="divide-y p-0">
         {choices.map((choice, i) => {
-          const votePercent = totalVoters > 0 ? Math.round((choice.voters.length / totalVoters) * 100) : 0; // prettier-ignore
           const letter = String.fromCharCode(65 + i);
           const isCorrect = i === correctIndex;
           const isUserWrongPick = i === myChoiceIndex && myChoiceIndex !== correctIndex; // prettier-ignore
@@ -57,14 +54,6 @@ export function QuestionResult({
                 isUserWrongPick && "bg-incorrect/5",
               )}
             >
-              <div
-                className={cn(
-                  "bg-primary/10 absolute left-0 h-full",
-                  isCorrect && "bg-correct/30",
-                  isUserWrongPick && "bg-incorrect/30",
-                )}
-                style={{ width: `${votePercent}%` }}
-              />
               <span
                 className={cn(
                   "text-muted-foreground relative",
@@ -82,15 +71,6 @@ export function QuestionResult({
                     maxVisible={3}
                   />
                 )}
-                <span
-                  className={cn(
-                    "text-muted-foreground text-sm",
-                    isCorrect && "text-correct-foreground",
-                    isUserWrongPick && "text-incorrect-foreground",
-                  )}
-                >
-                  {votePercent}%
-                </span>
               </div>
             </div>
           );
