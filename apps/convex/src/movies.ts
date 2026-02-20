@@ -33,7 +33,7 @@ export const popular = action({
   returns: v.array(movieValidator),
   handler: async () => {
     const tmdb = createTmdbClient();
-    const response = await tmdb.movie_lists.popular();
+    const response = await tmdb.movie_lists.top_rated({ language: "en" });
     return response.results.map(mapMovie);
   },
 });
