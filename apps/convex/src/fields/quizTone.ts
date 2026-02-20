@@ -26,15 +26,13 @@ export const QUIZ_TONE_OPTIONS = [
     value: "roast",
     label: "Roast",
     description: "Lovingly roasts the movie, characters, and the player.",
-    posterClassName:
-      "bg-linear-to-t from-orange-600 via-red-500 to-yellow-400",
+    posterClassName: "bg-linear-to-t from-orange-600 via-red-500 to-yellow-400",
   },
   {
     value: "unhinged",
     label: "Unhinged",
     description: "Chaotic energy, absurd commentary, no filter.",
-    posterClassName:
-      "bg-conic from-lime-400 via-fuchsia-500 to-lime-400",
+    posterClassName: "bg-conic from-lime-400 via-fuchsia-500 to-lime-400",
   },
   {
     value: "film-bro",
@@ -47,8 +45,7 @@ export const QUIZ_TONE_OPTIONS = [
     value: "wholesome",
     label: "Wholesome",
     description: "Encouraging and warm, celebrates every answer.",
-    posterClassName:
-      "bg-radial from-pink-300 via-rose-400 to-amber-200",
+    posterClassName: "bg-radial from-pink-300 via-rose-400 to-amber-200",
   },
 ] as const;
 
