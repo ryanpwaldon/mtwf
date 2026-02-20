@@ -1,6 +1,7 @@
 import type { Character } from "@acme/convex";
 import { cn } from "@acme/ui";
 import { Avatar, AvatarFallback } from "@acme/ui/avatar";
+import { Badge } from "@acme/ui/badge";
 import {
   Table,
   TableBody,
@@ -18,12 +19,14 @@ export interface LeaderboardEntry {
 interface LeaderboardProps {
   entries: LeaderboardEntry[];
   totalQuestions: number;
+  myCharacterValue: Character["value"];
   className?: string;
 }
 
 export function Leaderboard({
   entries,
   totalQuestions,
+  myCharacterValue,
   className,
 }: LeaderboardProps) {
   const minimumRows = 0;
@@ -49,6 +52,9 @@ export function Leaderboard({
                   <AvatarFallback className={entry.character.color} />
                 </Avatar>
                 <span>{entry.character.label}</span>
+                {myCharacterValue === entry.character.value && (
+                  <Badge variant="secondary">You</Badge>
+                )}
               </div>
             </TableCell>
             <TableCell className="text-right">

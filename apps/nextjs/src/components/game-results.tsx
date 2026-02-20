@@ -93,6 +93,7 @@ export function GameResults({
             <Leaderboard
               entries={leaderboardEntries}
               totalQuestions={questions.length}
+              myCharacterValue={me.character}
             />
           </CardContent>
         </Card>
