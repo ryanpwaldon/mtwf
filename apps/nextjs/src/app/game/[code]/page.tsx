@@ -61,7 +61,8 @@ export default function GamePage() {
   if (
     game === undefined ||
     players === undefined ||
-    me === undefined || me === null ||
+    me === undefined ||
+    me === null ||
     questions === undefined ||
     answers === undefined
   ) {

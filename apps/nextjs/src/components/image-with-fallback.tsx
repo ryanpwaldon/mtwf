@@ -2,18 +2,18 @@
 
 import type { ComponentProps, ReactNode } from "react";
 import { useState } from "react";
-
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 
-interface ImageWithFallbackProps extends Omit<ComponentProps<typeof Image>, "src"> {
+interface ImageWithFallbackProps
+  extends Omit<ComponentProps<typeof Image>, "src"> {
   src: ComponentProps<typeof Image>["src"] | null;
   icon?: ReactNode;
   containerClassName?: string;
 }
 
 export function ImageWithFallback({
-  icon = <ImageIcon className="size-1/3 text-muted-foreground" />,
+  icon = <ImageIcon className="text-muted-foreground size-1/3" />,
   containerClassName,
   className,
   onError,

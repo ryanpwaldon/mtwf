@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Pencil } from "lucide-react";
 
 import type { CharacterValue } from "@acme/convex";
-import { getCharacterByValue, CHARACTER_OPTIONS } from "@acme/convex";
+import { CHARACTER_OPTIONS, getCharacterByValue } from "@acme/convex";
 import { Avatar, AvatarBadge, AvatarFallback } from "@acme/ui/avatar";
 import { Button } from "@acme/ui/button";
 import {
@@ -24,7 +24,11 @@ interface AvatarInputProps {
   onChange: (value: CharacterValue) => void;
 }
 
-export function AvatarInput({ value, takenValues, onChange }: AvatarInputProps) {
+export function AvatarInput({
+  value,
+  takenValues,
+  onChange,
+}: AvatarInputProps) {
   const [open, setOpen] = useState(false);
   const character = getCharacterByValue(value);
 

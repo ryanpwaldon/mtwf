@@ -85,10 +85,7 @@ function CommandPickerInput({
   return (
     <div className="border-input flex h-16 items-center border-b">
       <div className="flex-1 **:data-[slot=command-input]:h-full! **:data-[slot=command-input-wrapper]:p-0! **:data-[slot=input-group]:h-16! **:data-[slot=input-group]:rounded-none! **:data-[slot=input-group]:rounded-r-none! **:data-[slot=input-group]:border-0! **:data-[slot=input-group]:bg-transparent! **:data-[slot=input-group-addon]:**:size-5! **:data-[slot=input-group-addon]:h-full! **:data-[slot=input-group-addon]:pl-6!">
-        <CommandInput
-          className={cn("text-base", className)}
-          {...props}
-        />
+        <CommandInput className={cn("text-base", className)} {...props} />
       </div>
       <DialogClose asChild>
         <div className="flex h-16 w-16 shrink-0 items-center justify-center">

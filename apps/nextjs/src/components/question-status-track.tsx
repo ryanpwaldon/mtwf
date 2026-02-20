@@ -32,9 +32,7 @@ export function QuestionStatusTrack({
           data-status={status}
           className={cn(
             "flex-1 rounded-full transition-colors",
-            index === activeIndex
-              ? "bg-primary"
-              : stepStyles[status],
+            index === activeIndex ? "bg-primary" : stepStyles[status],
           )}
         />
       ))}
