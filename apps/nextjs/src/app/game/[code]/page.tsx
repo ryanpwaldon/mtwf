@@ -69,6 +69,8 @@ export default function GamePage() {
     return <FullScreenLoader />;
   }
 
+  console.log("Testing lefthook.");
+
   return (
     // prettier-ignore
     <>
