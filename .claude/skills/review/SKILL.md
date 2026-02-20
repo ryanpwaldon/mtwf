@@ -25,6 +25,6 @@ Review all my uncommitted changes (staged, unstaged, and untracked files). Your 
 
 Start with a one-line summary of what you think I'm working on.
 
-Then list your findings grouped by file. For each finding, be specific — reference the exact line or code snippet and explain why it matters. Skip generic advice; only flag things that are concretely actionable.
+Then list your findings as numbered points grouped by file. For each finding, be specific — reference the exact line or code snippet and explain why it matters. Skip generic advice; only flag things that are concretely actionable.
 
 If everything looks good, say so briefly.
