@@ -38,9 +38,11 @@ export const generateQuestions = internalAction({
         output: Output.object({ schema }),
       });
 
+      const questions = transformQuestions(output);
+
       await ctx.runMutation(internal.gameEngine.saveQuestions, {
         gameId: args.gameId,
-        questions: output.questions,
+        questions,
       });
     } catch (error) {
       await ctx.runMutation(internal.gameEngine.resetStatus, {
@@ -55,16 +57,43 @@ export const generateQuestions = internalAction({
 // Helpers
 // ========================================================================================
 
+function transformQuestions(
+  output: z.infer<ReturnType<typeof buildQuestionSchema>>,
+): {
+  text: string;
+  choices: { label: string; text: string }[];
+  correctLabel: string;
+}[] {
+  return output.questions.map((q) => ({
+    text: q.question,
+    choices: q.choices.map((answer, i) => ({
+      label: labelAt(i),
+      text: answer,
+    })),
+    correctLabel: labelAt(q.correctIndex),
+  }));
+}
+
+function labelAt(i: number): "A" | "B" | "C" | "D" {
+  const labels = ["A", "B", "C", "D"] as const;
+  const label = labels[i];
+  if (label === undefined) throw new Error(`invalid label index: ${i}`);
+  return label;
+}
+
 function buildQuestionSchema(questionCount: number) {
   return z.object({
     questions: z
       .array(
         z.object({
-          text: z.string(),
-          choices: z
-            .array(z.object({ label: z.string(), text: z.string() }))
-            .length(4),
-          correctLabel: z.enum(["A", "B", "C", "D"]),
+          question: z.string(),
+          choices: z.array(z.string()).length(4),
+          correctIndex: z.union([
+            z.literal(0),
+            z.literal(1),
+            z.literal(2),
+            z.literal(3),
+          ]),
         }),
       )
       .length(questionCount),
@@ -104,8 +133,8 @@ function buildPrompt(config: {
     `## Rules`,
     `- Every question must be specifically about "${movieTitle}" (${movieReleaseYear}).`,
     `- Every question must fall within the "${quizTheme.label}" category.`,
-    `- Each question must have exactly 4 answer choices labeled A, B, C, and D.`,
-    `- Exactly one choice must be correct. Set correctLabel to that choice's label.`,
+    `- Each question must have exactly 4 answer choices.`,
+    `- Exactly one choice must be correct. Set correctIndex to its 0-based position (0 = first choice, 1 = second, 2 = third, 3 = fourth).`,
     `- The 3 incorrect choices must be plausible but unambiguously wrong.`,
     `- Randomize the position of the correct answer across questions — do not always place it in the same slot.`,
     `- Do not repeat questions or ask the same question worded differently.`,
