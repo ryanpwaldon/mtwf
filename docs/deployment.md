@@ -4,11 +4,11 @@
 
 Deployments are fully automated via GitHub Actions. Vercel auto-deploy from git is disabled — Vercel is only ever triggered by the deploy hook called from CI.
 
-One workflow handles deployment:
+One workflow handles everything:
 
-- **`deploy.yml`** — triggers when `apps/convex/**`, `apps/nextjs/**`, `packages/**`, or `pnpm-lock.yaml` change. Deploys Convex first, then triggers Vercel.
+- **`ci.yml`** — runs lint, format, and typecheck on every push. If all pass and the branch is `main`, deploys Convex then triggers Vercel.
 
-Convex always deploys before Vercel. If Convex fails, Vercel is never triggered. Convex deploys are idempotent, so deploying on frontend-only changes is safe.
+Convex always deploys before Vercel. If Convex fails, Vercel is never triggered. Convex deploys are idempotent, so deploying on any change is safe.
 
 ## Required secrets
 
@@ -20,10 +20,6 @@ Convex always deploys before Vercel. If Convex fails, Vercel is never triggered.
 ## Disabling Vercel auto-deploy
 
 In Vercel project settings → Git → Ignored Build Step, set the command to `exit 0`. This causes Vercel to skip all git-triggered builds. The deploy hook (called from GitHub Actions) bypasses this gate and always runs.
-
-## Branch protection
-
-Require the `lint`, `format`, and `typecheck` jobs from `ci.yml` to pass before merging to `main`. Deploy workflows only run on commits that have already passed these checks — no need to re-run them in the deploy workflows.
 
 ---
 

@@ -1,18 +1,13 @@
 name: CI
 
 on:
-  pull_request:
-    branches: ["*"]
   push:
-    branches: ["main"]
-  merge_group:
+    branches: ["*"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
-# You can leverage Vercel Remote Caching with Turbo to speed up your builds
-# @link https://turborepo.com/docs/core-concepts/remote-caching#remote-caching-on-vercel-builds
 env:
   FORCE_COLOR: 3
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
@@ -55,3 +50,29 @@ jobs:
 
       - name: Typecheck
         run: pnpm typecheck
+
+  deploy-convex:
+    name: deploy convex
+    needs: [lint, format, typecheck]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: apps/convex
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./tooling/github/setup
+
+      - name: deploy to convex
+        run: pnpm convex deploy --prod
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+
+  trigger-vercel:
+    name: trigger vercel deploy
+    needs: [deploy-convex]
+    runs-on: ubuntu-latest
+    steps:
+      - name: trigger vercel deploy hook
+        run: curl -fsSL -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
