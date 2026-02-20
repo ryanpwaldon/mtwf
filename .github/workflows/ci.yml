@@ -65,7 +65,7 @@ jobs:
       - uses: ./tooling/github/setup
 
       - name: deploy to convex
-        run: pnpm convex deploy --prod
+        run: pnpm convex deploy
         env:
           CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
 
