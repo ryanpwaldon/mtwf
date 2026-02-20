@@ -13,22 +13,6 @@ import { getQuizThemeByValue } from "./fields/quizTheme";
 
 const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
 
-function buildQuestionSchema(questionCount: number) {
-  return z.object({
-    questions: z
-      .array(
-        z.object({
-          text: z.string(),
-          choices: z
-            .array(z.object({ label: z.string(), text: z.string() }))
-            .length(4),
-          correctLabel: z.enum(["A", "B", "C", "D"]),
-        }),
-      )
-      .length(questionCount),
-  });
-}
-
 export const generateQuestions = internalAction({
   args: { gameId: v.id("games") },
   returns: v.null(),
@@ -70,6 +54,22 @@ export const generateQuestions = internalAction({
 // ========================================================================================
 // Helpers
 // ========================================================================================
+
+function buildQuestionSchema(questionCount: number) {
+  return z.object({
+    questions: z
+      .array(
+        z.object({
+          text: z.string(),
+          choices: z
+            .array(z.object({ label: z.string(), text: z.string() }))
+            .length(4),
+          correctLabel: z.enum(["A", "B", "C", "D"]),
+        }),
+      )
+      .length(questionCount),
+  });
+}
 
 function buildPrompt(config: {
   questionCount: number;
