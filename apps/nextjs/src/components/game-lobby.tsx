@@ -132,7 +132,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
           </CardContent>
         </Card>
       </main>
-      <div className="bg-background/95 sticky bottom-0 mt-4 flex items-center justify-between gap-4 border-t p-4 backdrop-blur">
+      <div className="bg-background/95 sticky bottom-0 z-10 mt-4 flex items-center justify-between gap-4 border-t p-4 backdrop-blur">
         <div className="flex flex-col items-start gap-2">
           <div className="flex items-center gap-2">
             <p className="font-medium">Players</p>
