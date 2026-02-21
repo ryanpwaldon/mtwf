@@ -201,6 +201,7 @@ function GamePlayInner({
               className="mt-8 flex justify-center"
             >
               <PlayerGroup
+                maxVisible={10}
                 avatarSize="default"
                 characters={playerCharacters}
                 renderBadge={(character) => {

@@ -41,32 +41,32 @@ export function Choice({
     >
       <Field orientation="horizontal" className="relative">
         <FieldContent>
-          <FieldTitle className="group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:text-correct-foreground group-data-[show-results=true]/choice:group-has-data-[state=checked]/choice:group-data-[correct-answer=false]/choice:text-incorrect-foreground">
-            {value}
-          </FieldTitle>
+          <div className="flex items-center justify-between">
+            <FieldTitle className="group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:text-correct-foreground group-data-[show-results=true]/choice:group-has-data-[state=checked]/choice:group-data-[correct-answer=false]/choice:text-incorrect-foreground">
+              {value}
+            </FieldTitle>
+            {showResults ? (
+              <PlayerGroup
+                characters={voters}
+                avatarSize="2xs"
+                maxVisible={10}
+                animateEntrance
+              />
+            ) : null}
+          </div>
           <FieldDescription className="group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:text-correct-foreground/80 group-data-[show-results=true]/choice:group-has-data-[state=checked]/choice:group-data-[correct-answer=false]/choice:text-incorrect-foreground/80">
             {description}
           </FieldDescription>
         </FieldContent>
-        <div className="flex flex-col items-end justify-between self-stretch">
-          <RadioGroupItem
-            id={id}
-            value={value}
-            disabled={disabled}
-            className={cn(
-              "group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:text-correct group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:border-correct [&_svg]:group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:fill-correct",
-              "group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:text-incorrect group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:border-incorrect group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:[&_svg]:fill-incorrect",
-            )}
-          />
-          {showResults ? (
-            <PlayerGroup
-              characters={voters}
-              avatarSize="xs"
-              maxVisible={1}
-              animateEntrance
-            />
-          ) : null}
-        </div>
+        <RadioGroupItem
+          id={id}
+          value={value}
+          disabled={disabled}
+          className={cn(
+            "group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:text-correct group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:border-correct [&_svg]:group-data-[show-results=true]/choice:group-data-[correct-answer=true]/choice:fill-correct",
+            "group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:text-incorrect group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:border-incorrect group-data-[show-results=true]/choice:group-data-[correct-answer=false]/choice:data-[state=checked]:[&_svg]:fill-incorrect",
+          )}
+        />
       </Field>
     </FieldLabel>
   );

@@ -13,7 +13,7 @@ function Avatar({
   tooltip,
   ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Root> & {
-  size?: "xs" | "default" | "sm" | "lg";
+  size?: "2xs" | "xs" | "default" | "sm" | "lg";
   tooltip?: React.ReactNode;
 }) {
   const avatar = (
@@ -21,7 +21,7 @@ function Avatar({
       data-slot="avatar"
       data-size={size}
       className={cn(
-        "group/avatar relative flex size-8 shrink-0 rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6 data-[size=xs]:size-5",
+        "group/avatar relative flex size-8 shrink-0 rounded-full select-none data-[size=2xs]:size-4 data-[size=lg]:size-10 data-[size=sm]:size-6 data-[size=xs]:size-5",
         className,
       )}
       {...props}
@@ -59,7 +59,7 @@ function AvatarFallback({
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
       className={cn(
-        "bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs group-data-[size=xs]/avatar:text-[10px]",
+        "bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=2xs]/avatar:text-[8px] group-data-[size=sm]/avatar:text-xs group-data-[size=xs]/avatar:text-[10px]",
         className,
       )}
       {...props}
@@ -99,6 +99,7 @@ function AvatarBadge({
       className={cn(
         "bg-primary text-primary-foreground ring-background absolute z-10 inline-flex items-center justify-center rounded-full ring-2 select-none",
         badgePositionClasses[position],
+        "group-data-[size=2xs]/avatar:size-1 group-data-[size=2xs]/avatar:[&>svg]:hidden",
         "group-data-[size=xs]/avatar:size-1.5 group-data-[size=xs]/avatar:[&>svg]:hidden",
         "group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
         "group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
@@ -115,7 +116,7 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="avatar-group"
       className={cn(
-        "*:data-[slot=avatar]:ring-background group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2",
+        "*:data-[slot=avatar]:ring-background group/avatar-group flex -space-x-2 has-data-[size=2xs]:-space-x-1 *:data-[slot=avatar]:ring-2",
         className,
       )}
       {...props}
@@ -131,7 +132,7 @@ function AvatarGroupCount({
     <div
       data-slot="avatar-group-count"
       className={cn(
-        "bg-muted text-muted-foreground ring-background relative flex size-8 shrink-0 items-center justify-center rounded-full text-sm ring-2 group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 group-has-data-[size=xs]/avatar-group:size-5 group-has-data-[size=xs]/avatar-group:text-[10px] [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3 group-has-data-[size=xs]/avatar-group:[&>svg]:size-2.5",
+        "bg-muted text-muted-foreground ring-background relative flex size-8 shrink-0 items-center justify-center rounded-full text-sm ring-2 group-has-data-[size=2xs]/avatar-group:size-4 group-has-data-[size=2xs]/avatar-group:text-[8px] group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 group-has-data-[size=xs]/avatar-group:size-5 group-has-data-[size=xs]/avatar-group:text-[10px] [&>svg]:size-4 group-has-data-[size=2xs]/avatar-group:[&>svg]:size-2 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3 group-has-data-[size=xs]/avatar-group:[&>svg]:size-2.5",
         className,
       )}
       {...props}

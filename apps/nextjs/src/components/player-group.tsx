@@ -10,7 +10,7 @@ import {
   AvatarGroupCount,
 } from "@acme/ui/avatar";
 
-type AvatarSize = "xs" | "default" | "sm" | "lg";
+type AvatarSize = "2xs" | "xs" | "default" | "sm" | "lg";
 
 const STAGGER_DELAY = 0.06;
 
