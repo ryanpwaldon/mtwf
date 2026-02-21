@@ -48,7 +48,7 @@ export function Leaderboard({
                 <span className="text-muted-foreground w-3.5 font-medium">
                   {i + 1}.
                 </span>
-                <Avatar size="xs" tooltip={entry.character.label}>
+                <Avatar size="2xs" tooltip={entry.character.label}>
                   <AvatarFallback className={entry.character.color} />
                 </Avatar>
                 <span>{entry.character.label}</span>
