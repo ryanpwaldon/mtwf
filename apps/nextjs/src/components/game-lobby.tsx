@@ -139,6 +139,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
             <Badge variant="secondary">{players.length}</Badge>
           </div>
           <PlayerGroup
+            maxVisible={8}
             avatarSize="default"
             characters={characters}
             renderBadge={(character) =>
