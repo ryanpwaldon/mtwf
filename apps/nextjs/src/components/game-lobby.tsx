@@ -101,7 +101,7 @@ export function GameLobby({ game, players, me }: GameLobbyProps) {
         <Card className="mt-4">
           <CardHeader className="border-b">
             <CardTitle>Movie</CardTitle>
-            <CardDescription>Pick the movie for this round</CardDescription>
+            <CardDescription>Select a movie for this quiz</CardDescription>
           </CardHeader>
           <CardContent className="flex h-full flex-col gap-2">
             <MovieInput

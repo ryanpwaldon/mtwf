@@ -3,7 +3,7 @@
 import type { FunctionReturnType } from "convex/server";
 import { useEffect, useRef, useState } from "react";
 import { useAction } from "convex/react";
-import { Film } from "lucide-react";
+import { Film, Search } from "lucide-react";
 
 import { api } from "@acme/convex";
 import { Button } from "@acme/ui/button";
@@ -119,8 +119,8 @@ export function MovieInput({ value, onChange, invalid }: MovieInputProps) {
             aria-invalid={invalid}
             className="text-muted-foreground h-22 w-full cursor-pointer border-dashed"
           >
-            <Film className="size-5" />
-            <span className="text-sm font-medium">Select movie</span>
+            <Search className="size-5" />
+            <span className="text-sm font-medium">Search movies</span>
           </Button>
         </CommandPickerTrigger>
       )}
