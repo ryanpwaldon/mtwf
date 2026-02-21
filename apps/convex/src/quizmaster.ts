@@ -13,6 +13,10 @@ import { getQuizThemeByValue } from "./fields/quizTheme";
 
 const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
 
+const model = openrouter("google/gemini-3-flash-preview", {
+  plugins: [{ id: "response-healing" }, { id: "web" }],
+});
+
 export const generateQuestions = internalAction({
   args: { gameId: v.id("games") },
   returns: v.null(),
@@ -25,10 +29,6 @@ export const generateQuestions = internalAction({
         quizMovie: gameConfig.quizMovie,
         quizThemeValue: gameConfig.quizTheme,
         quizToneValue: gameConfig.quizTone,
-      });
-
-      const model = openrouter("openrouter/auto", {
-        plugins: [{ id: "response-healing" }, { id: "web" }],
       });
 
       const schema = buildQuestionSchema(gameConfig.questionCount);
