@@ -187,7 +187,7 @@ function GamePlayInner({
           </div>
         </div>
       </header>
-      <main className="px-4">
+      <main className="flex-1 px-4 pb-16">
         <AnimatePresence mode="wait">
           <motion.div
             key={game.currentQuestionIndex}
