@@ -19,7 +19,17 @@ Convex always deploys before Vercel. If Convex fails, Vercel is never triggered.
 
 ## Disabling Vercel auto-deploy
 
-In Vercel project settings → Git → Ignored Build Step, set the command to `exit 0`. This causes Vercel to skip all git-triggered builds. The deploy hook (called from GitHub Actions) bypasses this gate and always runs.
+Git-triggered deployments are disabled via `vercel.json` at the repo root:
+
+```json
+{
+  "git": {
+    "deploymentEnabled": false
+  }
+}
+```
+
+This prevents Vercel from deploying on every git push. Deploy hooks (called from GitHub Actions) are unaffected and continue to work normally.
 
 ---
 
