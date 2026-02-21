@@ -25,7 +25,7 @@ export function Logo({
       variant="ghost"
       className={cn(
         className,
-        "border-red-700 bg-red-600 hover:bg-red-600/80 dark:hover:bg-red-600/80",
+        "border-red-700 bg-red-600 bg-clip-border hover:bg-red-600/80 dark:hover:bg-red-600/80",
       )}
     >
       <Link href={href}>
