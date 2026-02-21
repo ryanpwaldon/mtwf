@@ -53,7 +53,7 @@ export function Leaderboard({
                 </Avatar>
                 <span>{entry.character.label}</span>
                 {myCharacterValue === entry.character.value && (
-                  <Badge variant="secondary">You</Badge>
+                  <Badge variant="outline">You</Badge>
                 )}
               </div>
             </TableCell>
