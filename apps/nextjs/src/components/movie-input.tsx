@@ -21,6 +21,7 @@ import {
 
 import { ImageWithFallback } from "~/components/image-with-fallback";
 import { useDebouncedValue } from "~/hooks/use-debounced-value";
+import { extractYear } from "~/lib/date";
 import { tmdbPosterUrl } from "~/lib/tmdb";
 
 type Movie = FunctionReturnType<typeof api.movies.popular>[number];
@@ -105,6 +106,12 @@ export function MovieInput({ value, onChange, invalid }: MovieInputProps) {
             <div className="min-w-0 px-3">
               <div className="truncate text-left font-medium">
                 {value.title}
+                {extractYear(value.releaseDate) ? (
+                  <span className="text-muted-foreground">
+                    {" "}
+                    ({extractYear(value.releaseDate)})
+                  </span>
+                ) : null}
               </div>
               <p className="text-muted-foreground line-clamp-2 text-left text-sm font-normal">
                 {value.overview}
@@ -160,6 +167,12 @@ export function MovieInput({ value, onChange, invalid }: MovieInputProps) {
                     <div className="min-w-0">
                       <div className="truncate text-sm font-medium">
                         {movie.title}
+                        {extractYear(movie.releaseDate) ? (
+                          <span className="text-muted-foreground">
+                            {" "}
+                            ({extractYear(movie.releaseDate)})
+                          </span>
+                        ) : null}
                       </div>
                       <p className="text-muted-foreground line-clamp-2 text-xs">
                         {movie.overview}
