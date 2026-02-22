@@ -86,7 +86,7 @@ export const updateQuizMovie = mutation({
   },
   returns: v.null(),
   handler: async (ctx, args) => {
-    await getPlayerOrThrow(ctx, args.gameId, args.sessionId);
+    await ensureParticipant(ctx, args.gameId, args.sessionId);
     await ctx.db.patch(args.gameId, { quizMovie: args.quizMovie });
   },
 });
@@ -95,7 +95,7 @@ export const updateQuizTone = mutation({
   args: { ...SessionIdArg, gameId: v.id("games"), quizTone: quizToneValidator },
   returns: v.null(),
   handler: async (ctx, args) => {
-    await getPlayerOrThrow(ctx, args.gameId, args.sessionId);
+    await ensureParticipant(ctx, args.gameId, args.sessionId);
     await ctx.db.patch(args.gameId, { quizTone: args.quizTone });
   },
 });
@@ -108,7 +108,7 @@ export const updateQuizTheme = mutation({
   },
   returns: v.null(),
   handler: async (ctx, args) => {
-    await getPlayerOrThrow(ctx, args.gameId, args.sessionId);
+    await ensureParticipant(ctx, args.gameId, args.sessionId);
     await ctx.db.patch(args.gameId, { quizTheme: args.quizTheme });
   },
 });
@@ -117,7 +117,8 @@ export const updateQuizTheme = mutation({
 // Helpers
 // ========================================================================================
 
-async function getPlayerOrThrow(
+// Ensure the player is a participant in the game.
+async function ensureParticipant(
   ctx: { db: GenericDatabaseReader<DataModel> },
   gameId: Id<"games">,
   sessionId: string,
