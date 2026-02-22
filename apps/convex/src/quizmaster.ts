@@ -57,7 +57,7 @@ export const generateQuestions = internalAction({
 // Helpers
 // ========================================================================================
 
-function transformQuestions(
+export function transformQuestions(
   output: z.infer<ReturnType<typeof buildQuestionSchema>>,
 ): {
   text: string;
@@ -74,7 +74,7 @@ function transformQuestions(
   }));
 }
 
-function labelAt(i: number): "A" | "B" | "C" | "D" {
+export function labelAt(i: number): "A" | "B" | "C" | "D" {
   const labels = ["A", "B", "C", "D"] as const;
   const label = labels[i];
   if (label === undefined) throw new Error(`invalid label index: ${i}`);
@@ -100,7 +100,7 @@ function buildQuestionSchema(questionCount: number) {
   });
 }
 
-function buildPrompt(config: {
+export function buildPrompt(config: {
   questionCount: number;
   quizMovie: {
     title: string;
@@ -112,7 +112,9 @@ function buildPrompt(config: {
 }): string {
   const { quizMovie, quizThemeValue, questionCount } = config;
   const movieTitle = quizMovie.title;
-  const movieReleaseYear = quizMovie.releaseDate.split("-")[0] ?? "Unknown";
+  const rawYear = quizMovie.releaseDate.split("-")[0];
+  const movieReleaseYear =
+    rawYear !== undefined && rawYear !== "" ? rawYear : "Unknown";
   const moviePlot = quizMovie.overview || "Unknown";
   const quizTheme = getQuizThemeByValue(quizThemeValue);
 
