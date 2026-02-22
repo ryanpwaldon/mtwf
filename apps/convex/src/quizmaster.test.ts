@@ -3,8 +3,20 @@ import { describe, expect, it } from "vitest";
 import { QUIZ_THEME_OPTIONS } from "./fields/quizTheme";
 import { buildPrompt, labelAt, transformQuestions } from "./quizmaster";
 
-// The first theme in QUIZ_THEME_OPTIONS is "fun-facts".
 const FUN_FACTS_THEME = QUIZ_THEME_OPTIONS[0];
+
+const BASE_MOVIE = {
+  title: "Inception",
+  overview: "A thief who steals corporate secrets through dream-sharing.",
+  releaseDate: "2010-07-16",
+};
+
+const BASE_CONFIG = {
+  questionCount: 5,
+  quizMovie: BASE_MOVIE,
+  quizThemeValue: FUN_FACTS_THEME.value,
+  quizToneValue: "standard" as const,
+};
 
 describe("labelAt", () => {
   it("returns the correct letter for each valid index", () => {
@@ -50,19 +62,6 @@ describe("transformQuestions", () => {
 });
 
 describe("buildPrompt", () => {
-  const BASE_MOVIE = {
-    title: "Inception",
-    overview: "A thief who steals corporate secrets through dream-sharing.",
-    releaseDate: "2010-07-16",
-  };
-
-  const BASE_CONFIG = {
-    questionCount: 5,
-    quizMovie: BASE_MOVIE,
-    quizThemeValue: FUN_FACTS_THEME.value,
-    quizToneValue: "standard" as const,
-  };
-
   it("includes movie title, release year, and plot", () => {
     const prompt = buildPrompt(BASE_CONFIG);
 

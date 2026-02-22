@@ -5,19 +5,6 @@ import { internal } from "./_generated/api";
 import schema from "./schema";
 import { modules } from "./test.setup";
 
-const BASE_ACTIVE_GAME = {
-  code: "XXXXXX",
-  status: "active",
-  phase: "answering",
-  quizMovie: null,
-  quizTone: "standard",
-  quizTheme: "fun-facts",
-  questionCount: 2,
-  timeLimitSeconds: 30,
-  currentQuestionIndex: 0,
-  roundEndsAt: Date.now() + 30_000,
-};
-
 const BASE_QUESTION = {
   index: 0,
   text: "Sample question?",
@@ -28,10 +15,23 @@ const BASE_QUESTION = {
   correctLabel: "A",
 };
 
-// Creates one active/answering game + one question (index 0).
-async function setupAnswering(t: ReturnType<typeof convexTest>) {
+// Creates one active/answering game with one question.
+async function setupActiveGameInAnsweringPhase(
+  t: ReturnType<typeof convexTest>,
+) {
   return t.run(async (ctx) => {
-    const gameId = await ctx.db.insert("games", BASE_ACTIVE_GAME);
+    const gameId = await ctx.db.insert("games", {
+      code: "XXXXXX",
+      status: "active",
+      phase: "answering",
+      quizMovie: null,
+      quizTone: "standard",
+      quizTheme: "fun-facts",
+      questionCount: 2,
+      timeLimitSeconds: 30,
+      currentQuestionIndex: 0,
+      roundEndsAt: Date.now() + 30_000,
+    });
     const questionId = await ctx.db.insert("questions", {
       ...BASE_QUESTION,
       gameId,
@@ -40,8 +40,8 @@ async function setupAnswering(t: ReturnType<typeof convexTest>) {
   });
 }
 
-// Creates one results-phase game + one question (index 0).
-async function setupResults(t: ReturnType<typeof convexTest>) {
+// Creates one active/results game with one question.
+async function setupActiveGameInResultsPhase(t: ReturnType<typeof convexTest>) {
   return t.run(async (ctx) => {
     const gameId = await ctx.db.insert("games", {
       code: "XXXXXX",
@@ -65,7 +65,7 @@ async function setupResults(t: ReturnType<typeof convexTest>) {
 describe("gameEngine.endAnswering", () => {
   it("returns null when game not found", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupAnswering(t);
+    const { gameId } = await setupActiveGameInAnsweringPhase(t);
 
     await t.run((ctx) => ctx.db.delete(gameId));
 
@@ -79,7 +79,7 @@ describe("gameEngine.endAnswering", () => {
 
   it("returns null when status is not active", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupAnswering(t);
+    const { gameId } = await setupActiveGameInAnsweringPhase(t);
 
     await t.run((ctx) => ctx.db.patch(gameId, { status: "lobby" }));
 
@@ -93,7 +93,7 @@ describe("gameEngine.endAnswering", () => {
 
   it("returns null when phase is not answering", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupAnswering(t);
+    const { gameId } = await setupActiveGameInAnsweringPhase(t);
 
     await t.run((ctx) => ctx.db.patch(gameId, { phase: "results" }));
 
@@ -107,7 +107,7 @@ describe("gameEngine.endAnswering", () => {
 
   it("returns null when expectedIndex does not match currentQuestionIndex", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupAnswering(t);
+    const { gameId } = await setupActiveGameInAnsweringPhase(t);
 
     const result = await t.mutation(internal.gameEngine.endAnswering, {
       gameId,
@@ -119,7 +119,7 @@ describe("gameEngine.endAnswering", () => {
 
   it("sets phase to results and clears roundEndsAt", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupAnswering(t);
+    const { gameId } = await setupActiveGameInAnsweringPhase(t);
 
     await t.mutation(internal.gameEngine.endAnswering, {
       gameId,
@@ -133,7 +133,7 @@ describe("gameEngine.endAnswering", () => {
 
   it("schedules advanceQuestion", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupAnswering(t);
+    const { gameId } = await setupActiveGameInAnsweringPhase(t);
 
     vi.useFakeTimers();
 
@@ -158,7 +158,7 @@ describe("gameEngine.endAnswering", () => {
 describe("gameEngine.advanceQuestion", () => {
   it("returns null when game not found", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupResults(t);
+    const { gameId } = await setupActiveGameInResultsPhase(t);
 
     await t.run((ctx) => ctx.db.delete(gameId));
 
@@ -172,7 +172,7 @@ describe("gameEngine.advanceQuestion", () => {
 
   it("returns null when status is not active", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupResults(t);
+    const { gameId } = await setupActiveGameInResultsPhase(t);
 
     await t.run((ctx) => ctx.db.patch(gameId, { status: "lobby" }));
 
@@ -186,7 +186,7 @@ describe("gameEngine.advanceQuestion", () => {
 
   it("returns null when phase is not results", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupResults(t);
+    const { gameId } = await setupActiveGameInResultsPhase(t);
 
     await t.run((ctx) => ctx.db.patch(gameId, { phase: "answering" }));
 
@@ -200,7 +200,7 @@ describe("gameEngine.advanceQuestion", () => {
 
   it("returns null when expectedIndex does not match currentQuestionIndex", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupResults(t);
+    const { gameId } = await setupActiveGameInResultsPhase(t);
 
     const result = await t.mutation(internal.gameEngine.advanceQuestion, {
       gameId,

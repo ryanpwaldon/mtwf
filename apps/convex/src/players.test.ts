@@ -23,37 +23,27 @@ const BASE_GAME = {
   currentQuestionIndex: 0,
 };
 
-const BASE_MOVIE = {
-  id: 1,
-  title: "Test Movie",
-  overview: "A test overview",
-  posterPath: null,
-  releaseDate: "2024-01-01",
-};
-
-// Creates one lobby game; used for join tests.
-async function setupGame(t: ReturnType<typeof convexTest>) {
+// Creates one game in lobby status with no players.
+async function setupLobbyGame(t: ReturnType<typeof convexTest>) {
   return t.run(async (ctx) => {
     const gameId = await ctx.db.insert("games", BASE_GAME);
     return { gameId };
   });
 }
 
-// Creates one lobby game + two players (both isReady: false); used for
-// updateIsReady tests. Two players ensure a single updateIsReady call never
-// satisfies "all ready" and triggers scheduling unexpectedly.
-async function setup(t: ReturnType<typeof convexTest>) {
+// Creates one game in lobby status with two players (both isReady: false).
+async function setupLobbyGameWithPlayers(t: ReturnType<typeof convexTest>) {
   return t.run(async (ctx) => {
     const gameId = await ctx.db.insert("games", BASE_GAME);
     const player1Id = await ctx.db.insert("players", {
       gameId,
-      sessionId: "session-1",
+      sessionId: SESSION_1,
       character: "red",
       isReady: false,
     });
     await ctx.db.insert("players", {
       gameId,
-      sessionId: "session-2",
+      sessionId: SESSION_2,
       character: "blue",
       isReady: false,
     });
@@ -62,13 +52,9 @@ async function setup(t: ReturnType<typeof convexTest>) {
 }
 
 describe("players.join", () => {
-  // ======================================================
-  // Error cases
-  // ======================================================
-
   it("throws when game code is invalid", async () => {
     const t = convexTest(schema, modules);
-    await setupGame(t);
+    await setupLobbyGame(t);
 
     await expect(
       t.mutation(api.players.join, {
@@ -80,7 +66,7 @@ describe("players.join", () => {
 
   it("throws when game not found", async () => {
     const t = convexTest(schema, modules);
-    await setupGame(t);
+    await setupLobbyGame(t);
 
     await expect(
       t.mutation(api.players.join, {
@@ -92,7 +78,7 @@ describe("players.join", () => {
 
   it("throws when game is not in lobby", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupGame(t);
+    const { gameId } = await setupLobbyGame(t);
 
     await t.run((ctx) => ctx.db.patch(gameId, { status: "active" }));
 
@@ -106,7 +92,7 @@ describe("players.join", () => {
 
   it("throws when game is full", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setupGame(t);
+    const { gameId } = await setupLobbyGame(t);
 
     // Fill all character slots so the game is at capacity.
     await t.run(async (ctx) => {
@@ -128,13 +114,9 @@ describe("players.join", () => {
     ).rejects.toThrowError("Game is full.");
   });
 
-  // ======================================================
-  // Early-return case
-  // ======================================================
-
   it("returns null when player already joined", async () => {
     const t = convexTest(schema, modules);
-    await setupGame(t);
+    await setupLobbyGame(t);
 
     // First join.
     await t.mutation(api.players.join, {
@@ -159,13 +141,9 @@ describe("players.join", () => {
     expect(playerCount).toBe(1);
   });
 
-  // ======================================================
-  // Insert behaviour
-  // ======================================================
-
   it("inserts player with valid character and isReady: false", async () => {
     const t = convexTest(schema, modules);
-    await setupGame(t);
+    await setupLobbyGame(t);
 
     await t.mutation(api.players.join, {
       sessionId: SESSION_1,
@@ -182,13 +160,9 @@ describe("players.join", () => {
 });
 
 describe("players.updateIsReady", () => {
-  // ======================================================
-  // Error cases
-  // ======================================================
-
   it("throws when player not found", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setup(t);
+    const { gameId } = await setupLobbyGameWithPlayers(t);
 
     await expect(
       t.mutation(api.players.updateIsReady, {
@@ -201,7 +175,7 @@ describe("players.updateIsReady", () => {
 
   it("throws when all players ready but quizMovie is null", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setup(t);
+    const { gameId } = await setupLobbyGameWithPlayers(t);
 
     // Mark session-1 ready first.
     await t.mutation(api.players.updateIsReady, {
@@ -220,13 +194,9 @@ describe("players.updateIsReady", () => {
     ).rejects.toThrowError("No movie selected.");
   });
 
-  // ======================================================
-  // Update behaviour
-  // ======================================================
-
   it("updates isReady to true", async () => {
     const t = convexTest(schema, modules);
-    const { gameId, player1Id } = await setup(t);
+    const { gameId, player1Id } = await setupLobbyGameWithPlayers(t);
 
     await t.mutation(api.players.updateIsReady, {
       sessionId: SESSION_1,
@@ -240,7 +210,7 @@ describe("players.updateIsReady", () => {
 
   it("updates isReady to false", async () => {
     const t = convexTest(schema, modules);
-    const { gameId, player1Id } = await setup(t);
+    const { gameId, player1Id } = await setupLobbyGameWithPlayers(t);
 
     // Mark ready then un-ready.
     await t.mutation(api.players.updateIsReady, {
@@ -258,13 +228,9 @@ describe("players.updateIsReady", () => {
     expect(player?.isReady).toBe(false);
   });
 
-  // ======================================================
-  // Scheduler side effects
-  // ======================================================
-
   it("does not schedule when isReady is false", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setup(t);
+    const { gameId } = await setupLobbyGameWithPlayers(t);
 
     await t.mutation(api.players.updateIsReady, {
       sessionId: SESSION_1,
@@ -280,7 +246,7 @@ describe("players.updateIsReady", () => {
 
   it("does not schedule when game is not in lobby status", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setup(t);
+    const { gameId } = await setupLobbyGameWithPlayers(t);
 
     await t.run((ctx) => ctx.db.patch(gameId, { status: "generating" }));
 
@@ -303,7 +269,7 @@ describe("players.updateIsReady", () => {
 
   it("does not schedule when not all players are ready", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setup(t);
+    const { gameId } = await setupLobbyGameWithPlayers(t);
 
     // Only session-1 marks ready; session-2 does not.
     await t.mutation(api.players.updateIsReady, {
@@ -320,9 +286,19 @@ describe("players.updateIsReady", () => {
 
   it("schedules generateQuestions and sets status to generating when last player marks ready", async () => {
     const t = convexTest(schema, modules);
-    const { gameId } = await setup(t);
+    const { gameId } = await setupLobbyGameWithPlayers(t);
 
-    await t.run((ctx) => ctx.db.patch(gameId, { quizMovie: BASE_MOVIE }));
+    await t.run((ctx) =>
+      ctx.db.patch(gameId, {
+        quizMovie: {
+          id: 1,
+          title: "Test Movie",
+          overview: "A test overview",
+          posterPath: null,
+          releaseDate: "2024-01-01",
+        },
+      }),
+    );
 
     // Intercept the 0ms scheduler timer before it fires.
     vi.useFakeTimers();
