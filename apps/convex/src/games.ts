@@ -37,7 +37,7 @@ export const create = mutation({
       status: "lobby",
       quizMovie: null,
       quizTone: "standard",
-      quizTheme: "general-knowledge",
+      quizTheme: "fun-facts",
       questionCount: 10,
       timeLimitSeconds: 60,
       roundEndsAt: undefined,
