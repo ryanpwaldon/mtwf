@@ -140,7 +140,7 @@ function buildPrompt(config: {
     `- Write every question in your own words. Do not copy questions verbatim from any source. Questions must be clearly and simply worded — avoid awkward or confusing phrasing.`,
     `- Every question and every answer choice must be factually accurate and verifiable. Do not fabricate or guess any facts.`,
     `- Every question must end with a question mark.`,
-    `- Use double quotation marks (") when quoting anything in a question or answer choice — do not use single quotation marks, even within JSON output.`,
+    `- Never use single quotation marks in question text or answer choices. Always use double quotation marks for any inline quote, term, or emphasis (e.g. "slider", "real world"). Within JSON strings, escape them as \\".`,
     `- Try to keep each question under 120 characters. Prefer concise phrasing.`,
     `- Each question must have exactly 4 answer choices.`,
     `- Exactly one choice must be correct. Set correctIndex to its 0-based position (0 = first choice, 1 = second, 2 = third, 3 = fourth).`,
