@@ -51,9 +51,20 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup
+        uses: ./tooling/github/setup
+
+      - name: Test
+        run: pnpm test
+
   deploy-convex:
     name: deploy convex
-    needs: [lint, format, typecheck]
+    needs: [lint, format, typecheck, test]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
