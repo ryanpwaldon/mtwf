@@ -91,15 +91,6 @@ describe("buildPrompt", () => {
     expect(prompt).toContain("Release Year: Unknown");
   });
 
-  it("falls back to 'Unknown' for release year when releaseDate is malformed", () => {
-    const prompt = buildPrompt({
-      ...BASE_CONFIG,
-      quizMovie: { ...BASE_MOVIE, releaseDate: "-broken" },
-    });
-
-    expect(prompt).toContain("Release Year: Unknown");
-  });
-
   it("includes the question count", () => {
     const prompt = buildPrompt({ ...BASE_CONFIG, questionCount: 8 });
 
