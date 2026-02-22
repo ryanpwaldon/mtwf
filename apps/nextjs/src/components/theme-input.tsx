@@ -33,8 +33,12 @@ export function ThemeInput({ value, onChange }: ThemeInputProps) {
           className="h-22 w-full cursor-pointer justify-start gap-0 overflow-hidden p-0 whitespace-normal transition-colors!"
         >
           <div
-            className={`aspect-2/3 h-full shrink-0 ${selected.posterClassName}`}
-          />
+            className={`aspect-2/3 h-full shrink-0 overflow-hidden p-1 ${selected.posterClassName}`}
+          >
+            <p className="text-left text-[12px] leading-none font-bold whitespace-pre-line">
+              {selected.posterLabel}
+            </p>
+          </div>
           <div className="min-w-0 px-3">
             <div className="truncate text-left font-medium">
               {selected.label}
@@ -61,8 +65,12 @@ export function ThemeInput({ value, onChange }: ThemeInputProps) {
                 }}
               >
                 <div
-                  className={`aspect-2/3 h-18 shrink-0 rounded-md ${option.posterClassName}`}
-                />
+                  className={`aspect-2/3 h-18 shrink-0 overflow-hidden rounded-md p-1 ${option.posterClassName}`}
+                >
+                  <p className="text-left text-[10px] leading-none font-bold whitespace-pre-line">
+                    {option.posterLabel}
+                  </p>
+                </div>
                 <div className="min-w-0">
                   <div className="truncate text-sm font-medium">
                     {option.label}
