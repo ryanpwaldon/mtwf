@@ -49,7 +49,7 @@ export const submit = mutation({
   returns: v.null(),
   handler: async (ctx, args) => {
     const game = await ctx.db.get(args.gameId);
-    if (!game) throw new ConvexError("game not found");
+    if (!game) throw new ConvexError("Game not found.");
     if (game.status !== "active" || game.phase !== "answering") return null;
 
     // Find the player.
