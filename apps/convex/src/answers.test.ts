@@ -61,9 +61,9 @@ async function setup(t: ReturnType<typeof convexTest>) {
 }
 
 describe("answers.submit", () => {
-  // ——————————————————————————————————————————————————————
+  // ======================================================
   // Early-return guards
-  // ——————————————————————————————————————————————————————
+  // ======================================================
 
   it("returns null when game status is not active", async () => {
     const t = convexTest(schema, modules);
@@ -103,9 +103,9 @@ describe("answers.submit", () => {
     expect(result).toBeNull();
   });
 
-  // ——————————————————————————————————————————————————————
+  // ======================================================
   // Error cases
-  // ——————————————————————————————————————————————————————
+  // ======================================================
 
   it("throws when game is not found", async () => {
     const t = convexTest(schema, modules);
@@ -149,9 +149,9 @@ describe("answers.submit", () => {
     ).rejects.toThrowError("Invalid choice label.");
   });
 
-  // ——————————————————————————————————————————————————————
+  // ======================================================
   // Insert behaviour
-  // ——————————————————————————————————————————————————————
+  // ======================================================
 
   it("inserts a correct answer when the selected label matches correctLabel", async () => {
     const t = convexTest(schema, modules);
@@ -189,9 +189,9 @@ describe("answers.submit", () => {
     });
   });
 
-  // ——————————————————————————————————————————————————————
+  // ======================================================
   // Upsert behaviour
-  // ——————————————————————————————————————————————————————
+  // ======================================================
 
   it("updates the existing answer when the player re-submits", async () => {
     const t = convexTest(schema, modules);
@@ -213,9 +213,9 @@ describe("answers.submit", () => {
     expect(answers[0]).toMatchObject({ selectedLabel: "B", isCorrect: false });
   });
 
-  // ——————————————————————————————————————————————————————
+  // ======================================================
   // Scheduler side-effect
-  // ——————————————————————————————————————————————————————
+  // ======================================================
 
   it("does not schedule endAnswering when not all players have answered", async () => {
     const t = convexTest(schema, modules);
