@@ -6,13 +6,14 @@ import { api } from "./_generated/api";
 import schema from "./schema";
 import { modules } from "./test.setup";
 
+const GAME_CODE = "XXXXXX";
 const SESSION_1 = "session-1" as unknown as SessionId;
 const SESSION_2 = "session-2" as unknown as SessionId;
 const STRANGER = "stranger" as unknown as SessionId;
 
 // Minimal valid game fields for an active answering round.
 const BASE_GAME = {
-  code: "XXXXXX",
+  code: GAME_CODE,
   status: "active",
   phase: "answering",
   quizMovie: null,
