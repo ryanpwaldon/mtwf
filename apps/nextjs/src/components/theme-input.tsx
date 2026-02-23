@@ -35,7 +35,7 @@ export function ThemeInput({ value, onChange }: ThemeInputProps) {
           <div
             className={`aspect-2/3 h-full shrink-0 overflow-hidden p-1 ${selected.posterClassName}`}
           >
-            <p className="text-left text-[12px] leading-none font-bold whitespace-pre-line">
+            <p className="text-left text-[12px] leading-none font-bold whitespace-pre-line text-white">
               {selected.posterLabel}
             </p>
           </div>
@@ -67,7 +67,7 @@ export function ThemeInput({ value, onChange }: ThemeInputProps) {
                 <div
                   className={`aspect-2/3 h-18 shrink-0 overflow-hidden rounded-md p-1 ${option.posterClassName}`}
                 >
-                  <p className="text-left text-[10px] leading-none font-bold whitespace-pre-line">
+                  <p className="text-left text-[10px] leading-none font-bold whitespace-pre-line text-white">
                     {option.posterLabel}
                   </p>
                 </div>
