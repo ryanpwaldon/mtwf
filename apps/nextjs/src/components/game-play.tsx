@@ -156,7 +156,7 @@ function GamePlayInner({
 
   return (
     <PageShell>
-      <header className="flex h-16 items-center justify-between border-b">
+      <header className="flex h-16 items-center justify-between">
         <div className="flex h-full w-20 items-center justify-center">
           <div className="bg-primary/10 text-muted-foreground flex size-7 items-center justify-center rounded-md text-center text-sm font-medium">
             Q{game.currentQuestionIndex + 1}
