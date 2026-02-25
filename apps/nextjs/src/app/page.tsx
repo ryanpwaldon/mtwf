@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSessionMutation } from "convex-helpers/react/sessions";
+import { ArrowUpRightIcon } from "lucide-react";
 
 import { api } from "@acme/convex";
 import { Button } from "@acme/ui/button";
 
+import { Header } from "~/components/header";
 import { Loader } from "~/components/loader";
 import { PageShell } from "~/components/page-shell";
 
@@ -27,6 +30,7 @@ export default function HomePage() {
 
   return (
     <PageShell>
+      <Header />
       <main className="flex flex-1 flex-col items-center px-4 py-24">
         <div className="2xs:w-1/2 aspect-2/3 w-3/4 bg-red-600 px-3 py-3">
           <h1 className="2xs:text-4xl text-3xl leading-none font-extrabold tracking-tight text-white">
@@ -58,6 +62,19 @@ export default function HomePage() {
           </Button>
         </div>
       </main>
+      <footer className="flex items-center justify-between gap-4 p-1.5 text-sm">
+        <Button variant="link" asChild>
+          <Link href="https://ryanwaldon.com" target="_blank">
+            By Ryan Waldon
+            <ArrowUpRightIcon />
+          </Link>
+        </Button>
+        <Button variant="link" asChild>
+          <Link href="https://github.com/ryanpwaldon/mtwf" target="_blank">
+            Github <ArrowUpRightIcon />
+          </Link>
+        </Button>
+      </footer>
     </PageShell>
   );
 }
