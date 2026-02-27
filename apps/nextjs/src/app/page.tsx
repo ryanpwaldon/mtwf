@@ -62,13 +62,7 @@ export default function HomePage() {
           </Button>
         </div>
       </main>
-      <footer className="flex items-center justify-between gap-4 p-1.5 text-sm">
-        <Button variant="link" asChild>
-          <Link href="https://ryanwaldon.com" target="_blank">
-            By Ryan Waldon
-            <ArrowUpRightIcon />
-          </Link>
-        </Button>
+      <footer className="flex h-16 items-center justify-end gap-4 px-1.5 text-sm">
         <Button variant="link" asChild>
           <Link href="https://github.com/ryanpwaldon/mtwf" target="_blank">
             Github <ArrowUpRightIcon />
