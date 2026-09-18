@@ -1,17 +1,8 @@
-# Movie Trivia with Friends (MTWF)
+# Movie Trivia with Friends
 
 Movie Trivia with Friends is a real-time multiplayer trivia game centred around film. Players join a shared lobby, select a movie to quiz on, and choose from several themes that influence how questions are written and presented. An LLM then generates a fresh set of multiple-choice questions for the group to answer, with timed rounds, live vote tallies, and a final leaderboard.
 
 The app is built on Next.js with Convex as the serverless backend, providing a real-time database and live synchronisation across all connected clients. Question generation is handled by Gemini via OpenRouter, with movie metadata sourced from TMDB.
-
-<table>
-  <tr>
-    <td><img src="assets/screenshot-1.png" alt="Lobby" width="100%"></td>
-    <td><img src="assets/screenshot-2.png" alt="Movie picker" width="100%"></td>
-    <td><img src="assets/screenshot-3.png" alt="Question" width="100%"></td>
-    <td><img src="assets/screenshot-4.png" alt="Leaderboard" width="100%"></td>
-  </tr>
-</table>
 
 ## Setup
 
